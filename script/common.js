@@ -1,3 +1,23 @@
+var rsAPI = "https://script.google.com/macros/s/AKfycbxqaLuBn2hKTGXQ-SSBbF-QXKCxohWXZSrvdCbTTgyQsstseStiMS79KuEGHOzn0tzt/exec";
+var dbAPI = "https://script.google.com/macros/s/AKfycbzJ7VEzbytyyteypeYDzSdd0S-KDlR2N0lwYLS9GLmmmAjw85jA3DKbL1CDcNxFIzNt/exec"
+var sendform = {
+    userName : "",
+    userAgent: ""
+};
+var globalVar = {};
+    globalVar["staffData"] = []
+    globalVar["unitData"] = []
+    globalVar["hhData"] = []
+    globalVar["uniqueObserver"] = []
+var inputListCurrentFocus
+var TableDivider = {
+    "hh":10
+} 
+var TableMinimal = {
+    "hh": 0
+}
+var loginPass = true
+// ============================================================================
 function includeHTML() {
     var z, i, elmnt, file, xhttp;
     /* Loop through a collection of all HTML elements: */
@@ -25,5 +45,24 @@ function includeHTML() {
       }
     }
 }
+function Elem(id) {
+  return document.getElementById(id)
+}
 
+function Toast(text){
+  var toastDiv = Elem('liveToast')
+  toastDiv.querySelector(".toast-body").innerHTML = text
+  const toast = new bootstrap.Toast(toastDiv)
+  toast.show()
+}
+function onload(){
+  spinner(false)
+}
 includeHTML()
+
+function spinner(bo) {
+  var loader = Elem("loader")
+  if (bo){
+      Elem("loader").style.display = "flex";
+  } else if (!(bo)) { Elem("loader").style.display = "none" }
+}
