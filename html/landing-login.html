@@ -1,0 +1,24 @@
+<div class="landingpage" style="display: block;">
+    <div class="landinghero position-relative" style="height: 100vh;">
+        <div class="login-box position-absolute top-50 start-50 translate-middle" id="login-box">
+            <form class="login-form d-flex flex-column" style="min-width: 250px;" onsubmit="return false">
+                <div class="login-title mb-4 d-flex flex-column fw-bold text-center">
+                    <img src="https://imgbox.io/ib/S2j1Ufo1ov.png" class="img-fluid mx-auto" alt="..."
+                        style="object-fit: cover; height: 150px;">
+                    <div class="mt-2">
+                        Website PPI
+                    </div>
+                    <div class="">
+                        RSUD Pandan Arang Boyolali
+                    </div>
+                </div>
+                <input class="form-control mb-3 p-3 rounded border border-secondary" type="text"
+                    placeholder="Masukkan Nama Anda" id="login-nama" autocomplete="off" />
+                <input class="form-control mb-3 p-2 rounded border border-secondary" type="password"
+                    placeholder="Password" id="login-password" style="display: none;" />
+                <button class="btn btn-primary col" onclick="login(Elem('login-nama').value)">Masuk</button>
+            </form>
+        </div>
+    </div>
+    <div class="landinginfo border border-info" style="height: 500px;"></div>
+</div>
