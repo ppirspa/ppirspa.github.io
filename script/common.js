@@ -1,5 +1,5 @@
 var rsAPI = "https://script.google.com/macros/s/AKfycbxqaLuBn2hKTGXQ-SSBbF-QXKCxohWXZSrvdCbTTgyQsstseStiMS79KuEGHOzn0tzt/exec";
-var dbAPI = "https://script.google.com/macros/s/AKfycbzJ7VEzbytyyteypeYDzSdd0S-KDlR2N0lwYLS9GLmmmAjw85jA3DKbL1CDcNxFIzNt/exec"
+var dbAPI = "https://script.google.com/macros/s/AKfycbwjr5LYsD8nKyezT0UyTBgA5Vs5a7_2bSCXscCr2P_OOAfBaknAAaH42fWWmUnOpuPh/exec"
 var sendform = {
     userName : "",
     userAgent: ""
@@ -18,7 +18,13 @@ var TableMinimal = {
 }
 var loginPass = true
 // ============================================================================
+function spinner(bo) {
+  if (bo){
+      Elem("loader").style.display = "flex";
+  } else if (!(bo)) { Elem("loader").style.display = "none" }
+}
 function includeHTML() {
+  // console.log("includeHTML()")
     var z, i, elmnt, file, xhttp;
     /* Loop through a collection of all HTML elements: */
     z = document.getElementsByTagName("*");
@@ -55,14 +61,11 @@ function Toast(text){
   const toast = new bootstrap.Toast(toastDiv)
   toast.show()
 }
+
 function onload(){
+  includeHTML()
   spinner(false)
 }
-includeHTML()
 
-function spinner(bo) {
-  var loader = Elem("loader")
-  if (bo){
-      Elem("loader").style.display = "flex";
-  } else if (!(bo)) { Elem("loader").style.display = "none" }
-}
+// spinner(false)
+// includeHTML()
