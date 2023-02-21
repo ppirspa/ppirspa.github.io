@@ -1,7 +1,7 @@
 async function login(user, password){
     spinner(true)
     var validLogin = false
-    await fetch(dbAPI + "?req=login&user=" + user + "&password="  + password)
+    await fetch(dbAPI + "?req=login&user=" + user + "&password="  + password + "&device=" + window.navigator.userAgent)
         .then(respon => respon.json())
         .then(respon => {
             if(respon.ok){

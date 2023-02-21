@@ -1,5 +1,5 @@
 var rsAPI = "https://script.google.com/macros/s/AKfycbxqaLuBn2hKTGXQ-SSBbF-QXKCxohWXZSrvdCbTTgyQsstseStiMS79KuEGHOzn0tzt/exec";
-var dbAPI = "https://script.google.com/macros/s/AKfycbwjr5LYsD8nKyezT0UyTBgA5Vs5a7_2bSCXscCr2P_OOAfBaknAAaH42fWWmUnOpuPh/exec"
+var dbAPI = "https://script.google.com/macros/s/AKfycbzlrn6pg7AL6osPX3RDmojKK9TSoVE_9mlO11NhHJnAfu1FgKME3K_vyC-baowTFDSq/exec"
 var sendform = {
     userName : "",
     userAgent: ""
