@@ -8,10 +8,10 @@ async function login(user, password){
                 validLogin = respon.isLogPass
             }
         })
-    alert(validLogin)
+    if(validLogin){
+        Elem("showHTML").setAttribute("w3-include-html", "/html/main.html")
+        includeHTML()
+    }
+    else{alert("Username dan password tidak sesuai")}
     spinner(false)
-    // spinner(true)
-    //     Elem("showHTML").setAttribute("w3-include-html", "/html/main.html")
-    //     includeHTML()
-    // spinner(false)
   }
