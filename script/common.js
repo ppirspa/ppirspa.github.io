@@ -64,7 +64,8 @@ function Toast(text){
 
 function onload(){
   includeHTML()
-  spinner(false)
+  // login("arga", "ppirspa")
+  // spinner(false)
 }
 
 // spinner(false)
