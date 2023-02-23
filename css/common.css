@@ -1,3 +1,6 @@
+.nav-link i {
+  width: 25px;
+}
 .sidenav ul .nav-link {
   color: white !important;
 }
@@ -73,5 +76,9 @@ html {
   }
   #sideNavLg {
     display: none;
+  }
+  .navbar-brand {
+    text-align: center;
+    margin: 0;
   }
 }
