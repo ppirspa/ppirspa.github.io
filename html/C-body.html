@@ -1,0 +1,66 @@
+<div class="mainpage p-0 m-0 flex-column overflow-hidden" style="display: flex; height: 100%;">
+    <!-- <div class="bg-primary p-2" id="" style="width:150px">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                </li>
+            </ul>
+        </div>
+    </div> -->
+
+    <nav class="navbar navbar-expand-lg bg-primary-subtle" data-bs-theme="dark">
+        <div class="container-fluid">
+            <button class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#sideNavCanvas" aria-controls="offcanvasExample" style="color:white"><i
+                    class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand pe-3" id="navbarTitle">Form Hand Hygiene</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="bi bi-person-circle"></span>
+                <!-- <span class="navbar-toggler-icon"></span> -->
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div id="userName" class="text-white text-center" style="margin: auto 15px auto auto"><small
+                        class="flex-grow-1">aargadia</small>
+                </div>
+                <div class="text-center" style="margin: 0"><button class="btn btn-danger"
+                        onclick="login('out')">keluar</button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex h-100">
+        <div class="sidenav bg-primary offcanvas offcanvas-start" tabindex="-1" id="sideNavCanvas">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Menu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" w3-include-html="/html/C0-navSideList.html">
+            </div>
+        </div>
+        <div class="sidenav bg-primary" id="sideNavLg">
+            <div class="offcanvas-body" w3-include-html="/html/C0-navSideList.html">
+            </div>
+        </div>
+        <div class="body-content flex-grow-1 overflow-y-auto border border-2 border-danger">body content</div>
+    </div>
+    <!-- <div w3-include-html="" class="border border-3 border-dark overflow-y-auto" style="flex-grow: 1;"> -->
+</div>
+</div>

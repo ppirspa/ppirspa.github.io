@@ -70,3 +70,7 @@ function onload(){
 
 // spinner(false)
 // includeHTML()
+
+function NavbarTo(elem){
+  alert(elem.innerHTML)
+}
