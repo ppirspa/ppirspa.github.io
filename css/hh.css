@@ -1,0 +1,11 @@
+.radioBtn.input-hh-btn.hh-moment{
+    position: fixed;
+    top:-100px;
+}
+.input-hh-btn + label {
+    cursor: pointer;
+}
+.input-hh-btn:checked + label{
+    color: white;
+    background: var(--bs-dark) !important; 
+  }

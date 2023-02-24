@@ -13,7 +13,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div id="userName" class="text-white text-center" style="margin: auto 15px auto auto"><small
-                        class="flex-grow-1">argadia</small>
+                        class="flex-grow-1" id="userLoginName">argadia</small>
                 </div>
                 <div class="text-center" style="margin: 0"><button class="btn btn-danger"
                         onclick="login('out')">keluar</button>
@@ -26,7 +26,10 @@
         <div class="sidenav bg-dark offcanvas offcanvas-start" tabindex="-1" id="sideNavCanvas">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Menu</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <button type="button" class="btn" data-bs-dismiss="offcanvas" aria-label="Close" style="color: white"
+                    id="sideNavCanvasBody">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
             <div class="offcanvas-body" w3-include-html="/html/C0-navSideList.html">
             </div>
@@ -35,7 +38,9 @@
             <div class="offcanvas-body" w3-include-html="/html/C0-navSideList.html">
             </div>
         </div>
-        <div class="body-content flex-grow-1 overflow-y-auto border border-2 border-danger">body content</div>
+        <div w3-include-html="/html/C1-hh.html" id="bodyContent"
+            class="body-content flex-grow-1 overflow-y-auto border border-2 border-danger">
+        </div>
     </div>
     <!-- <div w3-include-html="" class="border border-3 border-dark overflow-y-auto" style="flex-grow: 1;"> -->
 </div>

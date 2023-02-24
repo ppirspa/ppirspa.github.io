@@ -10,15 +10,18 @@ async function login(user, password){
         .then(respon => respon.json())
         .then(respon => {
             if(respon.ok){
-                validLogin = respon.isLogPass
+                validLogin = respon.isLogPass        
             }
         })
         if(validLogin){
-            Elem("showHTML").setAttribute("w3-include-html", "/html/C-body.html")
+            Elem("showHTML").setAttribute("w3-include-html", "/html/C-body.html");
             includeHTML()
+            let timeout = setTimeout(alertFunc, 1000);
+            function alertFunc() {
+                document.querySelector("#userLoginName").innerHTML = user
+            }
         }
         else{alert("Username dan password tidak sesuai")}
     }
-    
     spinner(false)
   }

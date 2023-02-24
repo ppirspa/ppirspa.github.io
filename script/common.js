@@ -23,34 +23,7 @@ function spinner(bo) {
       Elem("loader").style.display = "flex";
   } else if (!(bo)) { Elem("loader").style.display = "none" }
 }
-function includeHTML() {
-  // console.log("includeHTML()")
-    var z, i, elmnt, file, xhttp;
-    /* Loop through a collection of all HTML elements: */
-    z = document.getElementsByTagName("*");
-    for (i = 0; i < z.length; i++) {
-      elmnt = z[i];
-      /*search for elements with a certain atrribute:*/
-      file = elmnt.getAttribute("w3-include-html");
-      if (file) {
-        /* Make an HTTP request using the attribute value as the file name: */
-        xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4) {
-            if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-            if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-            /* Remove the attribute, and call this function once more: */
-            elmnt.removeAttribute("w3-include-html");
-            includeHTML();
-          }
-        }
-        xhttp.open("GET", file, true);
-        xhttp.send();
-        /* Exit the function: */
-        return;
-      }
-    }
-}
+
 function Elem(id) {
   return document.getElementById(id)
 }
@@ -68,9 +41,43 @@ function onload(){
   // spinner(false)
 }
 
-// spinner(false)
-// includeHTML()
-
 function NavbarTo(elem){
-  alert(elem.innerHTML)
+  var target = elem.querySelector("a").innerText.substring(1)
+  var navLink = document.querySelectorAll(".menu-nav .nav-link")
+  navLink.forEach((p)=>{
+    p.classList.remove("active");
+    if(p.innerText.substring(1) === target){p.classList.add("active")}
+  })
+  if(target === "Hand Hygiene"){
+    Elem("bodyContent").setAttribute("w3-include-html", "/html/C1-hh.html");
+    Elem("navbarTitle").innerHTML = "Form " + target
+  }
+  if(target === "Kepatuhan APD"){
+    Elem("bodyContent").setAttribute("w3-include-html", "/html/C2-apd.html")
+    Elem("navbarTitle").innerHTML = "Form " + target
+  }
+  if(target === "Supervisi Ruangan"){
+    Elem("bodyContent").setAttribute("w3-include-html", "/html/C3-supervisi.html")
+    Elem("navbarTitle").innerHTML = target
+  }
+  if(target === "Resume"){
+    Elem("bodyContent").setAttribute("w3-include-html", "/html/C4-resume.html")
+    Elem("navbarTitle").innerHTML = target
+  }
+  if(target === "Setting"){
+    Elem("bodyContent").setAttribute("w3-include-html", "/html/C5-setting.html")
+    Elem("navbarTitle").innerHTML = target
+  }
+  
+  includeHTML();
+  Elem("sideNavCanvasBody").click()
+  let timeout = setTimeout(ResetInput(target), 1000);
+}
+
+function ResetInput(target) {
+  if(target === "Hand Hygiene"){ResetHHInput()}
+  if(target === "Kepatuhan APD"){}
+  if(target === "Supervisi Ruangan"){}
+  if(target === "Resume"){}
+  if(target === "Setting"){}
 }
