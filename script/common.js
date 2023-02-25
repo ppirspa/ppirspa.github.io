@@ -37,20 +37,22 @@ function Toast(text){
 
 async function onload(){
   await includeHTML()
-  login("argas", "ppirspa")
+  login("argo", "ppirspa")
   // console.log(Elem("ini-test-class"))
 }
 
 let timeout;
 
 async function NavbarTo(target){  
+  console.log(target)
   var navLinkNodes = document.querySelectorAll(".nav-item .nav-link span")
   navLinkNodes.forEach((p)=>{
-    p.classList.remove("active");
+    p.parentElement.classList.remove("active");
     if(p.innerHTML == target){
       p.parentElement.classList.add("active");
     }
   })
+  // return
   if(target === "Hand Hygiene"){
     Elem("bodyContent").setAttribute("w3-include-html", "/html/C1-hh.html");
     Elem("navbarTitle").innerHTML = "Form " + target
@@ -59,7 +61,7 @@ async function NavbarTo(target){
     Elem("bodyContent").setAttribute("w3-include-html", "/html/C2-apd.html")
     Elem("navbarTitle").innerHTML = "Form " + target
   }
-  if(target === "Supervisi Ruangan"){
+  if(target === "Supervisi"){
     Elem("bodyContent").setAttribute("w3-include-html", "/html/C3-supervisi.html")
     Elem("navbarTitle").innerHTML = target
   }
@@ -71,12 +73,16 @@ async function NavbarTo(target){
     Elem("bodyContent").setAttribute("w3-include-html", "/html/C5-setting.html")
     Elem("navbarTitle").innerHTML = target
   }
-  
-  await includeHTML();
-  Elem("sideNavCanvasBody").click()
+  Elem("bodyContent").innerHTML = ""
+  let response = await fetch(Elem("bodyContent").getAttribute("w3-include-html"))
+  Elem("bodyContent").innerHTML = await response.text()
+  ResetInput(target)
+
+  // includeHTML();
+  // Elem("sideNavCanvasBody").click()
   // console.log(Elem("hh-input-nama"))
   // ResetInput(target)
-  timeout = setTimeout(ResetInput(target), 20000);
+  // timeout = setTimeout(ResetInput(target), 20000);
   // timeout = setTimeout(ResetInput(target), 5000);
   // clearTimeout(timeout)
 }
@@ -88,20 +94,20 @@ function MenuNavTo(elem){
 
 
 function ResetInput(target) {
-  // alert(target)
-  console.log(Elem("hh-input-nama"))
   if(target === "Hand Hygiene"){ResetHHInput()}
   if(target === "Kepatuhan APD"){}
-  if(target === "Supervisi Ruangan"){}
+  if(target === "Supervisi"){}
   if(target === "Resume"){}
   if(target === "Setting"){}
+  InputWithList()
 }
 
 function InputWithList(){
   console.log("InputWithList")
   console.log(document.querySelectorAll(".input-with-list"))
+  // return
   document.querySelectorAll(".input-with-list").forEach((elem) => {
-    console.log(elem)  
+    // console.log(elem)  
     elem.addEventListener('input', function(){
           filterInputList(elem.id, elem.value, elem.getAttribute("list-name"))
       })

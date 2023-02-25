@@ -1,5 +1,6 @@
 function ResetHHInput(){
-    console.log("ResetHHInput")
-    InputWithList()
+    // Elem("hh-input-nama").value = ""
+    // console.log("ResetHHInput")
+    // InputWithList()
 }
 
