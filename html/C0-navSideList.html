@@ -1,33 +1,33 @@
 <div class="fs-6 fw-lighter">
     <ul class="nav flex-column menu-nav">
-        <li class="nav-item" onclick="NavbarTo(this)">
-            <a class="nav-link active">
+        <li class="nav-item" onclick="NavbarTo(this.querySelector('a').innerText.substring(1))">
+            <a class="nav-link">
                 <i class="fa-solid fa-hand-sparkles"></i>
-                Hand Hygiene
+                <span>Hand Hygiene</span>
             </a>
         </li>
-        <li class="nav-item" onclick="NavbarTo(this)">
+        <li class="nav-item" onclick="NavbarTo(this.querySelector('a').innerText.substring(1))">
             <a class="nav-link ppi-only">
                 <i class="fa-solid fa-head-side-mask"></i>
-                Kepatuhan APD
+                <span>Kepatuhan APD</span>
             </a>
         </li>
-        <li class="nav-item" onclick="NavbarTo(this)">
+        <li class="nav-item" onclick="NavbarTo(this.querySelector('a').innerText.substring(1))">
             <a class="nav-link ppi-only">
                 <i class="fa-solid fa-clipboard-list"></i>
-                Supervisi Ruangan
+                <span>Supervisi Ruangan</span>
             </a>
         </li>
-        <li class="nav-item" onclick="NavbarTo(this)">
+        <li class="nav-item" onclick="NavbarTo(this.querySelector('a').innerText.substring(1))">
             <a class="nav-link">
                 <i class="fa-solid fa-chart-line"></i>
-                Resume
+                <span>Resume</span>
             </a>
         </li>
-        <li class="nav-item" onclick="NavbarTo(this)">
+        <li class="nav-item" onclick="NavbarTo(this.querySelector('a').innerText.substring(1))">
             <a class="nav-link ppi-only">
                 <i class="fa-solid fa-gears"></i>
-                Setting
+                <span>Setting</span>
             </a>
         </li>
     </ul>
