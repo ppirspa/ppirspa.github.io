@@ -2,7 +2,7 @@
     <div class="mx-auto">
         <div class="container-lg">
             <div class="row">
-                <div class="col-md bg-body-secondary px-3 py-0" style="min-width: 350px;">
+                <div class="col-md border border-1 border-dark px-3 py-0" style="min-width: 350px;">
                     <div class="text-center fw-bold py-2 mb-1">Obyek Penilaian</div>
                     <div class="">
                         <div class="input-group border-dark border-2">
@@ -185,5 +185,141 @@
             </div>
         </div>
     </div>
-    <div class="border" style="min-height: 100%;">fef</div>
+    <!-- <div class="" style="min-height: 100%;"> -->
+    <div class="d-flex flex-column px-4 pb-5 flex-grow-1 overflow-hidden "
+        style="height: 100%;; scroll-snap-align: start" id="hh-table-container-parent">
+        <div class="flex-grow-0 text-center h6 fw-bold text-ijo my-4">Daftar Input</div>
+        <div class="p-0 position-relative w-100">
+            <input type="checkbox" class="radioBtn" id="hh-table-filter-show-btn" autocomplete="off"
+                data-bs-toggle="collapse" data-bs-target="#hh-table-filter-container">
+            <label class="border-outline-ijo border border-1 rounded-top-3 position-absolute py-1 px-4 float-start"
+                for="hh-table-filter-show-btn" style="bottom:0px;">
+                <div class="icon-hh-filter bi bi-caret-up-fill fs-6"></div>
+            </label>
+        </div>
+        <div class="container-fluid collapse p m-0 text-center border border-1 border-outline-ijo bg-white pt-0 pb-2"
+            id="hh-table-filter-container">
+            <div class="my-1">Filter</div>
+            <div class="d-sm-flex flex-row gap-2">
+                <div class="col input-group mb-2">
+                    <span class="input-group-text bg-ijo border-outline-ijo" id="basic-addon1"><i
+                            class="bi bi-people-fill"></i></span>
+                    <select class="form-select filter-hh-option shadow-ijo-focus" id="filter-hh-option-kelompok"
+                        onchange="hhTableGroupShow(0); HHFilterSort()" filter-hh-type="group">
+                        <option selected value="all">Semua Grup</option>
+                        <option value="Dokter">Dokter</option>
+                        <option value="Perawat Bidan">Perawat Bidan</option>
+                        <option value="Magang Siswa">Magang Siswa</option>
+                        <option value="Lain-lain">Lain-lain</option>
+                    </select>
+                </div>
+                <div class="col mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text bg-ijo border-outline-ijo"><i class="bi bi-house-fill"></i></span>
+                        <input type="text" filter-hh-type="unit"
+                            class="form-control input-with-list shadow-ijo-focus no-list-add hh-filter-list-input"
+                            onchange="hhTableGroupShow(0); HHFilterSort()" list-name="hh-filter-list-unit"
+                            placeholder="Semua unit" aria-label="Nama Unit Penilaian" aria-describedby="pra-input-1"
+                            id="hh-filter-unit" autocomplete="off">
+                    </div>
+                    <div class="col w-100 position-relative">
+                        <div id="hh-filter-list-unit" class="input-list" list-data-to-filter="unitData"
+                            elemID-to-paste="hh-filter-unit" tambah-list-function="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-sm-flex gap-2">
+                <div class="col mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text bg-ijo border-outline-ijo"><i
+                                class="bi bi-calendar2-month-fill"></i></span>
+                        <select class="form-select filter-hh-option shadow-ijo-focus" id="filter-hh-option-bulan"
+                            onchange="hhTableGroupShow(0);HHFilterSort()" filter-hh-type="monthyear">
+                        </select>
+                    </div>
+                </div>
+                <div class="col mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text bg-ijo border-outline-ijo"><i
+                                class="bi bi-person-fill-down"></i></span>
+                        <input type="text"
+                            class="form-control input-with-list shadow-ijo-focus no-list-add hh-filter-list-input"
+                            list-name="hh-filter-list-observer" placeholder="Semua Observer" filter-hh-type="observer"
+                            onchange="hhTableGroupShow(0); HHFilterSort()" aria-label="Filter Observer"
+                            aria-describedby="pra-input-1" id="hh-filter-observer" autocomplete="off">
+                    </div>
+                    <div class="col w-100 position-relative">
+                        <div id="hh-filter-list-observer" class="input-list" list-data-to-filter="uniqueObserver"
+                            elemID-to-paste="hh-filter-observer" tambah-list-function="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-100 hh-table-container">
+            <table class="table small hh-table table-bordered">
+                <thead class="small bg-ijo text-center">
+                    <tr>
+                        <th scope="col" class="HHSortBtn align-items-center"
+                            onclick="HHSortTableHeader(this); HHFilterSort()" hh-sort-state="down" hh-sort-type="time">
+                            <div class="">Time</div>
+                            <div>
+                                <i class="bi bi-caret-up"></i>
+                                <i class="bi bi-caret-down-fill"></i>
+                            </div>
+                        </th>
+                        <th scope="col" class="align-middle">Obersever</th>
+                        <th scope="col" class="align-middle">Nama</th>
+                        <th scope="col" class="align-middle">Unit</th>
+                        <th scope="col" class="align-middle">Kelompok</th>
+                        <th scope="col" class="align-middle">Bulan</th>
+                        <th scope="col" class="HHSortBtn align-items-center"
+                            onclick="HHSortTableHeader(this);HHFilterSort()" hh-sort-type="moment" hh-sort-state="off">
+                            <div class="">Total</div>
+                            <div>
+                                <i class="bi bi-caret-up"></i>
+                                <i class="bi bi-caret-down"></i>
+                            </div>
+                        </th>
+                        <th scope="col" class="align-middle">1</th>
+                        <th scope="col" class="align-middle">2</th>
+                        <th scope="col" class="align-middle">3</th>
+                        <th scope="col" class="align-middle">4</th>
+                        <th scope="col" class="align-middle">5</th>
+                    </tr>
+                </thead>
+                <tbody class="small" id="hh-table-body">
+                </tbody>
+            </table>
+        </div>
+        <nav aria-label="Page navigation example" class="mt-3 mb-5 mx-auto flex-grow-0">
+            <ul class="pagination justify-content-end" id="hhGroupingBtns">
+                <li class="page-item hh-grouping-btn-arrow disabled page-item-btn">
+                    <div class="page-link" onclick="hhTableGroupShow(0); HHFilterSort()">&#60;&#60;
+                    </div>
+                </li>
+                <li class="page-item hh-grouping-btn-num active">
+                    <div class="page-link" onclick="hhTableGroupShow(0); HHFilterSort()">1</div>
+                </li>
+                <li class="page-item hh-grouping-btn-num" style="color: burlywood !important">
+                    <div class="page-link" onclick="hhTableGroupShow(10); HHFilterSort()">2</div>
+                </li>
+                <li class="page-item hh-grouping-btn-num">
+                    <div class="page-link" onclick="hhTableGroupShow(20); HHFilterSort()">3</div>
+                </li>
+                <li class="page-item hh-grouping-btn-num">
+                    <div class="page-link" onclick="hhTableGroupShow(30); HHFilterSort()">4</div>
+                </li>
+                <li class="page-item hh-grouping-btn-num">
+                    <div class="page-link" onclick="hhTableGroupShow(40); HHFilterSort()">5</div>
+                </li>
+                <li class="page-item hh-grouping-btn-arrow page-item-btn">
+                    <div class="page-link" onclick="hhTableGroupShow(0); HHFilterSort()">&#62;&#62;
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- </div> -->
 </div>

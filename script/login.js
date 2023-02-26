@@ -46,23 +46,10 @@ async function login(user, password){
                         database["unitData"] = respon.unitData
                     }
                 })
-            console.log(database)
+            // console.log(database)
             spinner(false)
 
             return
-            // // let timeout = setTimeout(afterLoginLoad, 1000);
-            // // function afterLoginLoad() {
-            //     document.querySelector("#userLoginName").innerHTML = user
-            //     console.log("ppiOnly-" + ppiOnly)
-            //     if(ppiOnly){
-            //         document.querySelectorAll(".ppi-only").forEach((p)=>{p.classList.remove("disabled")})
-            //     }
-            //     else {
-            //         document.querySelectorAll(".ppi-only").forEach((p)=>{p.classList.add("disabled")})
-            //     }
-            // // }
-            // // 
-            // NavbarTo("Hand Hygiene")
         }
         else{alert("Username dan password tidak sesuai");spinner(false)}
     }

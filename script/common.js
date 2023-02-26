@@ -44,7 +44,7 @@ async function onload(){
 let timeout;
 
 async function NavbarTo(target){  
-  console.log(target)
+  console.log("Nav to : "+target)
   var navLinkNodes = document.querySelectorAll(".nav-item .nav-link span")
   navLinkNodes.forEach((p)=>{
     p.parentElement.classList.remove("active");
@@ -77,21 +77,12 @@ async function NavbarTo(target){
   let response = await fetch(Elem("bodyContent").getAttribute("w3-include-html"))
   Elem("bodyContent").innerHTML = await response.text()
   ResetInput(target)
-
-  // includeHTML();
-  // Elem("sideNavCanvasBody").click()
-  // console.log(Elem("hh-input-nama"))
-  // ResetInput(target)
-  // timeout = setTimeout(ResetInput(target), 20000);
-  // timeout = setTimeout(ResetInput(target), 5000);
-  // clearTimeout(timeout)
 }
 
 
 function MenuNavTo(elem){
   NavbarTo(elem.innerText)
 }
-
 
 function ResetInput(target) {
   if(target === "Hand Hygiene"){ResetHHInput()}
@@ -103,11 +94,8 @@ function ResetInput(target) {
 }
 
 function InputWithList(){
-  console.log("InputWithList")
-  console.log(document.querySelectorAll(".input-with-list"))
-  // return
+  // console.log("InputWithList")
   document.querySelectorAll(".input-with-list").forEach((elem) => {
-    // console.log(elem)  
     elem.addEventListener('input', function(){
           filterInputList(elem.id, elem.value, elem.getAttribute("list-name"))
       })
@@ -162,8 +150,6 @@ function InputWithList(){
               }
           }
       }
-
-      return
       elem.addEventListener("keydown", function(e) {
           var list = document.getElementById(elem.getAttribute("list-name"));
           var x = []
@@ -193,18 +179,15 @@ function InputWithList(){
       });
       document.addEventListener("click", function (e) {
           closeAllLists(e.target);
-          NameInList(elem.id)
       });
       function closeAllLists(elmnt) {
-          var x = document.getElementsByClassName("input-list");
+        var x = document.getElementsByClassName("input-list");
           for (var i = 0; i < x.length; i++) {
-              // console.log(elmnt != x[i] && elmnt != elem)
             if (elmnt != x[i] && elmnt != elem) {
-              Elem(elem.getAttribute("list-name")).innerHTML=""
+              x[i].innerHTML=""
             }
           }
       }
-      
   })
 }
 
