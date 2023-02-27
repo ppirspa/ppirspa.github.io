@@ -1,6 +1,10 @@
+var hhInputValue = {}
+
 function ResetHHInput(){
-    // Elem("hh-input-nama").value = ""
-    // console.log("ResetHHInput")
-    // InputWithList()
+    var today = new Date()
+    Elem("hh-input-bulan").value = today.getMonth() + 1
+    Elem("hh-input-tahun").value = today.getFullYear()
 }
+
+
 

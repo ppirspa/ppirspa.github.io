@@ -77,6 +77,7 @@ async function NavbarTo(target){
   let response = await fetch(Elem("bodyContent").getAttribute("w3-include-html"))
   Elem("bodyContent").innerHTML = await response.text()
   ResetInput(target)
+  Elem("sideNavCanvasBodyBtn").click()
 }
 
 
@@ -188,6 +189,9 @@ function InputWithList(){
             }
           }
       }
+      function addActive(elem){
+        elem.classList.add("listCurrActive")
+    }
   })
 }
 
@@ -197,4 +201,27 @@ function SelectStaffBase(group, unit){
   if(!(group === "")){document.querySelectorAll(".input-kelompok").forEach((p)=>{p.value = group})}
   else{document.querySelectorAll(".input-kelompok").forEach((p)=>{p.selectedIndex=0})}
   document.querySelectorAll(".input-unit").forEach((p)=>{p.value = unit})
+}
+
+function inputChange(elem){
+  var inputGroup = elem.getAttribute("input-value-group")
+  var inputType = elem.getAttribute("input-value-type")
+  console.log(inputGroup)
+}
+
+function SlideTo(elm, container){
+  var pPos = elm.parentNode.getBoundingClientRect(), // parent pos
+  cPos = elm.getBoundingClientRect(), // target pos
+  pos = {
+      top: "",
+      right: "",
+      bottom: "",
+      left: ""    
+  }   
+  pos.top = cPos.top - pPos.top;
+  pos.right = cPos.right - pPos.right;
+  pos.bottom = cPos.bottom - pPos.bottom;
+  pos.left = cPos.left - pPos.left;
+  container.scrollTop += pos.top
+  // console.log(pos.top)
 }

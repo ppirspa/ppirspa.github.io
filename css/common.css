@@ -1,3 +1,6 @@
+.listCurrActive {
+  border: 2px solid blue !important;
+}
 .input-list {
   /* overflow-y: hidden; */
   /* max-height: 200px; */

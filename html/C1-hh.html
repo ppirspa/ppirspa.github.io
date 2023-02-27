@@ -8,9 +8,10 @@
                         <div class="input-group border-dark border-2">
                             <span class="input-group-text bg-dark border-dark text-white" id="pra-input-0"><i
                                     class="bi bi-person-circle"></i></span>
-                            <input type="text" class="form-control border-dark hh-input input-with-list onchange-check"
+                            <input type="text" class="form-control border-dark hh-input input-with-list"
                                 list-name="hh-input-list-nama" placeholder="Nama" aria-label="Nama Obyek Penilaian"
-                                aria-describedby="pra-input-0" id="hh-input-nama" autocomplete="off">
+                                id="hh-input-nama" input-value-group="hh" input-value-type="name"
+                                onchange="inputChange(this)" autocomplete="off">
                         </div>
                         <div class="col w-100 position-relative mb-2">
                             <div id="hh-input-list-nama" class="input-list" list-data-to-filter="staffData"
@@ -22,8 +23,8 @@
                         <div class="input-group border-dark border-2 mb-2">
                             <span class="input-group-text bg-dark border-dark text-white"><i
                                     class="bi bi-calendar2-month-fill"></i></span>
-                            <select class="form-select onchange-check border-dark input-kelompok"
-                                id="hh-input-kelompok">
+                            <select class="form-select onchange-check border-dark input-kelompok" id="hh-input-kelompok"
+                                input-value-group="hh" input-value-type="group" onchange="inputChange(this)">
                                 <option selected>Kelompok</option>
                                 <option value="Dokter">Dokter</option>
                                 <option value="Perawat Bidan">Perawat Bidan</option>
@@ -39,6 +40,7 @@
                             <input type="text"
                                 class="form-control border-dark hh-input input-with-list onchange-check input-unit"
                                 list-name="hh-input-list-unit" placeholder="Unit" aria-label="Nama Unit Penilaian"
+                                input-value-group="hh" input-value-type="unit" onchange="inputChange(this)"
                                 aria-describedby="pra-input-1" id="hh-input-unit" autocomplete="off">
                         </div>
                         <div class="col w-100 position-relative mb-2">
@@ -51,7 +53,8 @@
                         <div class="input-group border-dark border-2 mb-4">
                             <span class="input-group-text bg-dark border-dark text-white"><i
                                     class="bi bi-calendar2-month-fill"></i></span>
-                            <select class="form-select onchange-check border-dark" id="hh-input-bulan">
+                            <select class="form-select onchange-check border-dark" id="hh-input-bulan"
+                                input-value-group="hh" input-value-type="bulan" onchange="inputChange(this)">
                                 <option selected>Bulan</option>
                                 <option value="1">Januari</option>
                                 <option value="2">Februari</option>
@@ -69,7 +72,8 @@
                             <span class="input-group-text bg-dark border-dark text-white"><i
                                     class="bi bi-calendar2-date"></i></span>
                             <input type="number" class="form-control onchange-check border-dark" min="2023"
-                                placeholder="Tahun" id="hh-input-tahun">
+                                placeholder="Tahun" id="hh-input-tahun" input-value-group="hh" input-value-type="tahun"
+                                onchange="inputChange(this)">
                         </div>
                     </div>
                 </div>
@@ -187,7 +191,7 @@
     </div>
     <!-- <div class="" style="min-height: 100%;"> -->
     <div class="d-flex flex-column px-4 pb-5 flex-grow-1 overflow-hidden "
-        style="height: 100%;; scroll-snap-align: start" id="hh-table-container-parent">
+        style="min-height: 100%;; scroll-snap-align: start" id="hh-table-container-parent">
         <div class="flex-grow-0 text-center h6 fw-bold text-ijo my-4">Daftar Input</div>
         <div class="p-0 position-relative w-100">
             <input type="checkbox" class="radioBtn" id="hh-table-filter-show-btn" autocomplete="off"
