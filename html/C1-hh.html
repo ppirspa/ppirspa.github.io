@@ -6,12 +6,14 @@
                     <div class="text-center fw-bold py-2 mb-1">Obyek Penilaian</div>
                     <div class="">
                         <div class="input-group border-dark border-2">
-                            <span class="input-group-text bg-dark border-dark text-white" id="pra-input-0"><i
-                                    class="bi bi-person-circle"></i></span>
+                            <span class="input-group-text bg-dark border-dark text-white">
+                                <i class="bi bi-person-circle"></i></span>
                             <input type="text" class="form-control border-dark hh-input input-with-list"
                                 list-name="hh-input-list-nama" placeholder="Nama" aria-label="Nama Obyek Penilaian"
                                 id="hh-input-nama" input-value-group="hh" input-value-type="name"
                                 onchange="inputChange(this)" autocomplete="off">
+                            <button class="input-group-text bg-dark border-dark text-white"><i class="fa-solid fa-xmark"
+                                    onclick="Elem('hh-input-nama').value = ''"></i></button>
                         </div>
                         <div class="col w-100 position-relative mb-2">
                             <div id="hh-input-list-nama" class="input-list" list-data-to-filter="staffData"
@@ -25,7 +27,7 @@
                                     class="bi bi-calendar2-month-fill"></i></span>
                             <select class="form-select onchange-check border-dark input-kelompok" id="hh-input-kelompok"
                                 input-value-group="hh" input-value-type="group" onchange="inputChange(this)">
-                                <option selected>Kelompok</option>
+                                <option value="" disabled selected>Kelompok</option>
                                 <option value="Dokter">Dokter</option>
                                 <option value="Perawat Bidan">Perawat Bidan</option>
                                 <option value="Magang Siswa">Magang Siswa</option>
@@ -35,13 +37,15 @@
                     </div>
                     <div class="">
                         <div class="input-group border-dark border-2">
-                            <span class="input-group-text bg-dark border-dark text-white" id="pra-input-1"><i
+                            <span class="input-group-text bg-dark border-dark text-white"><i
                                     class="bi bi-house-fill"></i></span>
                             <input type="text"
                                 class="form-control border-dark hh-input input-with-list onchange-check input-unit"
                                 list-name="hh-input-list-unit" placeholder="Unit" aria-label="Nama Unit Penilaian"
                                 input-value-group="hh" input-value-type="unit" onchange="inputChange(this)"
-                                aria-describedby="pra-input-1" id="hh-input-unit" autocomplete="off">
+                                id="hh-input-unit" autocomplete="off">
+                            <button class="input-group-text bg-dark border-dark text-white"><i class="fa-solid fa-xmark"
+                                    onclick="Elem('hh-input-unit').value = ''"></i></button>
                         </div>
                         <div class="col w-100 position-relative mb-2">
                             <div id="hh-input-list-unit" class="input-list" list-data-to-filter="unitData"
@@ -55,7 +59,6 @@
                                     class="bi bi-calendar2-month-fill"></i></span>
                             <select class="form-select onchange-check border-dark" id="hh-input-bulan"
                                 input-value-group="hh" input-value-type="bulan" onchange="inputChange(this)">
-                                <option selected>Bulan</option>
                                 <option value="1">Januari</option>
                                 <option value="2">Februari</option>
                                 <option value="3">Maret</option>
@@ -180,7 +183,8 @@
                             </div>
                         </div>
                         <div class="border d-flex justify-content-start align-items-center py-3">
-                            <button class="btn bg-danger text-white py-2 px-5 position-relative mx-auto">
+                            <button class="btn bg-danger text-white py-2 px-5 position-relative mx-auto"
+                                onclick="saveHHInput()">
                                 Simpan
                             </button>
                         </div>

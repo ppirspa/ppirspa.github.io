@@ -92,10 +92,10 @@ function ResetInput(target) {
   if(target === "Resume"){}
   if(target === "Setting"){}
   InputWithList()
+  onChangeAddEvent()
 }
 
 function InputWithList(){
-  // console.log("InputWithList")
   document.querySelectorAll(".input-with-list").forEach((elem) => {
     elem.addEventListener('input', function(){
           filterInputList(elem.id, elem.value, elem.getAttribute("list-name"))
@@ -132,8 +132,6 @@ function InputWithList(){
                       switch (listElem.getAttribute("list-data-to-filter")) {
                           case "staffData":
                               addFunc = "SelectStaffBase('"+ filteredData[i].baseGroup + "', '"+filteredData[i].baseUnit+"'); "
-                              // + "if(isInputValid('hh')){Elem('hh-score-container').style.display = 'flex'}" +
-                              // "else {Elem('hh-score-container').style.display = 'none'}";
                               break;
                           case "unitData":
                           
@@ -141,46 +139,51 @@ function InputWithList(){
                           default:
                               addFunc = ""
                       }
-                      liNew.setAttribute("onclick", 
+                      liNew.setAttribute("onclick",
+                          // "console.log('"+inputID+"')" 
                           "Elem('"+inputID+"').value = '"+filteredData[i].name+"';" 
-                          + "Elem('"+ listTargetID +"').innerHTML = ''; " 
+                          + "Elem('"+ listTargetID +"').innerHTML = ''; "
+                          + "inputChange(Elem('"+ inputID + "')); " 
                           + addFunc
                           )
                       ulNew.appendChild(liNew)
+                      // Elem("input-hh").focus()
                   }   
               }
           }
       }
-      elem.addEventListener("keydown", function(e) {
-          var list = document.getElementById(elem.getAttribute("list-name"));
-          var x = []
-          if (list) {
-              x = list.querySelectorAll("li");
-              x.forEach((p)=> p.classList.remove("listCurrActive"))
-          }
-          if (e.keyCode == 40 && inputListCurrentFocus < x.length-1) {
-            inputListCurrentFocus++;
-            addActive(x[inputListCurrentFocus]);
-            if(inputListCurrentFocus>0){
-              SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode);
-              }
-          } else if (e.keyCode == 38 && inputListCurrentFocus > 0) { //up
-            inputListCurrentFocus--;
-            addActive(x[inputListCurrentFocus]);
-            if(inputListCurrentFocus>0){
-              SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode);
-              }
-          } else if (e.keyCode == 13) {
-            e.preventDefault();
-            if (inputListCurrentFocus > -1) {
-              if (x) x[inputListCurrentFocus].click();
+    elem.addEventListener("keydown", function(e) {
+        var list = document.getElementById(elem.getAttribute("list-name"));
+        var x = []
+        if (list) {
+            x = list.querySelectorAll("li");
+            x.forEach((p)=> p.classList.remove("listCurrActive"))
+        }
+        if (e.keyCode == 40 && inputListCurrentFocus < x.length-1) {
+          inputListCurrentFocus++;
+          addActive(x[inputListCurrentFocus]);
+          if(inputListCurrentFocus>0){
+            SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode);
             }
+        } else if (e.keyCode == 38 && inputListCurrentFocus > 0) { //up
+          inputListCurrentFocus--;
+          addActive(x[inputListCurrentFocus]);
+          if(inputListCurrentFocus>0){
+            SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode);
+            }
+        } else if (e.keyCode == 13) {
+          e.preventDefault();
+          if (inputListCurrentFocus > -1) {
+            if (x) x[inputListCurrentFocus].click();
           }
-          
-      });
-      document.addEventListener("click", function (e) {
-          closeAllLists(e.target);
-      });
+        } else if (e.keyCode == 9) {
+          Elem(elem.getAttribute('list-name')).innerHTML = ""
+        }
+        
+    });
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
       function closeAllLists(elmnt) {
         var x = document.getElementsByClassName("input-list");
           for (var i = 0; i < x.length; i++) {
@@ -192,21 +195,15 @@ function InputWithList(){
       function addActive(elem){
         elem.classList.add("listCurrActive")
     }
+    
   })
 }
-
 function SelectStaffBase(group, unit){
   // console.log("SelectStaffBase("+group+", "+unit+")")
 
   if(!(group === "")){document.querySelectorAll(".input-kelompok").forEach((p)=>{p.value = group})}
   else{document.querySelectorAll(".input-kelompok").forEach((p)=>{p.selectedIndex=0})}
   document.querySelectorAll(".input-unit").forEach((p)=>{p.value = unit})
-}
-
-function inputChange(elem){
-  var inputGroup = elem.getAttribute("input-value-group")
-  var inputType = elem.getAttribute("input-value-type")
-  console.log(inputGroup)
 }
 
 function SlideTo(elm, container){
@@ -224,4 +221,19 @@ function SlideTo(elm, container){
   pos.left = cPos.left - pPos.left;
   container.scrollTop += pos.top
   // console.log(pos.top)
+}
+function onChangeAddEvent(){
+  var obyekDataField = document.querySelectorAll("[input-value-group='hh']")
+  obyekDataField.forEach((p)=>{
+    p.addEventListener("change", function(){
+      inputChange(p)
+    })
+  })
+  // console.log(obyekDataField)
+}
+function inputChange(elem){
+  var inputGroup = elem.getAttribute("input-value-group")
+  // var inputType = elem.getAttribute("input-value-type")
+  if(inputGroup === "hh"){hhInputChange(elem)}
+  // console.log(inputGroup)
 }
