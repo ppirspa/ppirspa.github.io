@@ -34,7 +34,7 @@ function hhInputChange(elem){
         
 }
 
-function saveHHInput(){
+async function saveHHInput(){
     var tempVal = {}
     tempVal.name = ""
     tempVal.group = ""
@@ -49,7 +49,6 @@ function saveHHInput(){
 
     let isSkip = false
     document.querySelectorAll("[input-value-group='hh']").forEach((p)=>{
-        // console.log( p.getAttribute("input-value-type") )
         if (isSkip) {
             return;
         }
@@ -64,20 +63,38 @@ function saveHHInput(){
     })
     if(isSkip){return}
     let moCheck = 0
+    var moURL = ""
     for (var i = 1; i < 6; i++){
         var mo = ""
         if (!(document.querySelector("[name='input-hh-mo"+i+"']:checked") === null)){
-            mo = document.querySelector("[name='input-hh-mo"+i+"']:checked").value * 1
+            mo = document.querySelector("[name='input-hh-mo"+i+"']:checked").value
+            moURL += "&mo" + i + "=" + mo
             moCheck += 1
         }
         tempVal["m" + i] = mo
     }
-    console.log(moCheck)
     if(moCheck === 0){
         alert("Opps... belum ada moment yang dinilai")
         return
     }
-    
     hhInputValue = tempVal
-    console.log(hhInputValue)
+    // hh_ins	hh_	ins		time,obsever,name,group,unit,bulan,tahun,m1,m2,m3,m4,m5
+    var urlSave = dbAPI + "?req=hh_ins" +
+    "&observer=" + Elem("userLoginName").innerHTML +
+    "&name=" + hhInputValue.name +
+    "&group=" + hhInputValue.group +
+    "&unit=" + hhInputValue.unit +
+    "&month=" + hhInputValue.bulan +
+    "&year=" + hhInputValue.tahun + moURL
+    
+    console.log(urlSave)
+    // return
+    if(confirm("Simpan penilaian?")){
+        spinner(true)
+        let respon = await fetch(urlSave).then(respon => respon.json())
+        console.log(respon.ok)
+        await NavbarTo("hh")
+        spinner(false)
+        alert("Data berhasil disimpan")
+    }
 }

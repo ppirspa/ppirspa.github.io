@@ -1,5 +1,5 @@
 var rsAPI = "https://script.google.com/macros/s/AKfycbxqaLuBn2hKTGXQ-SSBbF-QXKCxohWXZSrvdCbTTgyQsstseStiMS79KuEGHOzn0tzt/exec";
-var dbAPI = "https://script.google.com/macros/s/AKfycbwgV5qSkPXFGfE5Su-8qZvr2oTFuUwJqxNFNv6WFTcWfpurwsgMqcXuezHbzaQUDJUt/exec"
+var dbAPI = "https://script.google.com/macros/s/AKfycbw5mmypfqM-9vplv606gw0fRUM-NHt9DN5-siJu7-IXSiWEuq2AF7Pq_UuoGXHrqPZF/exec"
 var sendform = {
     userName : "",
     userAgent: ""
@@ -34,13 +34,11 @@ function Toast(text){
   const toast = new bootstrap.Toast(toastDiv)
   toast.show()
 }
-
 async function onload(){
   await includeHTML()
   login("argo", "ppirspa")
   // console.log(Elem("ini-test-class"))
 }
-
 let timeout;
 
 async function NavbarTo(target){  
@@ -79,12 +77,9 @@ async function NavbarTo(target){
   ResetInput(target)
   Elem("sideNavCanvasBodyBtn").click()
 }
-
-
 function MenuNavTo(elem){
   NavbarTo(elem.innerText)
 }
-
 function ResetInput(target) {
   if(target === "Hand Hygiene"){ResetHHInput()}
   if(target === "Kepatuhan APD"){}
@@ -94,7 +89,6 @@ function ResetInput(target) {
   InputWithList()
   onChangeAddEvent()
 }
-
 function InputWithList(){
   document.querySelectorAll(".input-with-list").forEach((elem) => {
     elem.addEventListener('input', function(){
@@ -205,7 +199,6 @@ function SelectStaffBase(group, unit){
   else{document.querySelectorAll(".input-kelompok").forEach((p)=>{p.selectedIndex=0})}
   document.querySelectorAll(".input-unit").forEach((p)=>{p.value = unit})
 }
-
 function SlideTo(elm, container){
   var pPos = elm.parentNode.getBoundingClientRect(), // parent pos
   cPos = elm.getBoundingClientRect(), // target pos
