@@ -68,12 +68,14 @@ function saveHHInput(){
         var mo = ""
         if (!(document.querySelector("[name='input-hh-mo"+i+"']:checked") === null)){
             mo = document.querySelector("[name='input-hh-mo"+i+"']:checked").value * 1
-            moCheck ++
+            moCheck += 1
         }
         tempVal["m" + i] = mo
     }
-    if(moCheck = 0){
+    console.log(moCheck)
+    if(moCheck === 0){
         alert("Opps... belum ada moment yang dinilai")
+        return
     }
     
     hhInputValue = tempVal
