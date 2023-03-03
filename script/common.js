@@ -109,8 +109,8 @@ function InputWithList(){
               if(!(Elem(inputID).classList.contains("no-list-add"))){
                   listElem.appendChild(listTambah)
                   
-                  document.querySelector("#" + listTargetID + " > ul > .tambah-list > span").innerHTML = text;
-                  document.querySelector("#" + listTargetID + " > ul > .tambah-list").setAttribute("onclick", listElem.getAttribute("tambah-list-function").replace("()","('"+text+"')"+"; document.getElementById('"+listElem.getAttribute("input-to-paste-id")+"').value = ''"))
+                  document.querySelector("#" + listTargetID + " > ul > .tambah-list > div > span").innerHTML = text;
+                  document.querySelector("#" + listTargetID + " > ul > .tambah-list > div").setAttribute("onclick", listElem.getAttribute("tambah-list-function").replace("()","('"+text+"')"+"; document.getElementById('"+listElem.getAttribute("input-to-paste-id")+"').value = ''"))
               }
               else{var ulNew = document.createElement("ul");
                   listElem.appendChild(ulNew);
@@ -120,28 +120,23 @@ function InputWithList(){
                   var ulNew = document.createElement("ul")
                   listElem.appendChild(ulNew)
                   for(var i = 0; i < filteredData.length; i++){
-                      var liNew = document.createElement("li")
-                      liNew.innerHTML = filteredData[i].name
-                      var addFunc = ""
-                      switch (listElem.getAttribute("list-data-to-filter")) {
-                          case "staffData":
-                              addFunc = "SelectStaffBase('"+ filteredData[i].baseGroup + "', '"+filteredData[i].baseUnit+"'); "
-                              break;
-                          case "unitData":
-                          
-                              break;
-                          default:
-                              addFunc = ""
+                      var liNew = Elem("list-li").cloneNode(true)
+                      var liName = liNew.querySelector("div:nth-child(1)")
+                      liName.innerHTML = filteredData[i].name
+                      
+                      var addFunc1 = ""
+                      if(Elem(listTargetID).getAttribute("list-data-to-filter") == "staffData"){
+                        addFunc1 = "SelectStaffBase('"+ filteredData[i].baseGroup + "', '" + filteredData[i].baseUnit+"'); "; 
                       }
-                      liNew.setAttribute("onclick",
-                          // "console.log('"+inputID+"')" 
+
+                      liName.setAttribute("onclick",
                           "Elem('"+inputID+"').value = '"+filteredData[i].name+"';" 
                           + "Elem('"+ listTargetID +"').innerHTML = ''; "
-                          + "inputChange(Elem('"+ inputID + "')); " 
-                          + addFunc
-                          )
+                          + "inputChange(Elem('"+ inputID + "')); "
+                          + addFunc1
+                      )
+
                       ulNew.appendChild(liNew)
-                      // Elem("input-hh").focus()
                   }   
               }
           }
@@ -153,13 +148,43 @@ function InputWithList(){
             x = list.querySelectorAll("li");
             x.forEach((p)=> p.classList.remove("listCurrActive"))
         }
-        if (e.keyCode == 40 && inputListCurrentFocus < x.length-1) {
+
+        if((e.keyCode === 40 || e.keyCode === 38) && x.length > 0){
+          if (e.keyCode === 40 && inputListCurrentFocus < x.length-1) {
+            inputListCurrentFocus ++
+            
+          }
+          else if (e.keyCode === 38 && inputListCurrentFocus > 0 ){
+            inputListCurrentFocus --
+          }
+        }
+        else {
+          if (e.keyCode === 13) {
+            e.preventDefault();
+            if(inputListCurrentFocus > -1 && x.length > 0){
+              x[inputListCurrentFocus].querySelector("div:nth-child(1)").click();
+            }
+          } else if (e.keyCode === 9) {
+            Elem(elem.getAttribute('list-name')).innerHTML = ""
+          }
+          inputListCurrentFocus = -1
+        }
+        if(inputListCurrentFocus >= 0){
+          addActive(x[inputListCurrentFocus])
+          SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode)
+        }
+        console.log(inputListCurrentFocus)
+
+        return
+        if (e.keyCode == 40 && x.length > 0 && inputListCurrentFocus < x.length-1) {
+          e.preventDefault()
           inputListCurrentFocus++;
           addActive(x[inputListCurrentFocus]);
-          if(inputListCurrentFocus>0){
+          if(inputListCurrentFocus > 0){
             SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode);
             }
-        } else if (e.keyCode == 38 && inputListCurrentFocus > 0) { //up
+        } else if (e.keyCode == 38 && x.length > 0 && inputListCurrentFocus > 0) { //up
+          e.preventDefault()
           inputListCurrentFocus--;
           addActive(x[inputListCurrentFocus]);
           if(inputListCurrentFocus>0){
@@ -167,13 +192,13 @@ function InputWithList(){
             }
         } else if (e.keyCode == 13) {
           e.preventDefault();
-          if (inputListCurrentFocus > -1) {
-            if (x) x[inputListCurrentFocus].click();
+          if(inputListCurrentFocus > -1 && x.length > 0){
+            x[inputListCurrentFocus].querySelector("div:nth-child(1)").click();
           }
         } else if (e.keyCode == 9) {
           Elem(elem.getAttribute('list-name')).innerHTML = ""
         }
-        
+        console.log(inputListCurrentFocus)
     });
     document.addEventListener("click", function (e) {
         closeAllLists(e.target);
@@ -193,8 +218,6 @@ function InputWithList(){
   })
 }
 function SelectStaffBase(group, unit){
-  // console.log("SelectStaffBase("+group+", "+unit+")")
-
   if(!(group === "")){document.querySelectorAll(".input-kelompok").forEach((p)=>{p.value = group})}
   else{document.querySelectorAll(".input-kelompok").forEach((p)=>{p.selectedIndex=0})}
   document.querySelectorAll(".input-unit").forEach((p)=>{p.value = unit})
@@ -229,4 +252,16 @@ function inputChange(elem){
   // var inputType = elem.getAttribute("input-value-type")
   if(inputGroup === "hh"){hhInputChange(elem)}
   // console.log(inputGroup)
+}
+function EditStaff(id){
+  alert("EditStaff-"+id)
+}
+function EditUnit(id){
+  alert("EditUnit-"+id)
+}
+function TambahStaff(nama){
+  alert(nama)
+}
+function TambahUnit(nama){
+  alert(nama)
 }

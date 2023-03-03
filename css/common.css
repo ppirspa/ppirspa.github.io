@@ -18,13 +18,29 @@
   margin: 0;
   border: 1px solid grey
 }
+.input-list > ul:nth-child(1) > li {
+  /* max-height: 200px;
+  overflow-y: auto; */
+  /* padding: 10px 20px; */
+  background-color: wheat;
+}
+.input-list > ul:nth-child(1) > li > div {
+  /* max-height: 200px;
+  overflow-y: auto; */
+  padding: 10px 20px;
+  background-color: wheat;
+}
 .input-list > ul:nth-child(2) {
   max-height: 200px;
   overflow-y: auto;
 }
+
 .input-list > ul > li {
-  padding: 10px 20px;
+  /* padding: 10px 20px; */
   border: 1px solid grey;
+}
+.input-list > ul > li > div {
+  padding: 10px 20px;
 }
 
 .nav-link i {

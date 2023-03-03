@@ -114,11 +114,19 @@
 <!-- -----tambah list----- -->
 <div class="d-none" id="tambah-list-template">
     <ul>
-        <li class="tambah-list">Tambah baru: <span>Argadia Ty</span>
+        <li class="tambah-list d-flex">
+            <div class="flex-grow-1">
+                Tambah baru: <span>Argadia Ty</span>
+            </div>
         </li>
     </ul>
 </div>
-
+<div style="display: none">
+    <li id="list-li" class="d-flex">
+        <div class="border flex-grow-1" onclick="alert('das')">das</div>
+        <div><i class="fa-solid fa-pen-to-square" onclick="alert('dwf')"></i></div>
+    </li>
+</div>
 <!-- ----- toaster ------ -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="liveToast" class="toast align-items-center shadow overflow-hidden border-danger rounded border-2"

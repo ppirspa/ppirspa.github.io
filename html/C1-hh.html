@@ -11,7 +11,9 @@
                             <input type="text" class="form-control border-dark hh-input input-with-list"
                                 list-name="hh-input-list-nama" placeholder="Nama" aria-label="Nama Obyek Penilaian"
                                 id="hh-input-nama" input-value-group="hh" input-value-type="name"
-                                onchange="inputChange(this)" autocomplete="off">
+                                onchange="inputChange(this)" edit-function="EditStaff" autocomplete="off">
+                            <!-- <button class="input-group-text bg-dark border-dark text-white" style="display: none;"><i
+                                    class="fa-solid fa-pen-to-square" id="edit-hh-input-nama" onclick=""></i></button> -->
                             <button class="input-group-text bg-dark border-dark text-white"><i class="fa-solid fa-xmark"
                                     onclick="Elem('hh-input-nama').value = ''"></i></button>
                         </div>
@@ -43,7 +45,10 @@
                                 class="form-control border-dark hh-input input-with-list onchange-check input-unit"
                                 list-name="hh-input-list-unit" placeholder="Unit" aria-label="Nama Unit Penilaian"
                                 input-value-group="hh" input-value-type="unit" onchange="inputChange(this)"
-                                id="hh-input-unit" autocomplete="off">
+                                id="hh-input-unit" edit-function="EditUnit" autocomplete="off">
+                            <!-- <button class="input-group-text bg-dark border-dark text-white"><i
+                                    class="fa-solid fa-pen-to-square" id="edit-hh-input-unit" onclick=""></i></button> -->
+                            <!-- <a onclick="">nama here</a> -->
                             <button class="input-group-text bg-dark border-dark text-white"><i class="fa-solid fa-xmark"
                                     onclick="Elem('hh-input-unit').value = ''"></i></button>
                         </div>
