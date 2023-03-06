@@ -1,4 +1,4 @@
-.radioBtn.input-hh-btn.hh-moment{
+.radioBtn{
     position: fixed;
     top:-100px;
 }
@@ -9,3 +9,54 @@
     color: white;
     background: var(--bs-dark) !important; 
   }
+#hh-table-filter-show-btn + label {
+  color: white;
+}
+#hh-table-filter-show-btn:checked + label {
+  color: yellow  
+}
+#hh-table-filter-show-btn + label > div{
+  transition: transform 1s;
+  transform: rotate(0deg);
+}
+#hh-table-filter-show-btn:checked + label > div{
+  transform: rotate(180deg);
+  transition: transform 1s; 
+}
+@keyframes rotateThis {
+  100% {transform: rotate(180deg);}
+}
+.hh-table-container{
+    overflow-x: scroll;
+  }
+.hh-table {
+  position: relative;
+}
+tr.tb-dark th {
+  background:var(--bs-dark);
+  color: white;
+}
+.hh-table th {
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+  /* box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); */
+}
+#hhGroupingBtns div{
+  cursor: pointer;
+  color: var(--bs-dark)
+}
+#hhGroupingBtns .disabled > div {
+  background-color: var(--bs-dark-subtle) !important;
+  color: rgb(200, 199, 199);
+}
+#hhGroupingBtns .active > div {
+  background-color: red !important;
+  border-color: var(--bs-dark);
+  color: white;
+}
+
+@media (max-width: 992px) {
+  .nilai-moment{
+      scroll-snap-align: start;
+  }
+}

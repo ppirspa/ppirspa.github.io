@@ -17,13 +17,13 @@ var TableMinimal = {
     "hh": 0
 }
 var loginPass = true
+
 // ============================================================================
 function spinner(bo) {
   if (bo){
       Elem("loader").style.display = "flex";
   } else if (!(bo)) { Elem("loader").style.display = "none" }
 }
-
 function Elem(id) {
   return document.getElementById(id)
 }
@@ -36,8 +36,9 @@ function Toast(text){
 }
 async function onload(){
   await includeHTML()
-  login("argo", "ppirspa")
-  // console.log(Elem("ini-test-class"))
+  await login("argo", "ppirspa")
+  await NavbarTo("Hand Hygiene")
+  // TambahStaff("arga")
 }
 let timeout;
 
@@ -110,7 +111,8 @@ function InputWithList(){
                   listElem.appendChild(listTambah)
                   
                   document.querySelector("#" + listTargetID + " > ul > .tambah-list > div > span").innerHTML = text;
-                  document.querySelector("#" + listTargetID + " > ul > .tambah-list > div").setAttribute("onclick", listElem.getAttribute("tambah-list-function").replace("()","('"+text+"')"+"; document.getElementById('"+listElem.getAttribute("input-to-paste-id")+"').value = ''"))
+                  document.querySelector("#" + listTargetID + " > ul > .tambah-list > div").setAttribute("onclick", listElem.getAttribute("tambah-list-function").replace("()","('"+text+ "')" + 
+                  "; document.getElementById('"+inputID+"').value = ''"))
               }
               else{var ulNew = document.createElement("ul");
                   listElem.appendChild(ulNew);
@@ -123,18 +125,20 @@ function InputWithList(){
                       var liNew = Elem("list-li").cloneNode(true)
                       var liName = liNew.querySelector("div:nth-child(1)")
                       liName.innerHTML = filteredData[i].name
-                      
+  
                       var addFunc1 = ""
                       if(Elem(listTargetID).getAttribute("list-data-to-filter") == "staffData"){
                         addFunc1 = "SelectStaffBase('"+ filteredData[i].baseGroup + "', '" + filteredData[i].baseUnit+"'); "; 
                       }
-
                       liName.setAttribute("onclick",
                           "Elem('"+inputID+"').value = '"+filteredData[i].name+"';" 
                           + "Elem('"+ listTargetID +"').innerHTML = ''; "
-                          + "inputChange(Elem('"+ inputID + "')); "
+                          + "inputChange(Elem('"+ inputID + "')); Elem('"+inputID+"').onchange(); "
                           + addFunc1
                       )
+                      var liEdit = liNew.querySelector("div:nth-child(2) > .fa-solid")
+                      
+                      liEdit.setAttribute("onclick", Elem(inputID).getAttribute("edit-function") + "(" + filteredData[i].id + ")")
 
                       ulNew.appendChild(liNew)
                   }   
@@ -173,32 +177,7 @@ function InputWithList(){
           addActive(x[inputListCurrentFocus])
           SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode)
         }
-        console.log(inputListCurrentFocus)
 
-        return
-        if (e.keyCode == 40 && x.length > 0 && inputListCurrentFocus < x.length-1) {
-          e.preventDefault()
-          inputListCurrentFocus++;
-          addActive(x[inputListCurrentFocus]);
-          if(inputListCurrentFocus > 0){
-            SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode);
-            }
-        } else if (e.keyCode == 38 && x.length > 0 && inputListCurrentFocus > 0) { //up
-          e.preventDefault()
-          inputListCurrentFocus--;
-          addActive(x[inputListCurrentFocus]);
-          if(inputListCurrentFocus>0){
-            SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode);
-            }
-        } else if (e.keyCode == 13) {
-          e.preventDefault();
-          if(inputListCurrentFocus > -1 && x.length > 0){
-            x[inputListCurrentFocus].querySelector("div:nth-child(1)").click();
-          }
-        } else if (e.keyCode == 9) {
-          Elem(elem.getAttribute('list-name')).innerHTML = ""
-        }
-        console.log(inputListCurrentFocus)
     });
     document.addEventListener("click", function (e) {
         closeAllLists(e.target);
@@ -253,15 +232,106 @@ function inputChange(elem){
   if(inputGroup === "hh"){hhInputChange(elem)}
   // console.log(inputGroup)
 }
-function EditStaff(id){
-  alert("EditStaff-"+id)
+async function EditStaff(id){
+  var ids = database.staffData.map((p)=>{return p.id})
+  var index = ids.indexOf(id) 
+  var nama = database.staffData[index].name
+  var group = database.staffData[index].baseGroup 
+  var unit = database.staffData[index].baseUnit
+
+  var myModal = Elem("myModal")
+  // title
+  Elem("myModalLabel").innerHTML = "Edit Data Staff"
+
+  // body
+  var body = Elem("staffModal-body").cloneNode(true)
+  var modalBody = myModal.querySelector(".modal-body")
+  modalBody.innerHTML = ""
+  modalBody.appendChild(body)
+  modalBody.querySelector("#staff-input-nama").value = nama
+  modalBody.querySelector("#staff-input-kelompok").value = group
+  modalBody.querySelector("#staff-input-unit").value = unit
+
+  //footer
+  var footer = Elem("staffModal-footer").cloneNode(true)
+  footer.querySelectorAll(".modal-btn").forEach((p)=>{
+    p.classList.add("d-none")
+  })
+
+  var btnTambah = footer.querySelector(".modal-tambah")
+  btnTambah.classList.remove("d-none")
+  btnTambah.addEventListener("click",function(){
+    staffAPI("Tambah")
+    document.querySelector(".modal-tutup").click()
+  })
+  var btnSimpan = footer.querySelector(".modal-simpan")
+  btnSimpan.classList.remove("d-none")
+  btnSimpan.addEventListener("click",function(){
+    staffAPI("Simpan")
+    document.querySelector(".modal-tutup").click()
+  })
+  var btnHapus = footer.querySelector(".modal-hapus")
+  btnHapus.classList.remove("d-none")
+  btnHapus.addEventListener("click",function(){
+    staffAPI("Hapus")
+    document.querySelector(".modal-tutup").click()
+  })
+  myModal.querySelector(".modal-footer").innerHTML = ""
+  myModal.querySelector(".modal-footer").appendChild(footer)
+
+  Elem("myModalButton").click()
+  InputWithList()
+}
+async function TambahStaff(nama){
+  var myModal = Elem("myModal")
+  // title
+  Elem("myModalLabel").innerHTML = "Tambah Data Staff"
+  
+  // body
+  var body = Elem("staffModal-body").cloneNode(true)
+  var modalBody = myModal.querySelector(".modal-body")
+  modalBody.innerHTML = ""
+  modalBody.appendChild(body)
+  modalBody.querySelector("#staff-input-nama").value = nama
+
+  //footer
+  var footer = Elem("staffModal-footer").cloneNode(true)
+  footer.querySelectorAll(".modal-btn").forEach((p)=>{
+    p.classList.add("d-none")
+  })
+  var btnTambah = footer.querySelector(".modal-tambah")
+  btnTambah.classList.remove("d-none")
+  btnTambah.addEventListener("click",function(){
+    staffAPI("Tambah")
+    document.querySelector(".modal-tutup").click()
+  })
+  
+  myModal.querySelector(".modal-footer").innerHTML = ""
+  myModal.querySelector(".modal-footer").appendChild(footer)
+  
+  Elem("myModalButton").click()
+  InputWithList()
 }
 function EditUnit(id){
   alert("EditUnit-"+id)
 }
-function TambahStaff(nama){
-  alert(nama)
-}
+
 function TambahUnit(nama){
   alert(nama)
+}
+async function staffAPI(code){
+  if (confirm(code + " data?") == true){
+    console.log(code)
+    var staffDataModal = document.querySelector("#myModal")
+    var nama = staffDataModal.querySelector("#staff-input-nama").value
+    var groupBase = staffDataModal.querySelector("#staff-input-kelompok").value
+    var unitBase = staffDataModal.querySelector("#staff-input-unit").value
+    console.log("nama : "+nama)
+    console.log("groupBase : "+groupBase)
+    console.log("unitBase : "+unitBase)    
+    return
+  }
+  else {
+    return
+  }
 }

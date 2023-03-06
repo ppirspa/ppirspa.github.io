@@ -121,9 +121,10 @@
         </li>
     </ul>
 </div>
+<!-- -------list li --------- -->
 <div style="display: none">
     <li id="list-li" class="d-flex">
-        <div class="border flex-grow-1" onclick="alert('das')">das</div>
+        <div class="border flex-grow-1" onclick="">das</div>
         <div><i class="fa-solid fa-pen-to-square" onclick="alert('dwf')"></i></div>
     </li>
 </div>
@@ -143,3 +144,73 @@
 <img src="https://images.unsplash.com/photo-1572226301391-33e981a7a763?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
     class="h-100 w-100 position-fixed fixed-top"
     style="filter: brightness(113%); left: 0; object-fit: cover; z-index: -100" alt="...">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#myModal"
+    id="myModalButton">
+    Launch demo modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="myModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="staffModal" class="d-none">
+    <div id="staffModal-body">
+        <div class="p-lg-5">
+            <div class="input-group border-dark border-2 mb-3">
+                <span class="input-group-text bg-dark border-dark text-white">
+                    <i class="fa-solid fa-circle-user"></i></span>
+                <input type="text" class="form-control border-dark" placeholder="Nama" id="staff-input-nama"
+                    autocomplete="off">
+                <button class="input-group-text bg-dark border-dark text-white"
+                    onclick="Elem('staff-input-nama').value = ''">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="input-group border-dark border-2 mb-3">
+                <span class="input-group-text bg-dark border-dark text-white"><i
+                        class="fa-solid fa-user-group"></i></span>
+                <select class="form-select border-dark" id="staff-input-kelompok">
+                    <option value="" disabled selected>Default Kelompok</option>
+                    <option value="Dokter">Dokter</option>
+                    <option value="Perawat Bidan">Perawat Bidan</option>
+                    <option value="Magang Siswa">Magang Siswa</option>
+                    <option value="Lain-lain">Lain-lain</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <div class="input-group border-dark border-2">
+                    <span class="input-group-text bg-dark border-dark text-white"><i
+                            class="fa-solid fa-house-user"></i></span>
+                    <input type="text" class="form-control border-dark input-with-list onchange-check input-unit"
+                        list-name="staff-input-list-unit" placeholder="Unit Default" aria-label="Nama Unit Penilaian"
+                        onchange="inputChange(this)" id="staff-input-unit" edit-function="EditUnit" autocomplete="off">
+                    <button class="input-group-text bg-dark border-dark text-white"
+                        onclick="Elem('staff-input-unit').value = ''">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="col w-100 position-relative mb-2">
+                    <div id="staff-input-list-unit" class="input-list" list-data-to-filter="unitData"
+                        elemID-to-paste="staff-input-unit" tambah-list-function="TambahUnit('asas')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="staffModal-footer">
+        <button type="button" class="btn btn-secondary first-focus modal-tutup" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary modal-btn modal-simpan d-none">Simpan</button>
+        <button type="button" class="btn btn-primary modal-btn modal-tambah d-none">Tambah</button>
+        <button type="button" class="btn btn-primary modal-btn modal-hapus d-none">Hapus</button>
+    </div>
+</div>
