@@ -431,13 +431,18 @@ async function TambahUnit(nama){
   
   var formAssignInput = modalBody.querySelector("#unit-input-formAssign") 
   formAssignInput.innerHTML = ""
+  var firstOpt = document.createElement("option")
+  firstOpt.setAttribute("disabled", "")
+  firstOpt.setAttribute("selected", "")
+  firstOpt.innerHTML = "Jenis Formulir Supervisi"
+  formAssignInput.appendChild(firstOpt)
   formAssignList.forEach((p)=>{
     var opt = document.createElement("option")
     opt.setAttribute("value", p[0])
     opt.innerHTML = p[0] + ": " + p[1]
     formAssignInput.appendChild(opt)
   })
-  formAssignInput.value = ""
+  formAssignInput.selectedIndex = 0
 
   //footer
   var footer = Elem("unitModal-footer").cloneNode(true)
