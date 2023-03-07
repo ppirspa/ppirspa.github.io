@@ -166,6 +166,10 @@
 <div id="staffModal" class="d-none">
     <div id="staffModal-body">
         <div class="p-lg-5">
+            <div class="mb-3">
+                <input type="text" class="form-control border-dark" placeholder="ID" id="staff-input-id"
+                    autocomplete="off" disabled>
+            </div>
             <div class="input-group border-dark border-2 mb-3">
                 <span class="input-group-text bg-dark border-dark text-white">
                     <i class="fa-solid fa-circle-user"></i></span>
@@ -208,6 +212,53 @@
         </div>
     </div>
     <div id="staffModal-footer">
+        <button type="button" class="btn btn-secondary first-focus modal-tutup" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary modal-btn modal-simpan d-none">Simpan</button>
+        <button type="button" class="btn btn-primary modal-btn modal-tambah d-none">Tambah</button>
+        <button type="button" class="btn btn-primary modal-btn modal-hapus d-none">Hapus</button>
+    </div>
+</div>
+<div id="unitModal" class="d-none">
+    <div id="unitModal-body">
+        <div class="p-lg-5">
+            <div class="mb-3">
+                <input type="text" class="form-control border-dark" placeholder="ID" id="unit-input-id"
+                    autocomplete="off" disabled>
+            </div>
+            <div class="input-group border-dark border-2 mb-3">
+                <span class="input-group-text bg-dark border-dark text-white">
+                    <i class="bi bi-house-fill"></i></span>
+                <input type="text" class="form-control border-dark" placeholder="Nama Unit" id="unit-input-nama"
+                    onchange="capitalInput(this)" autocomplete="off">
+                <button class="input-group-text bg-dark border-dark text-white"
+                    onclick="Elem('unit-input-nama').value = ''">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="input-group border-dark border-2 mb-3">
+                <span class="input-group-text bg-dark border-dark text-white">
+                    <i class="bi bi-house-fill"></i></span>
+                <input type="text" class="form-control border-dark" placeholder="Nama Alternatif Unit"
+                    id="unit-input-alternate" autocomplete="off">
+                <button class="input-group-text bg-dark border-dark text-white"
+                    onclick="Elem('unit-input-alternate').value = ''">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text bg-dark border-dark text-white"><i
+                        class="fa-solid fa-clipboard-list"></i></span>
+                <select class="form-select border-dark" id="unit-input-formAssign">
+                    <option value="" disabled selected>Jenis Form Untuk Supervisi</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="unitModal-footer">
         <button type="button" class="btn btn-secondary first-focus modal-tutup" data-bs-dismiss="modal">Batal</button>
         <button type="button" class="btn btn-primary modal-btn modal-simpan d-none">Simpan</button>
         <button type="button" class="btn btn-primary modal-btn modal-tambah d-none">Tambah</button>

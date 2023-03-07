@@ -116,7 +116,7 @@ async function saveHHInput(){
 function UpdateHHTable(){
     console.log(hhTableFilterShort)
     var hhData = database.hhData
-    var user = sendform.userName
+    var user = UserName
     var monthText = {
         1:"Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"Mei", 6:"Jun", 
         7:"Jul", 8:"Agu", 9:"Sep", 10:"Okt", 11:"Nov", 12:"Des"
@@ -324,7 +324,8 @@ function hhFilterPreset(){
         filterObsElem.appendChild(opt)
     })
 }
-function EditHH(){
+function EditHH(id){
+    
 }
 function hhFilterReset(){
     console.log(Elem("hh-filter-kelompok").selectedIndex)

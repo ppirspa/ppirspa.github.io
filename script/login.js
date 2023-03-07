@@ -7,6 +7,7 @@ async function login(user, password){
         console.log("log out...")
         Elem("showHTML").setAttribute("w3-include-html", "/html/B-landLogin.html")
         includeHTML()
+        spinner(false)
     }
     else {
         console.log("login...trying...")
@@ -26,6 +27,7 @@ async function login(user, password){
             Elem("showHTML").setAttribute("w3-include-html", "/html/C-body.html");
             await includeHTML()
             Elem("userLoginName").innerHTML = user
+            UserName = user
             console.log("ppiOnly-" + ppiOnly)
             if(ppiOnly){
                 document.querySelectorAll(".ppi-only").forEach((p)=>{p.classList.remove("disabled")})

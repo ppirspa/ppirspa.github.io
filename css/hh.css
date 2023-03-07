@@ -43,7 +43,8 @@ tr.tb-dark th {
 }
 #hhGroupingBtns div{
   cursor: pointer;
-  color: var(--bs-dark)
+  color: var(--bs-dark);
+  font-size: 0.8rem;
 }
 #hhGroupingBtns .disabled > div {
   background-color: var(--bs-dark-subtle) !important;

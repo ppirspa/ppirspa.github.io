@@ -17,6 +17,7 @@ var TableMinimal = {
     "hh": 0
 }
 var loginPass = true
+var UserName = ""
 
 // ============================================================================
 function spinner(bo) {
@@ -36,8 +37,9 @@ function Toast(text){
 }
 async function onload(){
   await includeHTML()
-  await login("argo", "ppirspa")
+  await login("PPI RSPA", "ppirspa")
   await NavbarTo("Hand Hygiene")
+  EditUnit(9)
   // TambahStaff("arga")
 }
 let timeout;
@@ -101,7 +103,13 @@ function InputWithList(){
           
           if(!(Elem(inputID).classList.contains("no-list-add"))){var listTambah =  document.querySelector("#tambah-list-template > ul").cloneNode(true)}
 
-          var filteredData = database[listElem.getAttribute("list-data-to-filter")].filter((x) => x["name"].toString().toLowerCase().includes(text.toLowerCase()))
+          var filteredData = database[listElem.getAttribute("list-data-to-filter")].filter((x) => {
+            var j = false
+            if(listElem.getAttribute("list-data-to-filter") == "unitData"){
+              if(x["alternatif"].toString().toLowerCase().includes(text.toLowerCase())){j = true}
+            }
+            return x["name"].toString().toLowerCase().includes(text.toLowerCase()) || j 
+          })
           
           if(text.length < 1){return false;}
 
@@ -248,6 +256,8 @@ async function EditStaff(id){
   var modalBody = myModal.querySelector(".modal-body")
   modalBody.innerHTML = ""
   modalBody.appendChild(body)
+  modalBody.querySelector("#staff-input-id").value = id
+  modalBody.querySelector("#staff-input-id").classList.remove("d-none")
   modalBody.querySelector("#staff-input-nama").value = nama
   modalBody.querySelector("#staff-input-kelompok").value = group
   modalBody.querySelector("#staff-input-unit").value = unit
@@ -293,6 +303,8 @@ async function TambahStaff(nama){
   modalBody.innerHTML = ""
   modalBody.appendChild(body)
   modalBody.querySelector("#staff-input-nama").value = nama
+  modalBody.querySelector("#staff-input-id").classList.add("d-none")
+  modalBody.querySelector("#staff-input-id").value = ""
 
   //footer
   var footer = Elem("staffModal-footer").cloneNode(true)
@@ -312,12 +324,146 @@ async function TambahStaff(nama){
   Elem("myModalButton").click()
   InputWithList()
 }
-function EditUnit(id){
-  alert("EditUnit-"+id)
-}
+async function EditUnit(id){
+  var ids = database.unitData.map((p)=>{return p.id})
+  const formAssignObj = groupBy(database.unitData, "formAssign")
+  function groupBy(objectArray, property) {
+    return objectArray.reduce((acc, obj) => {
+      const key = obj[property];
+      const curGroup = acc[key] ?? [];
+      return { ...acc, [key]: [...curGroup, obj] };
+    }, {});
+  }
+  var formAssignList = []
+  Object.keys(formAssignObj).forEach((p)=>{
+    var units = formAssignObj[p].map((p)=>{return p.name})
+    formAssignList.push([p, units.join(", ")])
+  })
+  
+  var index = ids.indexOf(id) 
+  var unitName = database.unitData[index].name
+  var altName = database.unitData[index].alternatif
+  var formAssign = database.unitData[index].formAssign 
+  
+  var myModal = Elem("myModal")
+  // title
+  Elem("myModalLabel").innerHTML = "Edit Data Unit / Ruang"
 
-function TambahUnit(nama){
-  alert(nama)
+  // body
+  var body = Elem("unitModal-body").cloneNode(true)
+  var modalBody = myModal.querySelector(".modal-body")
+  modalBody.innerHTML = ""
+  modalBody.appendChild(body)
+  modalBody.querySelector("#unit-input-id").value = id
+  modalBody.querySelector("#unit-input-id").classList.remove("d-none")
+  modalBody.querySelector("#unit-input-nama").value = unitName
+  modalBody.querySelector("#unit-input-alternate").value = altName
+  var formAssignInput = modalBody.querySelector("#unit-input-formAssign") 
+  formAssignInput.innerHTML = ""
+  formAssignList.forEach((p)=>{
+    var opt = document.createElement("option")
+    opt.setAttribute("value", p[0])
+    opt.innerHTML = p[0] + ": " + p[1]
+    formAssignInput.appendChild(opt)
+  })
+  formAssignInput.value = ""
+  if(formAssign !== ""){formAssignInput.value = formAssign}
+
+  //footer
+  var footer = Elem("unitModal-footer").cloneNode(true)
+  footer.querySelectorAll(".modal-btn").forEach((p)=>{
+    p.classList.add("d-none")
+  })
+
+  var btnTambah = footer.querySelector(".modal-tambah")
+  btnTambah.classList.remove("d-none")
+  btnTambah.addEventListener("click",function(){
+    unitAPI("Tambah")
+    document.querySelector(".modal-tutup").click()
+  })
+  var btnSimpan = footer.querySelector(".modal-simpan")
+  btnSimpan.classList.remove("d-none")
+  btnSimpan.addEventListener("click",function(){
+    unitAPI("Simpan")
+    document.querySelector(".modal-tutup").click()
+  })
+  var btnHapus = footer.querySelector(".modal-hapus")
+  btnHapus.classList.remove("d-none")
+  btnHapus.addEventListener("click",function(){
+    unitAPI("Hapus")
+    document.querySelector(".modal-tutup").click()
+  })
+  myModal.querySelector(".modal-footer").innerHTML = ""
+  myModal.querySelector(".modal-footer").appendChild(footer)
+
+  Elem("myModalButton").click()
+  InputWithList()
+}
+async function TambahUnit(nama){
+  // var ids = database.unitData.map((p)=>{return p.id})
+  const formAssignObj = groupBy(database.unitData, "formAssign")
+  function groupBy(objectArray, property) {
+    return objectArray.reduce((acc, obj) => {
+      const key = obj[property];
+      const curGroup = acc[key] ?? [];
+      return { ...acc, [key]: [...curGroup, obj] };
+    }, {});
+  }
+  var formAssignList = []
+  Object.keys(formAssignObj).forEach((p)=>{
+    var units = formAssignObj[p].map((p)=>{return p.name})
+    formAssignList.push([p, units.join(", ")])
+  })
+  
+  var myModal = Elem("myModal")
+  // title
+  Elem("myModalLabel").innerHTML = "Tambah Unit / Ruang"
+
+  // body
+  var body = Elem("unitModal-body").cloneNode(true)
+  var modalBody = myModal.querySelector(".modal-body")
+  modalBody.innerHTML = ""
+  modalBody.appendChild(body)
+  modalBody.querySelector("#unit-input-id").value = ""
+  modalBody.querySelector("#unit-input-id").classList.add("d-none")
+  modalBody.querySelector("#unit-input-nama").value = nama
+  modalBody.querySelector("#unit-input-alternate").value = ""
+  
+  var formAssignInput = modalBody.querySelector("#unit-input-formAssign") 
+  formAssignInput.innerHTML = ""
+  var firstOpt = document.createElement("option")
+  firstOpt.setAttribute("")
+  formAssignList.forEach((p)=>{
+    var opt = document.createElement("option")
+    opt.setAttribute("value", p[0])
+    opt.innerHTML = p[0] + ": " + p[1]
+    formAssignInput.appendChild(opt)
+  })
+  formAssignInput.value = ""
+
+  //footer
+  var footer = Elem("unitModal-footer").cloneNode(true)
+  footer.querySelectorAll(".modal-btn").forEach((p)=>{
+    p.classList.add("d-none")
+  })
+
+  var btnTambah = footer.querySelector(".modal-tambah")
+  btnTambah.classList.remove("d-none")
+  btnTambah.addEventListener("click",function(){
+    unitAPI("Tambah")
+    document.querySelector(".modal-tutup").click()
+  })
+  var btnSimpan = footer.querySelector(".modal-simpan")
+  btnSimpan.classList.add("d-none")
+  
+  var btnHapus = footer.querySelector(".modal-hapus")
+  btnHapus.classList.add("d-none")
+
+  myModal.querySelector(".modal-footer").innerHTML = ""
+  myModal.querySelector(".modal-footer").appendChild(footer)
+
+  Elem("myModalButton").click()
+  InputWithList()
 }
 async function staffAPI(code){
   if (confirm(code + " data?") == true){
@@ -334,4 +480,24 @@ async function staffAPI(code){
   else {
     return
   }
+}
+async function unitAPI(code){
+  if (confirm(code + " data?") == true){
+    console.log(code)
+    var myModal = document.querySelector("#myModal")
+    var nama = myModal.querySelector("#staff-input-nama").value
+    // var groupBase = staffDataModal.querySelector("#staff-input-kelompok").value
+    // var unitBase = staffDataModal.querySelector("#staff-input-unit").value
+    // console.log("nama : "+nama)
+    // console.log("groupBase : "+groupBase)
+    // console.log("unitBase : "+unitBase)    
+    return
+  }
+  else {
+    return
+  }
+}
+function capitalInput(elem){
+  var value = elem.value
+  elem.value = value.toString().toUpperCase()
 }
