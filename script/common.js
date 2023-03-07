@@ -431,8 +431,6 @@ async function TambahUnit(nama){
   
   var formAssignInput = modalBody.querySelector("#unit-input-formAssign") 
   formAssignInput.innerHTML = ""
-  var firstOpt = document.createElement("option")
-  firstOpt.setAttribute("")
   formAssignList.forEach((p)=>{
     var opt = document.createElement("option")
     opt.setAttribute("value", p[0])
