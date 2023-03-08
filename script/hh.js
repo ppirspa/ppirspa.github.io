@@ -114,7 +114,6 @@ async function saveHHInput(){
     }
 }
 function UpdateHHTable(){
-    console.log(hhTableFilterShort)
     var hhData = database.hhData
     var user = UserName
     var monthText = {

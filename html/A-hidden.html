@@ -31,16 +31,6 @@
                         <tr>
                             <th scope="row">Nama</th>
                             <td>
-                                <!-- <input type="text"
-                                    class="form-control border-outline-ijo hh-input input-with-list onchange-check shadow-ijo-focus"
-                                    list-name="hh-edit-list-nama" placeholder="Masukkan nama obyek"
-                                    aria-label="Nama Obyek Penilaian" aria-describedby="pra-input-1"
-                                    id="hh-edit-nama" autocomplete="off" value="">
-                                <div class="col w-100 position-relative mb-0">
-                                    <div id="hh-edit-list-nama" class="input-list" list-data-to-filter="unitData"
-                                        elemID-to-paste="hh-edit-nama" tambah-list-function="TambahUnit()">
-                                    </div>
-                                </div> -->
                             </td>
                         </tr>
                         <tr>
@@ -61,7 +51,7 @@
                             <td>
                                 <input type="text"
                                     class="form-control border-outline-ijo hh-input input-with-list onchange-check shadow-ijo-focus"
-                                    list-name="hh-edot-list-unit" placeholder="Masukkan nama unit"
+                                    list-name="hh-edit-list-unit" placeholder="Masukkan nama unit"
                                     aria-label="Nama Unit Penilaian" aria-describedby="pra-input-1" id="hh-edit-unit"
                                     autocomplete="off" value="">
                                 <div class="col w-100 position-relative mb-0">
@@ -125,11 +115,11 @@
 <div style="display: none">
     <li id="list-li" class="d-flex">
         <div class="border flex-grow-1" onclick="">das</div>
-        <div><i class="fa-solid fa-pen-to-square" onclick="alert('dwf')"></i></div>
+        <div><i class="fa-solid fa-pen-to-square"></i></div>
     </li>
 </div>
 <!-- ----- toaster ------ -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="liveToast" class="toast align-items-center shadow overflow-hidden border-danger rounded border-2"
         role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex bg-white">
@@ -149,9 +139,9 @@
     id="myModalButton">
     Launch demo modal
 </button>
-<!-- Modal -->
+<!-- Modal-modal -->
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="myModalLabel">Modal title</h1>
@@ -195,7 +185,7 @@
                 <div class="input-group border-dark border-2">
                     <span class="input-group-text bg-dark border-dark text-white"><i
                             class="fa-solid fa-house-user"></i></span>
-                    <input type="text" class="form-control border-dark input-with-list onchange-check input-unit"
+                    <input type="text" class="form-control border-dark input-with-list no-list-add"
                         list-name="staff-input-list-unit" placeholder="Unit Default" aria-label="Nama Unit Penilaian"
                         onchange="inputChange(this)" id="staff-input-unit" edit-function="EditUnit" autocomplete="off">
                     <button class="input-group-text bg-dark border-dark text-white"
@@ -262,6 +252,22 @@
         <button type="button" class="btn btn-secondary first-focus modal-tutup" data-bs-dismiss="modal">Batal</button>
         <button type="button" class="btn btn-primary modal-btn modal-simpan d-none">Simpan</button>
         <button type="button" class="btn btn-primary modal-btn modal-tambah d-none">Tambah</button>
+        <button type="button" class="btn btn-primary modal-btn modal-hapus d-none">Hapus</button>
+    </div>
+</div>
+<div id="hhModal" class="d-none">
+    <div id="hhModal-body">
+        <div class="p-lg-5">
+            <div class="mb-3">
+                <input type="text" class="form-control border-dark" placeholder="ID" id="hh-modal-id" autocomplete="off"
+                    disabled>
+            </div>
+
+        </div>
+    </div>
+    <div id="hhModal-footer">
+        <button type="button" class="btn btn-secondary first-focus modal-tutup" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary modal-btn modal-simpan d-none">Simpan Perubahan</button>
         <button type="button" class="btn btn-primary modal-btn modal-hapus d-none">Hapus</button>
     </div>
 </div>

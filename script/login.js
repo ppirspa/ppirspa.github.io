@@ -15,9 +15,11 @@ async function login(user, password){
         .then(respon => respon.json())
         .then(respon => {
             if(respon.ok){
-                console.log("respon.ok")
+                console.log("login...respon.ok")
                 validLogin = respon.isLogPass; 
                 ppiOnly = respon.isPPI;
+                UserName = respon.fullName;
+                UserID = respon.userID
                 hhData = respon.hhData
             }
         })
@@ -26,9 +28,8 @@ async function login(user, password){
             database["hhData"] = hhData
             Elem("showHTML").setAttribute("w3-include-html", "/html/C-body.html");
             await includeHTML()
-            Elem("userLoginName").innerHTML = user
-            UserName = user
-            console.log("ppiOnly-" + ppiOnly)
+            Elem("userLoginName").innerHTML = UserName
+            console.log("ShowAllMenu-"+ppiOnly)
             if(ppiOnly){
                 document.querySelectorAll(".ppi-only").forEach((p)=>{p.classList.remove("disabled")})
                 document.querySelectorAll(".ppi-only-div").forEach((p)=>{p.classList.remove("disabled")})

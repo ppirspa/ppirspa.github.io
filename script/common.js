@@ -1,5 +1,5 @@
 var rsAPI = "https://script.google.com/macros/s/AKfycbxqaLuBn2hKTGXQ-SSBbF-QXKCxohWXZSrvdCbTTgyQsstseStiMS79KuEGHOzn0tzt/exec";
-var dbAPI = "https://script.google.com/macros/s/AKfycbw5mmypfqM-9vplv606gw0fRUM-NHt9DN5-siJu7-IXSiWEuq2AF7Pq_UuoGXHrqPZF/exec"
+var dbAPI = "https://script.google.com/macros/s/AKfycby6MSMjCYy4fxDYOZ3PD7vMDK4SiZ6ST_nhuPwjNd6aVlhvgY7ykotB6O8pODHnt38/exec"
 var sendform = {
     userName : "",
     userAgent: ""
@@ -18,6 +18,7 @@ var TableMinimal = {
 }
 var loginPass = true
 var UserName = ""
+var UserID = -1
 
 // ============================================================================
 function spinner(bo) {
@@ -37,9 +38,9 @@ function Toast(text){
 }
 async function onload(){
   await includeHTML()
-  await login("PPI RSPA", "ppirspa")
+  await login("arga", "ppirspa")
   await NavbarTo("Hand Hygiene")
-  EditUnit(9)
+  // EditUnit(9)
   // TambahStaff("arga")
 }
 let timeout;
@@ -89,119 +90,164 @@ function ResetInput(target) {
   if(target === "Supervisi"){}
   if(target === "Resume"){}
   if(target === "Setting"){}
-  InputWithList()
+  // InputWithList()
   onChangeAddEvent()
 }
 function InputWithList(){
   document.querySelectorAll(".input-with-list").forEach((elem) => {
-    elem.addEventListener('input', function(){
-          filterInputList(elem.id, elem.value, elem.getAttribute("list-name"))
-      })
-      function filterInputList(inputID, text, listTargetID){
-          var listElem = Elem(listTargetID)
-          listElem.innerHTML = ""
-          
-          if(!(Elem(inputID).classList.contains("no-list-add"))){var listTambah =  document.querySelector("#tambah-list-template > ul").cloneNode(true)}
+      elem.removeEventListener('input', filterInputList)
+      elem.addEventListener('input', filterInputList)
+      
+      function filterInputList(){
+        var inputID = elem.id
+        var text = elem.value
+        var listTargetID = elem.getAttribute("list-name")
+        var listElem = Elem(listTargetID)
+        listElem.innerHTML = ""
+        
+        if(!(Elem(inputID).classList.contains("no-list-add"))){var listTambah =  document.querySelector("#tambah-list-template > ul").cloneNode(true)}
 
-          var filteredData = database[listElem.getAttribute("list-data-to-filter")].filter((x) => {
-            var j = false
-            if(listElem.getAttribute("list-data-to-filter") == "unitData"){
-              if(x["alternatif"].toString().toLowerCase().includes(text.toLowerCase())){j = true}
+        var filteredData = database[listElem.getAttribute("list-data-to-filter")].filter((x) => {
+          var j = false
+          if(listElem.getAttribute("list-data-to-filter") == "unitData"){
+            if(x["alternatif"].toString().toLowerCase().includes(text.toLowerCase())){j = true}
+          }
+          return x["name"].toString().toLowerCase().includes(text.toLowerCase()) || j 
+        })
+        
+        if(text.length < 1){return false;}
+
+        inputListCurrentFocus = -1
+        if(text.length > 0){
+            if(!(Elem(inputID).classList.contains("no-list-add"))){
+                listElem.appendChild(listTambah)
+                
+                document.querySelector("#" + listTargetID + " > ul > .tambah-list > div > span").innerHTML = text;
+                document.querySelector("#" + listTargetID + " > ul > .tambah-list > div").setAttribute("onclick", listElem.getAttribute("tambah-list-function").replace("()","('"+text+ "')" + 
+                "; document.getElementById('"+inputID+"').value = ''"))
             }
-            return x["name"].toString().toLowerCase().includes(text.toLowerCase()) || j 
-          })
-          
-          if(text.length < 1){return false;}
+            else{var ulNew = document.createElement("ul");
+                listElem.appendChild(ulNew);
+            } 
 
-          inputListCurrentFocus = -1
-          if(text.length > 0){
-              if(!(Elem(inputID).classList.contains("no-list-add"))){
-                  listElem.appendChild(listTambah)
-                  
-                  document.querySelector("#" + listTargetID + " > ul > .tambah-list > div > span").innerHTML = text;
-                  document.querySelector("#" + listTargetID + " > ul > .tambah-list > div").setAttribute("onclick", listElem.getAttribute("tambah-list-function").replace("()","('"+text+ "')" + 
-                  "; document.getElementById('"+inputID+"').value = ''"))
-              }
-              else{var ulNew = document.createElement("ul");
-                  listElem.appendChild(ulNew);
-              } 
+            if(filteredData.length > 0){
+                var ulNew = document.createElement("ul")
+                listElem.appendChild(ulNew)
+                for(var i = 0; i < filteredData.length; i++){
+                    var liNew = Elem("list-li").cloneNode(true)
+                    var liName = liNew.querySelector("div:nth-child(1)")
+                    liName.innerHTML = filteredData[i].name
 
-              if(filteredData.length > 0){
-                  var ulNew = document.createElement("ul")
-                  listElem.appendChild(ulNew)
-                  for(var i = 0; i < filteredData.length; i++){
-                      var liNew = Elem("list-li").cloneNode(true)
-                      var liName = liNew.querySelector("div:nth-child(1)")
-                      liName.innerHTML = filteredData[i].name
-  
-                      var addFunc1 = ""
-                      if(Elem(listTargetID).getAttribute("list-data-to-filter") == "staffData"){
-                        addFunc1 = "SelectStaffBase('"+ filteredData[i].baseGroup + "', '" + filteredData[i].baseUnit+"'); "; 
-                      }
-                      liName.setAttribute("onclick",
-                          "Elem('"+inputID+"').value = '"+filteredData[i].name+"';" 
-                          + "Elem('"+ listTargetID +"').innerHTML = ''; "
-                          + "inputChange(Elem('"+ inputID + "')); Elem('"+inputID+"').onchange(); "
-                          + addFunc1
-                      )
-                      var liEdit = liNew.querySelector("div:nth-child(2) > .fa-solid")
-                      
+                    var addFunc1 = ""
+                    if(Elem(listTargetID).getAttribute("list-data-to-filter") == "staffData"){
+                      addFunc1 = "SelectStaffBase('"+ filteredData[i].baseGroup + "', '" + filteredData[i].baseUnit+"'); "; 
+                    }
+                    liName.setAttribute("onclick",
+                        "Elem('"+inputID+"').value = '"+filteredData[i].name+"';" 
+                        + "Elem('"+ listTargetID +"').innerHTML = ''; "
+                        + "inputChange(Elem('"+ inputID + "')); Elem('"+inputID+"').onchange(); "
+                        + addFunc1
+                    )
+                    var liEdit = liNew.querySelector("div:nth-child(2)")
+                    if(Elem(inputID).classList.contains("no-list-add")){
+                      liEdit.classList.add("d-none")
+                    }
+                    else{
                       liEdit.setAttribute("onclick", Elem(inputID).getAttribute("edit-function") + "(" + filteredData[i].id + ")")
-
-                      ulNew.appendChild(liNew)
-                  }   
-              }
-          }
-      }
-    elem.addEventListener("keydown", function(e) {
-        var list = document.getElementById(elem.getAttribute("list-name"));
-        var x = []
-        if (list) {
-            x = list.querySelectorAll("li");
-            x.forEach((p)=> p.classList.remove("listCurrActive"))
-        }
-
-        if((e.keyCode === 40 || e.keyCode === 38) && x.length > 0){
-          if (e.keyCode === 40 && inputListCurrentFocus < x.length-1) {
-            inputListCurrentFocus ++
-            
-          }
-          else if (e.keyCode === 38 && inputListCurrentFocus > 0 ){
-            inputListCurrentFocus --
-          }
-        }
-        else {
-          if (e.keyCode === 13) {
-            e.preventDefault();
-            if(inputListCurrentFocus > -1 && x.length > 0){
-              x[inputListCurrentFocus].querySelector("div:nth-child(1)").click();
+                    }
+                    ulNew.appendChild(liNew)
+                }   
             }
-          } else if (e.keyCode === 9) {
-            Elem(elem.getAttribute('list-name')).innerHTML = ""
-          }
-          inputListCurrentFocus = -1
         }
-        if(inputListCurrentFocus >= 0){
-          addActive(x[inputListCurrentFocus])
-          SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode)
-        }
+      }
 
-    });
+      elem.addEventListener("keydown", function(e){
+          var list = document.getElementById(elem.getAttribute("list-name"));
+          var x = []
+          if (list) {
+              x = list.querySelectorAll("li");
+              x.forEach((p)=> p.classList.remove("listCurrActive"))
+          }
+
+          if((e.keyCode === 40 || e.keyCode === 38) && x.length > 0){
+            if (e.keyCode === 40 && inputListCurrentFocus < x.length-1) {
+              inputListCurrentFocus ++
+              
+            }
+            else if (e.keyCode === 38 && inputListCurrentFocus > 0 ){
+              inputListCurrentFocus --
+            }
+          }
+          else {
+            if (e.keyCode === 13) {
+              e.preventDefault();
+              if(inputListCurrentFocus > -1 && x.length > 0){
+                x[inputListCurrentFocus].querySelector("div:nth-child(1)").click();
+              }
+            } else if (e.keyCode === 9) {
+              Elem(elem.getAttribute('list-name')).innerHTML = ""
+            }
+            inputListCurrentFocus = -1
+          }
+          if(inputListCurrentFocus >= 0){
+            addActive(x[inputListCurrentFocus])
+            SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode)
+          }
+      });
+    
+      document.addEventListener("click", function (e) {
+          closeAllLists(e.target);
+      });
+    
+    // elem.addEventListener("keydown", function(e) {
+    //   console.log("before:"+inputListCurrentFocus)
+    //     var list = document.getElementById(elem.getAttribute("list-name"));
+    //     var x = []
+    //     if (list) {
+    //         x = list.querySelectorAll("li");
+    //         x.forEach((p)=> p.classList.remove("listCurrActive"))
+    //     }
+
+    //     if((e.keyCode === 40 || e.keyCode === 38) && x.length > 0){
+    //       if (e.keyCode === 40 && inputListCurrentFocus < x.length-1) {
+    //         inputListCurrentFocus ++
+            
+    //       }
+    //       else if (e.keyCode === 38 && inputListCurrentFocus > 0 ){
+    //         inputListCurrentFocus --
+    //       }
+    //     }
+    //     else {
+    //       if (e.keyCode === 13) {
+    //         e.preventDefault();
+    //         if(inputListCurrentFocus > -1 && x.length > 0){
+    //           x[inputListCurrentFocus].querySelector("div:nth-child(1)").click();
+    //         }
+    //       } else if (e.keyCode === 9) {
+    //         Elem(elem.getAttribute('list-name')).innerHTML = ""
+    //       }
+    //       inputListCurrentFocus = -1
+    //     }
+    //     if(inputListCurrentFocus >= 0){
+    //       addActive(x[inputListCurrentFocus])
+    //       SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode)
+    //     }
+    //   console.log("after:"+inputListCurrentFocus)  
+    // });
     document.addEventListener("click", function (e) {
         closeAllLists(e.target);
     });
-      function closeAllLists(elmnt) {
-        var x = document.getElementsByClassName("input-list");
-          for (var i = 0; i < x.length; i++) {
-            if (elmnt != x[i] && elmnt != elem) {
-              x[i].innerHTML=""
-            }
+    function closeAllLists(elmnt) {
+      var x = document.getElementsByClassName("input-list");
+        for (var i = 0; i < x.length; i++) {
+          if (elmnt != x[i] && elmnt != elem) {
+            x[i].innerHTML=""
           }
-      }
-      function addActive(elem){
+        }
+    }
+    function addActive(elem){
         elem.classList.add("listCurrActive")
     }
-    
   })
 }
 function SelectStaffBase(group, unit){
@@ -236,8 +282,8 @@ function onChangeAddEvent(){
 }
 function inputChange(elem){
   var inputGroup = elem.getAttribute("input-value-group")
-  // var inputType = elem.getAttribute("input-value-type")
   if(inputGroup === "hh"){hhInputChange(elem)}
+  else if(inputGroup === "APD"){APDInputChange(elem)}
   // console.log(inputGroup)
 }
 async function EditStaff(id){
@@ -470,14 +516,47 @@ async function TambahUnit(nama){
 }
 async function staffAPI(code){
   if (confirm(code + " data?") == true){
-    console.log(code)
+    spinner(true)
     var staffDataModal = document.querySelector("#myModal")
-    var nama = staffDataModal.querySelector("#staff-input-nama").value
+    var stafID = staffDataModal.querySelector("#staff-input-id").value
+    var nama = staffDataModal.querySelector("#staff-input-nama").value.toString().toUpperCase()
     var groupBase = staffDataModal.querySelector("#staff-input-kelompok").value
-    var unitBase = staffDataModal.querySelector("#staff-input-unit").value
-    console.log("nama : "+nama)
-    console.log("groupBase : "+groupBase)
-    console.log("unitBase : "+unitBase)    
+    var unitBase = staffDataModal.querySelector("#staff-input-unit").value.toString().toUpperCase()
+    if(code == "Tambah"){
+      console.log("Req Send: Tambah ....")
+      await fetch(rsAPI + "?req=objins&name=" + nama + "&baseUnit="  + unitBase + "&baseGroup=" + groupBase)
+        .then(respon => respon.json())
+        .then(respon => {
+            if(respon.ok){
+                console.log("Respon: ok...")
+                database.staffData = respon.data; 
+            }
+        })
+    }
+    else if(code == "Hapus"){
+      console.log("Req Send: Hapus ....")
+      await fetch(rsAPI + "?req=objdel&id="  + stafID)
+        .then(respon => respon.json())
+        .then(respon => {
+            if(respon.ok){
+                console.log("Respon: ok...")
+                database.staffData = respon.data; 
+            }
+        })
+    }
+    else if(code == "Simpan"){
+      console.log("Req Send: Simpan ....")
+      await fetch(rsAPI + "?req=objupd&name=" + nama + "&id="  + stafID + "&baseUnit="  + unitBase + "&baseGroup=" + groupBase)
+        .then(respon => respon.json())
+        .then(respon => {
+            if(respon.ok){
+                console.log("Respon: ok...")
+                database.staffData = respon.data; 
+            }
+        })
+    }
+    spinner(false)  
+    Toast(code + " - Success")
     return
   }
   else {
@@ -486,14 +565,47 @@ async function staffAPI(code){
 }
 async function unitAPI(code){
   if (confirm(code + " data?") == true){
-    console.log(code)
+    spinner(true)
     var myModal = document.querySelector("#myModal")
-    var nama = myModal.querySelector("#staff-input-nama").value
-    // var groupBase = staffDataModal.querySelector("#staff-input-kelompok").value
-    // var unitBase = staffDataModal.querySelector("#staff-input-unit").value
-    // console.log("nama : "+nama)
-    // console.log("groupBase : "+groupBase)
-    // console.log("unitBase : "+unitBase)    
+    var unitName = myModal.querySelector("#unit-input-nama").value.toString().toUpperCase()
+    var unitAltName = myModal.querySelector("#unit-input-alternate").value.toString().toUpperCase()
+    var unitID = myModal.querySelector("#unit-input-id").value
+    var unitForm = myModal.querySelector("#unit-input-formAssign").value.toString().toUpperCase()
+    if(code == "Tambah"){
+      console.log("Req Send: Tambah ....")
+      await fetch(rsAPI + "?req=untins&name=" + nama + "&alternatif="  + unitAltName + "&formAssign=" + unitForm)
+        .then(respon => respon.json())
+        .then(respon => {
+            if(respon.ok){
+                console.log("Respon: ok...")
+                database.unitData = respon.data; 
+            }
+        })
+    }
+    else if(code == "Hapus"){
+      console.log("Req Send: Hapus ....")
+      await fetch(rsAPI + "?req=untdel&id="  + unitID)
+        .then(respon => respon.json())
+        .then(respon => {
+            if(respon.ok){
+                console.log("Respon: ok...")
+                database.unitData = respon.data; 
+            }
+        })
+    }
+    else if(code == "Simpan"){
+      console.log("Req Send: Simpan ....")
+      await fetch(rsAPI + "?req=untupd&name=" + nama + "&id="  + unitID + "&alternatif="  + unitAltName + "&formAssign=" + unitForm)
+        .then(respon => respon.json())
+        .then(respon => {
+            if(respon.ok){
+                console.log("Respon: ok...")
+                database.unitData = respon.data; 
+            }
+        })
+    }
+    Toast(code + " - Success")
+    spinner(false)
     return
   }
   else {
