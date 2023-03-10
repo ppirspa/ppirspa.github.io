@@ -1,5 +1,5 @@
 var rsAPI = "https://script.google.com/macros/s/AKfycbxqaLuBn2hKTGXQ-SSBbF-QXKCxohWXZSrvdCbTTgyQsstseStiMS79KuEGHOzn0tzt/exec";
-var dbAPI = "https://script.google.com/macros/s/AKfycby6MSMjCYy4fxDYOZ3PD7vMDK4SiZ6ST_nhuPwjNd6aVlhvgY7ykotB6O8pODHnt38/exec"
+var dbAPI = "https://script.google.com/macros/s/AKfycby95ajfcw7ueiXsq1LQGtXPgJQxvbtI7VnKu6VRs8BWtKBjtEFoy5Y0R7ntjx5pl9C0/exec"
 var sendform = {
     userName : "",
     userAgent: ""
@@ -8,7 +8,7 @@ var database = {};
     database["staffData"] = []
     database["unitData"] = []
     database["hhData"] = []
-    database["uniqueObserver"] = []
+    database["userList"] = {}
 var inputListCurrentFocus
 var TableDivider = {
     "hh":10
@@ -17,8 +17,11 @@ var TableMinimal = {
     "hh": 0
 }
 var loginPass = true
-var UserName = ""
-var UserID = -1
+var UserInfo = {
+  username : "",
+  fullName : "",
+  id : ""
+}
 
 // ============================================================================
 function spinner(bo) {
@@ -38,8 +41,10 @@ function Toast(text){
 }
 async function onload(){
   await includeHTML()
-  await login("arga", "ppirspa")
+  await login("sihhadi", "ppirspa")
   await NavbarTo("Hand Hygiene")
+  // Elem("hhEditCanvasBtn").click()
+  // console.log(database.userList)
   // EditUnit(9)
   // TambahStaff("arga")
 }

@@ -3,7 +3,8 @@
         <div class="container-lg">
             <div class="row my-lg-3 gap-lg-5">
                 <div class="col-md border border-1 border-dark px-3 py-0" style="min-width: 350px;">
-                    <div class="text-center fw-bold py-2 mb-1">Obyek Penilaian</div>
+                    <div class="text-center fw-bold py-2 mb-1" onclick="Elem('hhEditCanvasBtn').click()">Obyek Penilaian
+                    </div>
                     <div class="">
                         <div class="input-group border-dark border-2">
                             <span class="input-group-text bg-dark border-dark text-white">
@@ -87,7 +88,8 @@
                 <div class="col-md bg-body-secondary p-0 nilai-moment" style="min-width: 300px;">
                     <div id="" class="bg-dark text-white">
                         <div class="position-relative float-end">
-                            <button type="button" class="text-white position-absolute btn border"
+                            <button id="moment-clear-button" type="button"
+                                class="text-white position-absolute btn border"
                                 onclick="document.querySelectorAll('.hh-moment').forEach((p)=>p.checked = false)"
                                 style="right:0px; top:0px"><i class="bi bi-arrow-repeat"></i></button>
                         </div>
@@ -342,4 +344,196 @@
         </nav>
     </div>
     <!-- </div> -->
+</div>
+
+<button class="btn btn-primary d-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#hhEditCanvas"
+    aria-controls="hhEditCanvas" id="hhEditCanvasBtn">
+</button>
+
+<div class="offcanvas offcanvas-end w-100 bg-primary-subtle" tabindex="-1" id="hhEditCanvas"
+    aria-labelledby="hhEditCanvasLabel">
+    <div class="offcanvas-header bg-primary text-bg-primary">
+        <h5 class="offcanvas-title text-center w-100" id="hhEditCanvasLabel">Edit Hand Hygiene Data</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body h-100 overflow-y-auto align-content-center justify-content-center d-flex w-100 p-1">
+        <div class="">
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <div class="bg-white border-primary p-3 rounded mt-2">
+                    <div class="">
+                        <input type="text" disabled class="form-control border-primary mb-3" placeholder="ID"
+                            style="color : grey !important" value="id: -" id="hh-edit-id" autocomplete="off">
+                        <input type="text" disabled class="form-control border-primary mb-3" placeholder="ID"
+                            style="color : grey !important" value="Observer: -" id="hh-edit-observer"
+                            autocomplete="off">
+                    </div>
+                    <div class="">
+                        <div class="input-group border-primary border-2">
+                            <span class="input-group-text bg-primary border-primary text-white">
+                                <i class="fa-solid fa-circle-user"></i></span>
+                            <input type="text" class="form-control border-primary input-with-list no-list-add"
+                                list-name="hh-edit-nama-list" placeholder="Nama" id="hh-edit-nama" autocomplete="off">
+                            <button class="input-group-text bg-primary border-primary text-white"
+                                onclick="Elem('hh-edit-nama').value = ''">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="col w-100 position-relative mb-2">
+                            <div id="hh-edit-nama-list" class="input-list" list-data-to-filter="staffData"
+                                elemID-to-paste="hh-edit-nama">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="input-group border-primary border-2 mb-2">
+                            <span class="input-group-text bg-primary border-primary text-white"><i
+                                    class="fa-solid fa-user-group"></i></span>
+                            <select class="form-select border-primary" id="hh-edit-kelompok">
+                                <option value="" disabled selected>Kelompok</option>
+                                <option value="Dokter">Dokter</option>
+                                <option value="Perawat Bidan">Perawat Bidan</option>
+                                <option value="Magang Siswa">Magang Siswa</option>
+                                <option value="Lain-lain">Lain-lain</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="input-group border-primary border-2">
+                            <span class="input-group-text bg-primary border-primary text-white"><i
+                                    class="fa-solid fa-house-user"></i></span>
+                            <input type="text" class="form-control border-primary input-with-list no-list-add"
+                                list-name="hh-edit-unit-list" placeholder="Unit" id="hh-edit-unit" autocomplete="off">
+                            <button class="input-group-text bg-primary border-primary text-white"
+                                onclick="Elem('hh-edit-unit').value = ''">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="col w-100 position-relative mb-2">
+                            <div id="hh-edit-unit-list" class="input-list" list-data-to-filter="unitData"
+                                elemID-to-paste="hh-edit-unit">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="input-group border-primary border-2">
+                            <span class="input-group-text bg-primary border-primary text-white"><i
+                                    class="bi bi-calendar2-month-fill"></i></span>
+                            <select class="form-select border-primary" id="hh-edit-bulan">
+                                <option value="1">Januari</option>
+                                <option value="2">Februari</option>
+                                <option value="3">Maret</option>
+                                <option value="4">April</option>
+                                <option value="5">Mei</option>
+                                <option value="6">Juni</option>
+                                <option value="7">Juli</option>
+                                <option value="8">Agustus</option>
+                                <option value="9">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                            <span class="input-group-text bg-primary border-primary text-white"><i
+                                    class="bi bi-calendar2-date"></i></span>
+                            <input type="number" class="form-control border-primary" min="2022" placeholder="Tahun"
+                                id="hh-edit-tahun">
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-primary border-primary p-3 rounded mb-3 mt-2 w-100">
+                    <div class="h6 text-white">MOMENT</div>
+                    <div class="mb-1 d-flex flex-column">
+                        <div class="border rounded border-white d-flex overflow-hidden border-primary">
+                            <div class="fs-6 px-4 py-1 bg-primary text-white">
+                                1
+                            </div>
+                            <input type="radio" class="radioBtn input-hh-btn hh-edit hh-moment moment-1"
+                                name="edit-hh-mo1" id="edit-hh-mo1-true" value="true" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo1-true">Y</label>
+                            <input type="radio" class="radioBtn input-hh-btn hh-moment hh-edit moment-1"
+                                name="edit-hh-mo1" id="edit-hh-mo1-false" value="false" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo1-false">N</label>
+                            <button class="border-0 px-3"
+                                onclick="document.querySelectorAll('.input-hh-btn.hh-edit.moment-1').forEach((p)=>p.checked = false)"><i
+                                    class="bi bi-x-circle"></i></button>
+                        </div>
+                    </div>
+                    <div class="mb-1 d-flex flex-column">
+                        <div class="border rounded border-white d-flex overflow-hidden border-primary">
+                            <div class="fs-6 px-4 py-1 bg-primary text-white">
+                                2
+                            </div>
+                            <input type="radio" class="radioBtn input-hh-btn hh-edit hh-moment moment-2"
+                                name="edit-hh-mo2" id="edit-hh-mo2-true" value="true" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo2-true">Y</label>
+                            <input type="radio" class="radioBtn input-hh-btn hh-moment hh-edit moment-2"
+                                name="edit-hh-mo2" id="edit-hh-mo2-false" value="false" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo2-false">N</label>
+                            <button class="border-0 px-3"
+                                onclick="document.querySelectorAll('.input-hh-btn.hh-edit.moment-2').forEach((p)=>p.checked = false)"><i
+                                    class="bi bi-x-circle"></i></button>
+                        </div>
+                    </div>
+                    <div class="mb-1 d-flex flex-column">
+                        <div class="border rounded border-white d-flex overflow-hidden border-primary">
+                            <div class="fs-6 px-4 py-1 bg-primary text-white">
+                                3
+                            </div>
+                            <input type="radio" class="radioBtn input-hh-btn hh-edit hh-moment moment-3"
+                                name="edit-hh-mo3" id="edit-hh-mo3-true" value="true" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo3-true">Y</label>
+                            <input type="radio" class="radioBtn input-hh-btn hh-moment hh-edit moment-3"
+                                name="edit-hh-mo3" id="edit-hh-mo3-false" value="false" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo3-false">N</label>
+                            <button class="border-0 px-3"
+                                onclick="document.querySelectorAll('.input-hh-btn.hh-edit.moment-3').forEach((p)=>p.checked = false)"><i
+                                    class="bi bi-x-circle"></i></button>
+                        </div>
+                    </div>
+                    <div class="mb-1 d-flex flex-column">
+                        <div class="border rounded border-white d-flex overflow-hidden border-primary">
+                            <div class="fs-6 px-4 py-1 bg-primary text-white">
+                                4
+                            </div>
+                            <input type="radio" class="radioBtn input-hh-btn hh-edit hh-moment moment-4"
+                                name="edit-hh-mo4" id="edit-hh-mo4-true" value="true" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo4-true">Y</label>
+                            <input type="radio" class="radioBtn input-hh-btn hh-moment hh-edit moment-4"
+                                name="edit-hh-mo4" id="edit-hh-mo4-false" value="false" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo4-false">N</label>
+                            <button class="border-0 px-3"
+                                onclick="document.querySelectorAll('.input-hh-btn.hh-edit.moment-4').forEach((p)=>p.checked = false)"><i
+                                    class="bi bi-x-circle"></i></button>
+                        </div>
+                    </div>
+                    <div class="mb-1 d-flex flex-column">
+                        <div class="border rounded border-white d-flex overflow-hidden border-primary">
+                            <div class="fs-6 px-4 py-1 bg-primary text-white">
+                                5
+                            </div>
+                            <input type="radio" class="radioBtn input-hh-btn hh-edit hh-moment moment-5"
+                                name="edit-hh-mo5" id="edit-hh-mo5-true" value="true" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo5-true">Y</label>
+                            <input type="radio" class="radioBtn input-hh-btn hh-moment hh-edit moment-5"
+                                name="edit-hh-mo5" id="edit-hh-mo5-false" value="false" autocomplete="off">
+                            <label class="col bg-white fs-6 py-1 text-center" for="edit-hh-mo5-false">N</label>
+                            <button class="border-0 px-3"
+                                onclick="document.querySelectorAll('.input-hh-btn.hh-edit.moment-5').forEach((p)=>p.checked = false)"><i
+                                    class="bi bi-x-circle"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button id="hh-edit-batal-btn" class="btn btn-danger mb-2" type="button"
+                        data-bs-dismiss="offcanvas">Batal</button>
+                    <button class="btn btn-primary mb-2" onclick="editHHAPI('hapus', this)">Hapus data</button>
+                    <button class="btn btn-primary mb-2" onclick="editHHAPI('simpan', this)">Simpan
+                        perubahan</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- </div> -->
+        <!-- </div> -->
+
+    </div>
 </div>

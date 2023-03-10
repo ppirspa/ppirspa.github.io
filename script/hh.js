@@ -15,6 +15,7 @@ var hhTableFilterShortDefault = {
 database.hhUniqueObserver = []
 
 function ResetHHInput(){
+    console.log("ResetHHInput")
     var today = new Date()
     Elem("hh-input-bulan").value = today.getMonth() + 1
     Elem("hh-input-tahun").value = today.getFullYear()
@@ -22,6 +23,7 @@ function ResetHHInput(){
     hhTableFilterShort = hhTableFilterShortDefault
     UpdateHHTable()
     InputWithList()
+    Elem("moment-clear-button").click()
 }
 function hhInputChange(elem){
         if (elem.id == "hh-input-nama"){
@@ -95,27 +97,25 @@ async function saveHHInput(){
     hhInputValue = tempVal
     // hh_ins	hh_	ins		time,obsever,name,group,unit,bulan,tahun,m1,m2,m3,m4,m5
     var urlSave = dbAPI + "?req=hh_ins" +
-    "&observer=" + Elem("userLoginName").innerHTML +
+    "&observer=" + UserInfo.id +
     "&name=" + hhInputValue.name +
     "&group=" + hhInputValue.group +
     "&unit=" + hhInputValue.unit +
     "&month=" + hhInputValue.bulan +
     "&year=" + hhInputValue.tahun + moURL
     
-    console.log(urlSave)
     // return
     if(confirm("Simpan penilaian?")){
         spinner(true)
         let respon = await fetch(urlSave).then(respon => respon.json())
-        console.log(respon.ok)
-        await NavbarTo("hh")
+        ResetHHInput()
         spinner(false)
         alert("Data berhasil disimpan")
     }
 }
 function UpdateHHTable(){
     var hhData = database.hhData
-    var user = UserName
+    var userID = UserInfo.id * 1
     var monthText = {
         1:"Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"Mei", 6:"Jun", 
         7:"Jul", 8:"Agu", 9:"Sep", 10:"Okt", 11:"Nov", 12:"Des"
@@ -163,14 +163,14 @@ function UpdateHHTable(){
     for(var i = minData; i < (maxData+1);i++ ){
         var dataItem = hhData[i]
         var tr = document.createElement("tr")    
-        if(user == dataItem["observer"]){
-            tr.setAttribute("onclick", "EditHH('show', "+hhData[i].id+")")
+        if(userID === dataItem["observer"] * 1) {
+            tr.setAttribute("onclick", "EditHH("+dataItem.id+")")
         }
         var tgl = new Date(dataItem.time)
         var hour = tgl.getHours(); if(hour < 10){hour = "0"+hour}
         var minut = tgl.getMinutes(); if(minut < 10){minut = "0"+minut}
         var trInner = "<td>"+tgl.getDate()+"/"+(tgl.getMonth()+1)+"/"+tgl.getFullYear()+" "+hour+":"+minut+"</td>"
-        trInner += "<td>"+dataItem.observer+"</td>"
+        trInner += "<td>"+ database.userList[dataItem.observer * 1]+"</td>"
         trInner += "<td>"+dataItem.object+"</td>"
         trInner += "<td>"+dataItem.unit+"</td>"
         trInner += "<td>"+dataItem.group+"</td>"
@@ -276,6 +276,7 @@ function hhFilter(elem){
 }
 function hhFilterPreset(){
     var data = database.hhData
+    // console.log(data)
     var monthText = {
         1:"Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"Mei", 6:"Jun", 
         7:"Jul", 8:"Agu", 9:"Sep", 10:"Okt", 11:"Nov", 12:"Des"
@@ -302,7 +303,9 @@ function hhFilterPreset(){
             text : mText,
             value : mValue
         }
-        praArray.observer[p.observer] = ""
+        if(p.observer * 1 > -1){
+            praArray.observer[p.observer] = ""
+        }
     })
     var moList = Object.keys(praArray.month).map((p)=>{
         return [p, praArray.month[p].text, praArray.month[p].value]
@@ -316,15 +319,36 @@ function hhFilterPreset(){
         opt.innerHTML = p[1]
         filterMonElem.appendChild(opt)
     })
+    // console.log(praArray)
     Object.keys(praArray.observer).forEach((p)=>{
         var opt = document.createElement("option")
         opt.setAttribute("value", p)
-        opt.innerHTML = p
+        opt.innerHTML = database.userList[p]
         filterObsElem.appendChild(opt)
     })
 }
 function EditHH(id){
-    
+    var data = database.hhData.filter((p)=>{return p.id === id})[0]
+    Elem("hh-edit-id").value = data.id
+    Elem("hh-edit-observer").value = database.userList[2]
+    Elem("hh-edit-nama").value = data.object
+    Elem("hh-edit-kelompok").value = data.group
+    Elem("hh-edit-unit").value = data.unit
+    Elem("hh-edit-bulan").value = data.month
+    Elem("hh-edit-tahun").value = data.year
+    document.querySelectorAll('.input-hh-btn.hh-edit.moment-1').forEach((p)=>p.checked = false)
+    if(data.mo1 !== ""){data.mo1 ? Elem("edit-hh-mo1-true").checked = true : Elem("edit-hh-mo1-false").checked = true}
+    document.querySelectorAll('.input-hh-btn.hh-edit.moment-2').forEach((p)=>p.checked = false)
+    if(data.mo2 !== ""){data.mo2 ? Elem("edit-hh-mo2-true").checked = true : Elem("edit-hh-mo2-false").checked = true}
+    document.querySelectorAll('.input-hh-btn.hh-edit.moment-3').forEach((p)=>p.checked = false)
+    if(data.mo3 !== ""){data.mo2 ? Elem("edit-hh-mo3-true").checked = true : Elem("edit-hh-mo3-false").checked = true}
+    document.querySelectorAll('.input-hh-btn.hh-edit.moment-4').forEach((p)=>p.checked = false)
+    if(data.mo4 !== ""){data.mo2 ? Elem("edit-hh-mo4-true").checked = true : Elem("edit-hh-mo4-false").checked = true}
+    document.querySelectorAll('.input-hh-btn.hh-edit.moment-5').forEach((p)=>p.checked = false)
+    if(data.mo5 !== ""){data.mo2 ? Elem("edit-hh-mo5-true").checked = true : Elem("edit-hh-mo5-false").checked = true}
+
+    Elem("hhEditCanvasBtn").click()
+    // console.log(data)
 }
 function hhFilterReset(){
     console.log(Elem("hh-filter-kelompok").selectedIndex)
@@ -333,17 +357,88 @@ function hhFilterReset(){
     Elem("hh-filter-bulan").selectedIndex = 0; Elem("hh-filter-bulan").onchange()
     Elem("hh-filter-observer").selectedIndex = 0; Elem("hh-filter-observer").onchange()
     
-    // Elem("hh-filter-unit").value = "";
-    // Elem("hh-filter-bulan").selectedIndex = 0;
-    // Elem("hh-filter-observer").selectedIndex = 0;
-    
-    // hhTableFilterShort.group = "all"
-    // hhTableFilterShort.unit = ""
-    // hhTableFilterShort.monthyear = "all"
-    // hhTableFilterShort.observer = "all"
-    // UpdateHHTable()
 }
 function hhTableGroupShow(n){
     hhTableFilterShort.minData = n;
     UpdateHHTable()
+}
+async function editHHAPI(code, elem){
+  if (confirm(elem.innerHTML + " ?" ) == true){
+    spinner(true)
+    // id, time,observer, name, group, unit, month, year, mo1, mo2, mo3, mo4, mo5
+    var editElem = Elem("hhEditCanvas")
+    var id = editElem.querySelector("#hh-edit-id").value * 1
+    var observer = Object.keys(database.userList).find(key => database.userList[key] === editElem.querySelector("#hh-edit-observer").value)
+    var name = editElem.querySelector("#hh-edit-nama").value
+    var group = editElem.querySelector("#hh-edit-kelompok").value
+    var unit = editElem.querySelector("#hh-edit-unit").value
+    var month = editElem.querySelector("#hh-edit-bulan").value * 1
+    var year = editElem.querySelector("#hh-edit-tahun").value * 1
+    var moAll = {}
+    moAll.mo1 = ""; if(editElem.querySelector("#edit-hh-mo1-true").checked){moAll.mo1 = "true"} else if (editElem.querySelector("#edit-hh-mo1-false").checked){moAll.mo1 = "false"}
+    moAll.mo2 = ""; if(editElem.querySelector("#edit-hh-mo2-true").checked){moAll.mo2 = "true"} else if (editElem.querySelector("#edit-hh-mo2-false").checked){moAll.mo2 = "false"}
+    moAll.mo3 = ""; if(editElem.querySelector("#edit-hh-mo3-true").checked){moAll.mo3 = "true"} else if (editElem.querySelector("#edit-hh-mo3-false").checked){moAll.mo3 = "false"}
+    moAll.mo4 = ""; if(editElem.querySelector("#edit-hh-mo4-true").checked){moAll.mo4 = "true"} else if (editElem.querySelector("#edit-hh-mo4-false").checked){moAll.mo4 = "false"}
+    moAll.mo5 = ""; if(editElem.querySelector("#edit-hh-mo5-true").checked){moAll.mo5 = "true"} else if (editElem.querySelector("#edit-hh-mo5-false").checked){moAll.mo5 = "false"}
+    
+    if(name == ""){alert("Nama obyek masih kosong"); editElem.querySelector("#hh-edit-nama").focus();return}
+    if(group == ""){alert("Kelompok profesi masih kosong"); editElem.querySelector("#hh-edit-kelompok").focus();return}
+    if(unit == ""){alert("Unit masih kosong"); editElem.querySelector("#hh-edit-unit").focus();return}
+    if(!(month > 0)){alert("Bulan masih kosong"); editElem.querySelector("#hh-edit-bulan").focus();return}
+    if(!(year > 2021)){alert("Tahun masih kosong"); editElem.querySelector("#hh-edit-tahun").focus();return}
+    var moSelect = []
+    for(var j = 1; j<6; j++){
+        if(moAll["mo"+j] !== ""){
+            moSelect.push("&mo" + j + "=" +moAll["mo"+j])
+        }
+    }
+    if(!(moSelect.length > 0)){alert("Belum ada momemnt yang dinilai");return}
+
+    // return
+    if(code == "simpan"){
+        console.log("Req Send: Simpan ....")
+        await fetch(dbAPI + "?" + 
+            "req=hh_upd" +
+            "&id=" + id + 
+            "&observer="  + observer + 
+            "&name=" + name +
+            "&group="  + group +
+            "&unit="  + unit +
+            "&month="  + month +
+            "&year="  + year + 
+            moSelect.join("")
+            )
+
+            .then(respon => respon.json())
+            .then(respon => {
+                if(respon.ok){
+                    console.log("Respon: ok...")
+                    database.hhData = respon.data;
+                    ResetHHInput()
+                }
+            })
+    }
+    if(code == "hapus"){
+        console.log("Req Send: Hapus ....")
+        await fetch(dbAPI + "?" + 
+            "req=hh_del" +
+            "&id=" + id 
+            )
+            .then(respon => respon.json())
+            .then(respon => {
+                if(respon.ok){
+                    console.log("Respon: ok...")
+                    database.hhData = respon.data; 
+                    ResetHHInput()
+                }
+            })
+    }
+    Toast(elem.innerHTML + " - Success")
+    Elem("hh-edit-batal-btn").click()
+    spinner(false)
+    return
+  }
+  else {
+    return
+  }
 }

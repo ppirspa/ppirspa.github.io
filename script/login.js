@@ -3,6 +3,7 @@ async function login(user, password){
     var validLogin = false
     var ppiOnly = false
     var hhData = []
+    var userList = {}
     if(user === "out"){
         console.log("log out...")
         Elem("showHTML").setAttribute("w3-include-html", "/html/B-landLogin.html")
@@ -18,17 +19,19 @@ async function login(user, password){
                 console.log("login...respon.ok")
                 validLogin = respon.isLogPass; 
                 ppiOnly = respon.isPPI;
-                UserName = respon.fullName;
-                UserID = respon.userID
+                UserInfo.fullName = respon.fullName;
+                UserInfo.id = respon.userID
                 hhData = respon.hhData
+                userList = respon.userList
             }
         })
         console.log("validLogin is " + validLogin)
         if(validLogin){
-            database["hhData"] = hhData
+            database["hhData"] = hhData;
+            database["userList"] = userList;
             Elem("showHTML").setAttribute("w3-include-html", "/html/C-body.html");
             await includeHTML()
-            Elem("userLoginName").innerHTML = UserName
+            Elem("userLoginName").innerHTML = UserInfo.fullName
             console.log("ShowAllMenu-"+ppiOnly)
             if(ppiOnly){
                 document.querySelectorAll(".ppi-only").forEach((p)=>{p.classList.remove("disabled")})
