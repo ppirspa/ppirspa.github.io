@@ -1,0 +1,16 @@
+
+#resume-nav-container-1 {
+    display: none;
+}
+#resume-nav-container-2 {
+    display: block;
+}
+@media (max-width: 992px) {
+    #resume-nav-container-1 {
+        display: block;
+    }
+    #resume-nav-container-2 {
+        display: none;
+    }
+  }
+

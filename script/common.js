@@ -32,24 +32,26 @@ function spinner(bo) {
 function Elem(id) {
   return document.getElementById(id)
 }
-
 function Toast(text){
   var toastDiv = Elem('liveToast')
   toastDiv.querySelector(".toast-body").innerHTML = text
   const toast = new bootstrap.Toast(toastDiv)
   toast.show()
 }
+// ===============================================================================
 async function onload(){
   await includeHTML()
   await login("sihhadi", "ppirspa")
-  await NavbarTo("Hand Hygiene")
+  // await NavbarTo("Hand Hygiene")
+  await NavbarTo("Resume")
   // Elem("hhEditCanvasBtn").click()
   // console.log(database.userList)
   // EditUnit(9)
   // TambahStaff("arga")
+  // chartTest()
 }
 let timeout;
-
+// ============================================================================
 async function NavbarTo(target){  
   console.log("Nav to : "+target)
   var navLinkNodes = document.querySelectorAll(".nav-item .nav-link span")
@@ -93,7 +95,9 @@ function ResetInput(target) {
   if(target === "Hand Hygiene"){ResetHHInput()}
   if(target === "Kepatuhan APD"){}
   if(target === "Supervisi"){}
-  if(target === "Resume"){}
+  if(target === "Resume"){
+    ResetResume()
+  }
   if(target === "Setting"){}
   // InputWithList()
   onChangeAddEvent()
