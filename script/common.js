@@ -82,6 +82,7 @@ async function NavbarTo(target){
     Elem("bodyContent").setAttribute("w3-include-html", "/html/C5-setting.html")
     Elem("navbarTitle").innerHTML = target
   }
+
   Elem("bodyContent").innerHTML = ""
   let response = await fetch(Elem("bodyContent").getAttribute("w3-include-html"))
   Elem("bodyContent").innerHTML = await response.text()
@@ -95,9 +96,7 @@ function ResetInput(target) {
   if(target === "Hand Hygiene"){ResetHHInput()}
   if(target === "Kepatuhan APD"){}
   if(target === "Supervisi"){}
-  if(target === "Resume"){
-    ResetResume()
-  }
+  if(target === "Resume"){ResetResume()}
   if(target === "Setting"){}
   // InputWithList()
   onChangeAddEvent()
@@ -624,4 +623,8 @@ async function unitAPI(code){
 function capitalInput(elem){
   var value = elem.value
   elem.value = value.toString().toUpperCase()
+}
+function toDec(num, nDec){
+  var j = Math.floor(num * Math.pow(10,nDec))
+  return j / Math.pow(10,nDec)
 }

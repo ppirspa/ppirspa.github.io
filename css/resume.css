@@ -1,16 +1,25 @@
-
+/* 
 #resume-nav-container-1 {
     display: none;
 }
 #resume-nav-container-2 {
     display: block;
+} */
+.table-resume-hh td, .table-resume-hh thead th{
+    text-align : center;
+}
+.table-resume-hh td{
+    font-size : 0.85rem;
 }
 @media (max-width: 992px) {
-    #resume-nav-container-1 {
+    /* #resume-nav-container-1 {
         display: block;
     }
     #resume-nav-container-2 {
         display: none;
+    } */
+    #chart-resume-hh-3mo {
+        width: 600px !important;
     }
   }
 
