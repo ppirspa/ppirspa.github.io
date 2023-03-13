@@ -1,26 +1,21 @@
-<div class="p-1 bg-black d-flex flex-column border border-info border-3">
-    <div class="">
-        <select name="" id="resume-nav-container-1" class="form-select my-2" onchange="resumeNav(this.value)">
-            <option value="1" selected>Hand Hygiene</option>
-            <option value="2" class="ppi-only-div">APD</option>
-            <option value="3" class="ppi-only-div">Supervisi</option>
-        </select>
-    </div>
-    <div class="px-3" id="resume-nav-container-2">
-        <div class="gap-1 container-fluid p-0">
-            <input type="radio" onchange="resumeNav(this.value)" class="btn-check" name="resume-nav" value="1"
-                id="resume-nav-1" autocomplete="off" checked>
-            <label class="btn btn-outline-primary col mb-2" for="resume-nav-1">Hand Hygiene</label>
-            <input type="radio" onchange="resumeNav(this.value)" class="btn-check" name="resume-nav" value="2"
-                id="resume-nav-2" autocomplete="off">
-            <label class="btn btn-outline-primary col mb-2 ppi-only-div" for="resume-nav-2">APD</label>
-            <input type="radio" onchange="resumeNav(this.value)" class="btn-check" name="resume-nav" value="3"
-                id="resume-nav-3" autocomplete="off">
-            <label class="btn btn-outline-primary col mb-2 ppi-only-div" for="resume-nav-3">Supervisi Ruangan</label>
-        </div>
-    </div>
-    <div class="flex-grow-1 bg-light">
-        <div id="resume-page-1" class="resume-page">
+<div class="h-100 d-flex flex-column">
+    <ul class="nav nav-tabs bg-dark-subtle" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="hh-tab" data-bs-toggle="tab" data-bs-target="#hh-tab-pane" type="button"
+                role="tab" aria-controls="hh-tab-pane" aria-selected="true">Hand Hygiene</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="apd-tab" data-bs-toggle="tab" data-bs-target="#apd-tab-pane" type="button"
+                role="tab" aria-controls="apd-tab-pane" aria-selected="false">APD</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="supervisi-tab" data-bs-toggle="tab" data-bs-target="#supervisi-tab-pane"
+                type="button" role="tab" aria-controls="supervisi-tab-pane" aria-selected="false">Supervisi</button>
+        </li>
+    </ul>
+    <div class="tab-content flex-grow-1 overflow-hidden" id="myTabContent">
+        <div class="tab-pane fade show active" id="hh-tab-pane" role="tabpanel" aria-labelledby="hh-tab"
+            style="max-height: 90%; overflow-y: auto;" tabindex="0">
             <div class="py-2 container-fluid">
                 <div class="row">
                     <div class="col-lg-3 mb-1">
@@ -61,89 +56,143 @@
                         <div class="d-none">
                             <option value="All" selected id="resume-filter-hh-unit-first">Semua Unit</option>
                         </div>
-                        <!-- <div class="input-group border-dark border-2">
-                                    <input type="text"
-                                        class="form-control border-dark-subtle input-with-list no-list-add"
-                                        list-name="resume-filter-hh-unit-list" placeholder="Semua Unit"
-                                        id="resume-filter-hh-unit" resume-filter-type="hh-unit"
-                                        onchange="resumeFilter(this)" autocomplete="off">
-                                    <button class="input-group-text bg-dark-subtle border-dark-subtle"
-                                        onclick="Elem('resume-filter-hh-unit').value = ''">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
-                                </div>
-                                <div class="col w-100 position-relative mb-2">
-                                    <div id="resume-filter-hh-unit-list" class="input-list"
-                                        list-data-to-filter="unitData" elemID-to-paste="resume-filter-hh-unit">
-                                    </div>
-                                </div> -->
                     </div>
                 </div>
             </div>
-            <div class="container-fluid">
-                <div class="row gap-2">
-                    <div class="col-lg-4 border border-dark-subtle bg-light rounded shadow py-3">
-                        <div>
-                            <div class="position-relative w-100 chart-container border" id="chart-resume-hh-1mo"
-                                style="height: 200px;">
-                            </div>
-                        </div>
-                        <table class="table table-sm small table-light mt-3 table-resume-hh" id="table-resume-hh-1mo">
-                            <thead>
-                                <tr class="table-primary">
-                                    <th scope="col"></th>
-                                    <th scope="col">M1</th>
-                                    <th scope="col">M2</th>
-                                    <th scope="col">M3</th>
-                                    <th scope="col">M4</th>
-                                    <th scope="col">M5</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Act</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Opp</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Score</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="d-lg-flex flex-row gap-2 px-2 mb-3">
+                <div class="border border-dark-subtle bg-light rounded shadow py-3 px-3">
+                    <div class="btn-group mb-2 w-100" role="group">
+                        <input type="checkbox" class="btn-check" id="resume-hh-1mo-btnPer-moment" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="resume-hh-1mo-btnPer-moment"
+                            style="font-size: 0.85rem;">Per Moment</label>
+                        <input type="checkbox" class="btn-check" id="resume-hh-1mo-btnPer-profesi">
+                        <label class="btn btn-outline-primary" for="resume-hh-1mo-btnPer-profesi"
+                            style="font-size: 0.85rem;">Per Profesi</label>
+
                     </div>
-                    <div class="col-lg-7 flex-grow-1 border border-dark-subtle bg-light rounded shadow py-3">
-                        <div class="overflow-x-auto">
-                            <div class="position-relative w-100 chart-container border" id="chart-resume-hh-3mo"
-                                style="height: 250px;">
-                            </div>
+                    <div>
+                        <div class="position-relative w-100 chart-container border border-dark-subtle bg-light rounded shadow px-2"
+                            id="chart-resume-hh-1mo" style="height: 200px;">
                         </div>
-                        <div>table</div>
                     </div>
+                    <table class="table table-sm small table-light mt-3 table-resume-hh" id="table-resume-hh-1mo">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col"></th>
+                                <th scope="col">M1</th>
+                                <th scope="col">M2</th>
+                                <th scope="col">M3</th>
+                                <th scope="col">M4</th>
+                                <th scope="col">M5</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Act</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Opp</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Score</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-none border flex-grow-1 border-dark-subtle bg-light rounded shadow py-3 px-2">
+                    <div class="overflow-x-auto">
+                        <div class="position-relative w-100 chart-container border" id="chart-resume-hh-3mo"
+                            style="height: 250px;">
+                        </div>
+                    </div>
+                    <div>table</div>
                 </div>
             </div>
-            <div class="border" style="height: 500px;">Longitudinal</div>
+            <div class="d-lg-flex flex-row gap-2 px-2 mb-3">
+                <div class="border border-dark-subtle bg-light rounded shadow py-3 px-2">
+                    <div>
+                        <div class="position-relative w-100 chart-container border" id="chart-resume-hh-1mo-profesi"
+                            style="height: 200px;">
+                        </div>
+                    </div>
+                    <table class="table table-sm small table-light mt-3 table-resume-hh"
+                        id="table-resume-hh-1mo-profesi">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col"></th>
+                                <th scope="col">M1</th>
+                                <th scope="col">M2</th>
+                                <th scope="col">M3</th>
+                                <th scope="col">M4</th>
+                                <th scope="col">M5</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Act</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Opp</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Score</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="border flex-grow-1 border-dark-subtle bg-light rounded shadow py-3 px-2">
+                    <div class="overflow-x-auto">
+                        <div class="position-relative w-100 chart-container border" id="chart-resume-hh-momentProfesi"
+                            style="height: 250px;">
+                        </div>
+                    </div>
+                    <div>table</div>
+                </div>
+            </div>
         </div>
-        <div id="resume-page-2" class="h-100 d-none resume-page bg-body-secondary overflow-y-auto">APD</div>
-        <div id="resume-page-3" class="h-100 d-none resume-page bg-body-secondary overflow-y-auto">Supervisi</div>
+        <div class="tab-pane fade" id="apd-tab-pane" role="tabpanel" aria-labelledby="apd-tab" tabindex="0">
+            APD
+        </div>
+        <div class="tab-pane fade" id="supervisi-tab-pane" role="tabpanel" aria-labelledby="supervisi-tab" tabindex="0">
+            Supervisi
+        </div>
     </div>
 </div>
