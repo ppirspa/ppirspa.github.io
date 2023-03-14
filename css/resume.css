@@ -1,26 +1,34 @@
-/* 
-#resume-nav-container-1 {
-    display: none;
+.resume-title p:nth-child(1){
+    color: blue;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+    text-decoration: underline;
+    font-weight: bold;
 }
-#resume-nav-container-2 {
-    display: block;
-} */
+.resume-title p:nth-child(2){
+    font-size: 0.8rem;
+    margin-top: 0;
+    /* font-weight: bold; */
+}
+#resumeTabBtnContainer li .active{
+    font-weight: bold;
+    color:aqua ;
+    background-color: rgb(33, 37, 41);
+}
+#resumeTabBtnContainer li button{
+    color: white;
+}
 .table-resume-hh td, .table-resume-hh thead th{
     text-align : center;
 }
-.table-resume-hh td{
+/* .table-resume-hh td{
     font-size : 0.85rem;
-}
+} */
+
 @media (max-width: 992px) {
-    /* #resume-nav-container-1 {
-        display: block;
-    }
-    #resume-nav-container-2 {
-        display: none;
-    } */
-    #chart-resume-hh-3mo {
-        width: 600px !important;
-        color: red
+    #res-hh-canvas-2 {
+        width: 900px !important;
+        color: rgb(229, 209, 33)
     }
   }
 

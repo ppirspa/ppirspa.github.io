@@ -41,7 +41,7 @@ function Toast(text){
 // ===============================================================================
 async function onload(){
   await includeHTML()
-  // await login("sihhadi", "ppirspa")
+  // await login("arga", "ppirspa")
   // await NavbarTo("Hand Hygiene")
   await NavbarTo("Resume")
   // Elem("hhEditCanvasBtn").click()
@@ -627,4 +627,24 @@ function capitalInput(elem){
 function toDec(num, nDec){
   var j = Math.floor(num * Math.pow(10,nDec))
   return j / Math.pow(10,nDec)
+}
+function monthDiff(d1, d2){
+  var months;
+  months = (d2.getFullYear() - d1.getFullYear()) * 12;
+  months -= d1.getMonth();
+  months += d2.getMonth();
+  return months <= 0 ? 0 : months;
+}
+function getMonthSequenceList(d1, d2){
+  var nMonth = monthDiff(d1, d2) + 1
+  // return nMonth
+  var res = []
+  for (var i = 0; i < nMonth; i++){
+    var m0 = d1.getMonth()
+    var y0 = d1.getFullYear()
+    var mAdd = m0 + i
+
+    res.push(new Date(y0 + Math.floor(mAdd/12), mAdd%12, 1))
+  }
+  return res
 }

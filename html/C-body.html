@@ -1,4 +1,4 @@
-<div class="mainpage p-0 m-0 flex-column overflow-hidden" style="display: flex; height: 100%;">
+<div class="mainpage p-0 m-0 overflow-hidden d-flex flex-column" style="height: 100vh;">
     <nav class="navbar navbar-expand-lg bg-primary-subtle" data-bs-theme="dark">
         <div class="container-fluid">
             <button class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -21,7 +21,7 @@
             </div>
         </div>
     </nav>
-    <div class="d-flex h-100">
+    <div class="d-flex overflow-hidden" style="flex:1">
         <div class="sidenav bg-dark offcanvas offcanvas-start" tabindex="-1" id="sideNavCanvas">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Menu</h5>
@@ -37,8 +37,8 @@
             <div class="" w3-include-html="/html/C0-navSideList.html">
             </div>
         </div>
-        <div w3-include-html="" id="bodyContent"
-            class="body-content flex-grow-1 overflow-y-auto  border border-2 border-danger">
+        <div style="flex: 1; overflow-y: auto; scroll-snap-type: y proximity; scroll-padding-top: 0;" class="h-100"
+            id="bodyContent">
             <div class="container h-100 d-flex justify-content-center align-items-center">
                 <div class="row justify-content-evenly ">
                     <div class="col-5 mb-4 btn btn-primary py-4" onclick="MenuNavTo(this)">
@@ -58,6 +58,4 @@
             </div>
         </div>
     </div>
-    <!-- <div w3-include-html="" class="border border-3 border-dark overflow-y-auto" style="flex-grow: 1;"> -->
-</div>
 </div>
