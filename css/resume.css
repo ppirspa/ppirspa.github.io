@@ -22,14 +22,11 @@
 .table-resume-hh td, .table-resume-hh thead th{
     text-align : center;
 }
-/* .table-resume-hh td{
-    font-size : 0.85rem;
-} */
 
 @media (max-width: 992px) {
     #res-hh-canvas-2 {
-        width: 900px !important;
-        color: rgb(229, 209, 33)
+        width: 900px    ;
+        color: #6b7914
     }
   }
 

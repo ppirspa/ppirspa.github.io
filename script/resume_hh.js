@@ -45,7 +45,8 @@ function updateResume_HH_Data(){
     var momentList2 = ['mo1', 'mo2', 'mo3', 'mo4', 'mo5']
     var profesiList = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain", "All"]
     var profesiList2 = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain"]
-    
+    var color = {serial:["#a62b2b", "#0d7d4b", "#ae7828", "#6a1c96", "#6b7914", "#210cdd"], total:"#210cdd"}
+
     resumeHHData.chart["chart1"] = {
         labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiAxes ,
         datasetData : resumeFilter.hh.by == "Moment" ? momentList.map((p)=>{
@@ -53,36 +54,56 @@ function updateResume_HH_Data(){
         }) : profesiList.map((p)=>{
             return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit).total.score
         }),
-        barColor: resumeFilter.hh.by == "Moment" ? ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)'] : ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)']
+        barColor: resumeFilter.hh.by == "Moment" ? [color.serial[0],color.serial[0],color.serial[0],color.serial[0],color.serial[0], color.total] : [color.serial[0], color.serial[0], color.serial[0], color.serial[0], color.total]
     }
-    var chart2_dataset = []
-    if(resumeFilter.hh.by == "Moment"){
-        profesiList2.forEach((p)=>{
-            var item = {
-                label: p,
-                data:  momentList.map((q)=>{
-                    return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit)[q].score
-                }),
-                backgroundColor: 'rgba(166, 43, 43, 1)'
-            }
-            chart2_dataset.push(item)
-        })
-    } else {
-        momentList2.forEach((p)=>{
-            var item = {
-                label: p,
-                data:  profesiList.map((q)=>{
-                    return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit)[p].score
-                }),
-                backgroundColor: 'rgba(166, 43, 43, 1)'
-            }
-            chart2_dataset.push(item)
-        })
-    }
+    
+    // var chart2_dataset = []
+    // if(resumeFilter.hh.by == "Moment"){
+    //     chart2_dataset = profesiList2.map((p)=>{
+    //         var item = {
+    //             label : p,
+    //             data : momentList.map((q)=>{return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit)[q].score}),
+    //             backgroundColor: color.serial[profesiList2.indexOf(p)]
+    //         }
+    //         return item
+    //     })
+    // } else {
+    //     chart2_dataset = momentList.map((p)=>{
+    //         var item = {
+    //             label : p,
+    //             data : profesiList2.map((q)=>{return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit)[p].score}),
+    //             backgroundColor: color.serial[momentList.indexOf(p)]
+    //         }
+    //         return item
+    //     })
+    //     // momentList2.forEach((p)=>{
+    //     //     var item = {
+    //     //         label: p,
+    //     //         data:  profesiList.map((q)=>{
+    //     //             return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit)[p].score
+    //     //         }),
+    //     //         backgroundColor: 'rgba(166, 43, 43, 1)'
+    //     //     }
+    //     //     chart2_dataset.push(item)
+    //     // })
+    // }
     resumeHHData.chart["chart2"] = {
-        labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiAxes ,
-        datasetData : chart2_dataset,
-        barColor: resumeFilter.hh.by == "Moment" ? ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)'] : ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)']
+        labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiList2,
+        datasetData : resumeFilter.hh.by == "Moment" ? profesiList2.map((p)=>{
+            var item = {
+                label : p,
+                data : momentList.map((q)=>{return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit)[q].score}),
+                backgroundColor: color.serial[profesiList2.indexOf(p)]
+            }
+            return item
+        }) : momentList.map((p)=>{
+            var item = {
+                label : p,
+                data : profesiList2.map((q)=>{return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit)[p].score}),
+                backgroundColor: color.serial[momentList.indexOf(p)]
+            }
+            return item
+        })
     }
     // resumeHHData
     console.log(resumeHHData)
