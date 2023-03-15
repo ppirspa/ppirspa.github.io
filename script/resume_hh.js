@@ -2,7 +2,7 @@ var resumeFilter = {
     hh: {}
 }
 var resumeFilterHHDefault = {
-    month : (new Date()).getMonth() + 1,
+    month : (new Date()).getMonth(),
     year : (new Date()).getFullYear(),
     group: "All",
     unit: "All",
@@ -33,70 +33,100 @@ function updateResume_HH(){
     updateResume_HH_Data()
     updateResume_HH_Title()
     updateResume_HH_Chart()
-    updateResume_HH_Table()
-    console.log(resumeFilter.hh)
+    // updateResume_HH_Table()
+    // console.log(resumeFilter.hh)
+    // console.log(hhDataFilter(8, 2022, "All", "All"))
+    // console.log(hhDataFilter(1, 2023, "Dokter", "IGD"))
 }
 function updateResume_HH_Data(){
+    var momentAxes = ['M1', 'M2', 'M3', 'M4', 'M5', 'Total']
+    var profesiAxes = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain", "Total"]
+    var momentList = ['mo1', 'mo2', 'mo3', 'mo4', 'mo5', 'total']
+    var momentList2 = ['mo1', 'mo2', 'mo3', 'mo4', 'mo5']
+    var profesiList = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain", "All"]
+    var profesiList2 = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain"]
+    
+    resumeHHData.chart["chart1"] = {
+        labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiAxes ,
+        datasetData : resumeFilter.hh.by == "Moment" ? momentList.map((p)=>{
+            return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, resumeFilter.hh.group, resumeFilter.hh.unit)[p].score
+        }) : profesiList.map((p)=>{
+            return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit).total.score
+        }),
+        barColor: resumeFilter.hh.by == "Moment" ? ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)'] : ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)']
+    }
+    var chart2_dataset = []
+    if(resumeFilter.hh.by == "Moment"){
+        profesiList2.forEach((p)=>{
+            var item = {
+                label: p,
+                data:  momentList.map((q)=>{
+                    return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit)[q].score
+                }),
+                backgroundColor: 'rgba(166, 43, 43, 1)'
+            }
+            chart2_dataset.push(item)
+        })
+    } else {
+        momentList2.forEach((p)=>{
+            var item = {
+                label: p,
+                data:  profesiList.map((q)=>{
+                    return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit)[p].score
+                }),
+                backgroundColor: 'rgba(166, 43, 43, 1)'
+            }
+            chart2_dataset.push(item)
+        })
+    }
+    resumeHHData.chart["chart2"] = {
+        labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiAxes ,
+        datasetData : chart2_dataset,
+        barColor: resumeFilter.hh.by == "Moment" ? ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)'] : ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)']
+    }
+    // resumeHHData
+    console.log(resumeHHData)
+}
+function hhDataFilter(month, year, group, unit){
     var monthText = {
         1:"Januari", 2:"Februari", 3:"Maret", 4:"April", 5:"Mei", 6:"Juni", 
         7:"Juli", 8:"Agustus", 9:"September", 10:"Oktober", 11:"November", 12:"Desember"
     }
-    var hhData = database.hhData
-    resumeHHData.moData = {
-        min0 : {},
-        min1 : {},
-        min2 : {}
+    var result = {
+        mo1:{act:0, opp: 0, score: 0},mo2:{act:0, opp: 0, score: 0},mo3:{act:0, opp: 0, score: 0},mo4:{act:0, opp: 0, score: 0},mo5:{act:0, opp: 0, score: 0},
+        total:{act:0, opp: 0, score: 0},
+        monthShort: monthText[month].substring(0,3) + " " + year,
+        monthLong: monthText[month] + " " + year
     }
-
-    for(var j = 0; j < 3; j++){
-        var temp = {}
-        var m = (resumeFilter.hh.month * 1) - j
-        var totOpp = 0
-        var totAct = 0
-        var totScore = ""
-
-        temp["byMoment"] = {
-            chartDataset : [],
-            act: [],
-            opp: [],
-            total: []
-        } 
-        for(var i = 1; i < 6; i++){
-            var opp = database.hhData.filter((p)=>{
-                return ((p["mo"+i] !== "") && (filterData(p, m)))
-            }).length
-            var act = database.hhData.filter((p)=>{
-                return ((p["mo"+i]) && (filterData(p, m)))
-            }).length
-            var score = ""
-            if(opp > 0){var score = toDec(act/opp, 3)}  
-            temp["mo" + i] = {
-                opp : opp,
-                act : act,
-                score : score
-            }
-            totOpp += opp
-            totAct += act
-            
-        }
-        resumeHHData.moData["min"+j] = temp
+    var totAct = 0; totOpp = 0; totScore = 0;
+    for(var i = 1; i<6; i++){
+        var act = 0; var opp = 0; var score = 0
+        act = database.hhData.filter((p)=>{
+            var groupTrue = true;
+            var unitTrue = true;
+            if(group !== "All"){groupTrue = (p.group == group)}
+            if(unit !== "All"){unitTrue = (p.unit == unit)}
+            return (p["mo"+i]) && (p.month*1 == month*1) && (p.year*1 == year*1) && groupTrue && unitTrue
+        }).length
+        opp = database.hhData.filter((p)=>{
+            var groupTrue = true;
+            var unitTrue = true;
+            if(group !== "All"){groupTrue = (p.group == group)}
+            if(unit !== "All"){unitTrue = (p.unit == unit)}
+            return (p["mo"+i] !== "") && (p.month*1 == month*1) && (p.year*1 == year*1) && groupTrue && unitTrue
+        }).length
+        totAct += act; totOpp += opp
+        if(opp > 0){score = toDec(act/opp, 3)}
+        result["mo"+i].act = act
+        result["mo"+i].opp = opp
+        result["mo"+i].score = score
     }
-
-    if(resumeFilter.hh.by == "Moment"){
-        // var datasetData =  [0.8, 0.86, 0.99, 0.78, 0.8, 0.952]
-    } else {
-        // var datasetData = [0.8, 0.86, 0.99, 0.78, 0.8, 0.952]
-    }
-    resumeHHData.chart["chart1"] = {
-        labels : ['M1', 'M2', 'M3', 'M4', 'M5', 'Total'],
-        datasetData : [0.8, 0.86, 0.99, 0.78, 0.8, 0.952], 
-        barColor: ['rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(166, 43, 43, 1)', 'rgba(33, 12, 221, 1)']
-    }
-    
-    // resumeHHData
-    console.log(resumeHHData)
+    if(totOpp>0){totScore = toDec(totAct/totOpp, 3)}
+    result["total"].act = totAct
+    result["total"].opp = totOpp
+    result["total"].score = totScore
+    return result
 }
-
 function updateResume_HH_Title(){
     var monthText = {
         1:"Januari", 2:"Februari", 3:"Maret", 4:"April", 5:"Mei", 6:"Juni", 
@@ -145,29 +175,8 @@ function updateResume_HH_Chart(){
     new Chart(canva2, {
         type: 'bar',
         data: {
-            labels: resumeHHData.chart.chart1.labels,
-            datasets: [
-                {
-                    label: 'Dokter',
-                    data: [0.8, 0.86, 0.99, 0.78, 0.8, 0.952],
-                    backgroundColor: 'rgba(166, 43, 43, 1)'
-                },
-                {
-                    label: 'Perawat Bidan',
-                    data: [0.9, 0.9, 1, , 0.67, 0.952],
-                    backgroundColor: 'rgba(0, 0, 255, 1)'
-                },
-                {
-                    label: 'Megang Siswa',
-                    data: [0.9, 0.9, 1, , 0.67, 0.952],
-                    backgroundColor: 'rgba(0, 128, 0, 1)'
-                },
-                {
-                    label: 'Lain-lain',
-                    data: [0.9, 0.9, 1, , 0.67, 0.952],
-                    backgroundColor: 'rgba(229, 209, 33, 1)'
-                },
-            ]
+            labels: resumeHHData.chart.chart2.labels,
+            datasets: resumeHHData.chart.chart2.datasetData
         },
         options: {
             maintainAspectRatio: false,
@@ -200,13 +209,11 @@ function updateResume_HH_Chart(){
         },
         options: {
             maintainAspectRatio: false,
-            scales: {y: {beginAtZero: true, min: 0,max: 1,ticks: {stepSize: 0.25 ,callback: function(value) {return Math.floor(value*100) + '%'} , font:{size: 8}, format: {style: 'percent'}}},x : {ticks: {font:{size: 11}}}},
+            scales: {y: {beginAtZero: true, min: 0,max: 1,ticks: {stepSize: 0.25 ,callback: function(value) {return Math.floor(value*100) + '%'} , font:{size: 8}, format: {style: 'percent'}}},x : {ticks: {font:{size: 10}}}},
             plugins: {title: {display: true,padding: {top: 10}},legend: {display: false},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10);},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
         }
     })
 
-     
-    // div1.appendChild(canva1)
     Elem("res-hh-canvas-1").innerHTML = ""
     Elem("res-hh-canvas-1").appendChild(canva1)
     Elem("res-hh-canvas-2").innerHTML = ""

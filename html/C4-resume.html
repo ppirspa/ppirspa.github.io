@@ -1,5 +1,5 @@
 <div class="h-100 d-flex flex-column overflow-hidden">
-    <ul class="nav nav-tabs bg-primary-subtle px-2" data-bs-theme="dark" id="resumeTabBtnContainer" role="tablist">
+    <ul class="nav nav-tabs px-2 text-dark" id="resumeTabBtnContainer" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="hh-tab" data-bs-toggle="tab" data-bs-target="#hh-tab-pane" type="button"
                 role="tab" aria-controls="hh-tab-pane" aria-selected="true">Hand Hygiene</button>
@@ -13,10 +13,10 @@
                 type="button" role="tab" aria-controls="supervisi-tab-pane" aria-selected="false">Supervisi</button>
         </li>
     </ul>
-    <div class="tab-content overflow-y-auto flex-grow-1 overflow-hidden" id="myTabContent">
-        <div class="tab-pane fade show active bg-dark" id="hh-tab-pane" role="tabpanel" aria-labelledby="hh-tab"
-            tabindex="0">
-            <div id="resume-hh-filter-container" class="py-2 container-fluid">
+    <div class="tab-content overflow-y-auto flex-grow-1" id="myTabContent">
+        <div class="tab-pane fade show active bg-secondary" style=" --bs-bg-opacity: 0.2" id="hh-tab-pane"
+            role="tabpanel" aria-labelledby="hh-tab" tabindex="0">
+            <div id="resume-hh-filter-container" class="py-3 px-3 container-fluid">
                 <div class="row">
                     <div class="col-lg mb-1">
                         <select class="form-select" aria-label="Default select example" id="resume-filter-hh-bulan"
@@ -62,20 +62,19 @@
                             <input type="radio" class="btn-check" id="resume-hh-1mo-btnPer-moment" autocomplete="off"
                                 name="resume-hh-by" resume-filter-type="hh-by" value="Moment"
                                 onchange="chResFilter(this)" checked>
-                            <label class="btn btn-outline-primary text-white" for="resume-hh-1mo-btnPer-moment"
+                            <label class="btn btn-outline-primary" for="resume-hh-1mo-btnPer-moment"
                                 style="font-size: 0.85rem;">Per Moment</label>
                             <input type="radio" class="btn-check" name="resume-hh-by" id="resume-hh-1mo-btnPer-profesi"
                                 resume-filter-type="hh-by" value="Profesi" onchange="chResFilter(this)">
-                            <label class="btn btn-outline-primary text-white" for="resume-hh-1mo-btnPer-profesi"
+                            <label class="btn btn-outline-primary" for="resume-hh-1mo-btnPer-profesi"
                                 style="font-size: 0.85rem;">Per Profesi</label>
 
                         </div>
                     </div>
                 </div>
             </div>
-
             <div id="resume-hh-result-container" class="px-lg-2 overflow-x-hidden w-100">
-                <div class="d-lg-flex gap-2 overflow-hidden">
+                <div class="d-lg-flex gap-3 overflow-hidden" style="scroll-snap-align: start">
                     <div class="col-lg-4 align-item-stretch mb-2">
                         <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
                             <div class="resume-title" id="res-hh-title-1">
@@ -214,19 +213,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-100">
+                <div class="w-100" style="scroll-snap-align: start">
                     <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
                         <div class="resume-title" id="res-hh-title-3">
                             <p class="mt-2">Kepatuhan Hand Hygiene</p>
-                            <p class="mb-2">Kelompok Unit Dadap Serep | Bulan Februari 2023</p>
+                            <p class="mb-2">Kelompok Unit Dadap Serep</p>
                         </div>
-                        <div class="overflow-x-auto w-100">
-                            <div class="border position-relative" style="height: 215px" id="res-hh-canvas-3">
-                                canvas</div>
-                        </div>
+                        <!-- <div class="overflow-x-auto w-100"> -->
+                        <div class="border overflow-x-auto w-100" style="height: 215px" id="res-hh-canvas-3">
+                            canvas</div>
+                        <!-- </div> -->
                     </div>
                 </div>
-                <div class="d-lg-flex gap-2 overflow-hidden">
+                <div class="d-lg-flex gap-2 overflow-hidden" style="scroll-snap-align: start">
                     <div class="col-lg-4 align-item-stretch mb-2">
                         <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
                             <div class="resume-title" id="res-hh-title-1">

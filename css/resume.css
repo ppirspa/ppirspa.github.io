@@ -12,11 +12,12 @@
 }
 #resumeTabBtnContainer li .active{
     font-weight: bold;
-    color:aqua ;
-    background-color: rgb(33, 37, 41);
+    color:blue ;
+    background-color: rgba(108, 117, 125, 0.2) !important;
+    border-bottom-width: 0;
 }
 #resumeTabBtnContainer li button{
-    color: white;
+    color: black;
 }
 .table-resume-hh td, .table-resume-hh thead th{
     text-align : center;
