@@ -2,7 +2,7 @@ var resumeFilter = {
     hh: {}
 }
 var resumeFilterHHDefault = {
-    month : (new Date()).getMonth(),
+    month : (new Date()).getMonth() + 1,
     year : (new Date()).getFullYear(),
     group: "All",
     unit: "All",
@@ -47,6 +47,10 @@ function updateResume_HH_Data(){
     var profesiList = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain", "All"]
     var profesiList2 = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain"]
     var color = {serial:["#a62b2b", "#0d7d4b", "#ae7828", "#6a1c96", "#6b7914", "#210cdd"], total:"#210cdd"}
+    var shortMonthText = {
+        1:"Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"Mei", 6:"Jun", 
+        7:"Jul", 8:"Agu", 9:"Sep", 10:"Okt", 11:"Nov", 12:"Des"
+    }
 
     resumeHHData.chart["chart1"] = {
         labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiAxes ,
@@ -75,6 +79,29 @@ function updateResume_HH_Data(){
             return item
         })
     }
+    var maxMonth = Math.max(...database.hhData.map((p)=>{
+        var mo = (p.month.toString().length === 1) ? "0" + p.month.toString() : p.month.toString()
+        var n = p.year.toString() + mo 
+        return n * 1
+    }))
+    var d2 = new Date(maxMonth.toString().substring(0,4) * 1, (maxMonth.toString().substring(4) * 1) - 1, 01); var d1 = new Date(2022, 3, 01)
+    var monthList = getMonthSequenceList(d1, d2).map((p)=>{
+        var n = {
+            month: p.getMonth() + 1,
+            year: p.getFullYear()
+        }
+        return n
+    })  
+    resumeHHData.chart["chart3"] = {
+        labels: monthList.map((p)=>{
+            return shortMonthText[p.month] + " " + p.year
+        }),
+        data : monthList.map((p)=>{
+            var s = hhDataFilter(p.month, p.year, resumeFilter.hh.group, resumeFilter.hh.unit).total.score
+            return s
+        }) 
+    }
+
     resumeHHData.table["table1"] = resumeFilter.hh.by == "Moment" ? {
         header: [""].concat(momentAxes), 
         act: momentList.map((p)=>{
@@ -124,7 +151,9 @@ function updateResume_HH_Data(){
             return (Math.floor(s*1000) / 10) + "%"
         }))
     }
-    // resumeHHData
+
+    
+    
     console.log(resumeHHData)
 }
 function hhDataFilter(month, year, group, unit){
@@ -224,24 +253,13 @@ function updateResume_HH_Chart(){
             plugins: {title: {display: true,padding: {top: 10}},legend: {display: false},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10);},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
         }
     })
-    
-    var d2 = new Date(resumeFilter.hh.year, resumeFilter.hh.month - 1, 01)
-    var d1 = new Date(d2.getFullYear()-1, d2.getMonth(), 01)
-    console.log(d2)
-    console.log(d1)
-    
-    var monthList = getMonthSequenceList(d1, d2).map((p)=>{
-        return shortMonthText[p.getMonth() + 1] + " " + p.getFullYear()
-    })  
-    console.log(monthList)
 
     new Chart(canva3, {
         type: 'line',
         data: {
-            labels: monthList,
+            labels: resumeHHData.chart.chart3.labels,
             datasets: [{
-                label: 'My First Dataset',
-                data: [0.65, 0.59, 0.80, 0.81, 0.56, 0.55, 0.40],
+                data: resumeHHData.chart.chart3.data,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
@@ -250,7 +268,7 @@ function updateResume_HH_Chart(){
         options: {
             maintainAspectRatio: false,
             scales: {y: {beginAtZero: true, min: 0,max: 1,ticks: {stepSize: 0.25 ,callback: function(value) {return Math.floor(value*100) + '%'} , font:{size: 8}, format: {style: 'percent'}}},x : {ticks: {font:{size: 10}}}},
-            plugins: {title: {display: true,padding: {top: 10}},legend: {display: false},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10);},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
+            plugins: {title: {display: true,padding: {top: 10}},legend: {display: false},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10) + '%';},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
         }
     })
 
