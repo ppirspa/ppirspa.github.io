@@ -33,13 +33,14 @@ function updateResume_HH(){
     updateResume_HH_Data()
     updateResume_HH_Title()
     updateResume_HH_Chart()
-    // updateResume_HH_Table()
+    updateResume_HH_Table()
     // console.log(resumeFilter.hh)
     // console.log(hhDataFilter(8, 2022, "All", "All"))
     // console.log(hhDataFilter(1, 2023, "Dokter", "IGD"))
 }
 function updateResume_HH_Data(){
     var momentAxes = ['M1', 'M2', 'M3', 'M4', 'M5', 'Total']
+    var momentAxes2 = ['M1', 'M2', 'M3', 'M4', 'M5']
     var profesiAxes = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain", "Total"]
     var momentList = ['mo1', 'mo2', 'mo3', 'mo4', 'mo5', 'total']
     var momentList2 = ['mo1', 'mo2', 'mo3', 'mo4', 'mo5']
@@ -56,37 +57,6 @@ function updateResume_HH_Data(){
         }),
         barColor: resumeFilter.hh.by == "Moment" ? [color.serial[0],color.serial[0],color.serial[0],color.serial[0],color.serial[0], color.total] : [color.serial[0], color.serial[0], color.serial[0], color.serial[0], color.total]
     }
-    
-    // var chart2_dataset = []
-    // if(resumeFilter.hh.by == "Moment"){
-    //     chart2_dataset = profesiList2.map((p)=>{
-    //         var item = {
-    //             label : p,
-    //             data : momentList.map((q)=>{return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit)[q].score}),
-    //             backgroundColor: color.serial[profesiList2.indexOf(p)]
-    //         }
-    //         return item
-    //     })
-    // } else {
-    //     chart2_dataset = momentList.map((p)=>{
-    //         var item = {
-    //             label : p,
-    //             data : profesiList2.map((q)=>{return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit)[p].score}),
-    //             backgroundColor: color.serial[momentList.indexOf(p)]
-    //         }
-    //         return item
-    //     })
-    //     // momentList2.forEach((p)=>{
-    //     //     var item = {
-    //     //         label: p,
-    //     //         data:  profesiList.map((q)=>{
-    //     //             return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit)[p].score
-    //     //         }),
-    //     //         backgroundColor: 'rgba(166, 43, 43, 1)'
-    //     //     }
-    //     //     chart2_dataset.push(item)
-    //     // })
-    // }
     resumeHHData.chart["chart2"] = {
         labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiList2,
         datasetData : resumeFilter.hh.by == "Moment" ? profesiList2.map((p)=>{
@@ -104,6 +74,55 @@ function updateResume_HH_Data(){
             }
             return item
         })
+    }
+    resumeHHData.table["table1"] = resumeFilter.hh.by == "Moment" ? {
+        header: [""].concat(momentAxes), 
+        act: momentList.map((p)=>{
+            return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, resumeFilter.hh.group, resumeFilter.hh.unit)[p].act
+        }),
+        opp: momentList.map((p)=>{
+            return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, resumeFilter.hh.group, resumeFilter.hh.unit)[p].opp
+        }),
+        score: [""].concat(momentList.map((p)=>{
+            var s =  hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, resumeFilter.hh.group, resumeFilter.hh.unit)[p].score
+            return (Math.floor(s*1000) / 10) + "%"
+        }))
+    } : {
+        header: [""].concat(profesiAxes), 
+        act: profesiList.map((p)=>{
+            return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit).total.act
+        }),
+        opp: profesiList.map((p)=>{
+            return hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit).total.opp
+        }),
+        score: [""].concat(profesiList.map((p)=>{
+            var s = hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit).total.score
+            return (Math.floor(s*1000) / 10) + "%"
+        }))
+    }
+    resumeHHData.table["table2"] = resumeFilter.hh.by == "Moment" ? {
+        header: [""].concat(momentAxes), 
+        body: profesiList2.map((p)=>{
+            var row = [p].concat(momentList.map((q)=>{
+                var s = hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, p, resumeFilter.hh.unit)[q].score
+                return (Math.floor(s*1000) / 10) + "%"
+            }))
+            return row
+        }),
+        footer: []
+    } : {
+        header: [""].concat(profesiList2), 
+        body: momentAxes2.map((p)=>{
+            var row = [p].concat(profesiList2.map((q)=>{
+                var s = hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit)[momentList2[momentAxes2.indexOf(p)]].score
+                return (Math.floor(s*1000) / 10) + "%"
+            }))
+            return row
+        }),
+        footer: ["Total"].concat(profesiList2.map((q)=>{
+            var s = hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit).total.score
+            return (Math.floor(s*1000) / 10) + "%"
+        }))
     }
     // resumeHHData
     console.log(resumeHHData)
@@ -243,6 +262,75 @@ function updateResume_HH_Chart(){
     Elem("res-hh-canvas-3").appendChild(canva3)
 }
 function updateResume_HH_Table(){
-    document.querySelectorAll(".res-hh-thead").forEach((p)=>{p.classList.add("d-none")})
-    document.querySelectorAll(".thead-" + resumeFilter.hh.by).forEach((p)=>{p.classList.remove("d-none")})
+    var table1 = Elem("tab-res-hh-1")    
+        tab1Head = table1.querySelector("thead tr")    
+        tab1Head.innerHTML = ""
+        resumeHHData.table["table1"].header.forEach((p)=>{
+            var thNew = document.createElement("th")
+            thNew.setAttribute("scope", "col")
+            thNew.innerHTML = p
+            tab1Head.appendChild(thNew)
+        })
+        tab1Body = table1.querySelector("tbody")
+        tab1Body.innerHTML = ""
+        var tab1BodyRow = ["Act", "Opp"]
+        tab1BodyRow.forEach((p)=>{
+            var trNew = document.createElement("tr")
+            var th = document.createElement("th")
+                th.setAttribute("scope", "row")
+                th.innerHTML = p
+            trNew.appendChild(th)
+            for(var i = 1; i < resumeHHData.table["table1"].header.length; i++){
+                var td = document.createElement("td")
+                td.innerHTML = resumeHHData.table["table1"][p.toLowerCase()][i-1]
+                trNew.appendChild(td)
+            }
+            table1.querySelector("tbody").appendChild(trNew)
+        })
+        tab1Foot = table1.querySelector("tfoot tr")    
+        tab1Foot.innerHTML = ""
+        resumeHHData.table["table1"].score.forEach((p)=>{
+            var thNew = document.createElement("th")
+            thNew.setAttribute("scope", "col")
+            thNew.innerHTML = p
+            tab1Foot.appendChild(thNew)
+        })
+    var table2 = Elem("tab-res-hh-2")
+        tab2Head = table2.querySelector("thead tr")    
+        tab2Head.innerHTML = ""
+        resumeHHData.table["table2"].header.forEach((p)=>{
+            var thNew = document.createElement("th")
+            thNew.setAttribute("scope", "col")
+            thNew.innerHTML = p
+            tab2Head.appendChild(thNew)
+        })
+        tab2Body = table2.querySelector("tbody")
+        tab2Body.innerHTML = ""
+        resumeHHData.table["table2"].body.forEach((p)=>{
+            var tr = document.createElement("tr")
+            var th = document.createElement("th")
+            th.innerHTML = p[0]; th.setAttribute("scope", "row")
+            tr.appendChild(th)
+            for(var i = 1; i<p.length;i++){
+                if(resumeHHData.table["table2"].header[i] == "Total"){
+                    var t = document.createElement("th")
+                    t.setAttribute("scope", "row")
+                }else {
+                    var t = document.createElement("td")
+                }
+                t.innerHTML = p[i]
+                tr.appendChild(t)
+            }
+            tab2Body.appendChild(tr)
+        })
+        tab2Foot = table2.querySelector("tfoot tr")
+        tab2Foot.innerHTML = ""
+        if(resumeHHData.table["table2"].footer.length > 0){
+            resumeHHData.table["table2"].footer.forEach((p)=>{
+                var thNew = document.createElement("th")
+                thNew.setAttribute("scope", "col")
+                thNew.innerHTML = p
+                tab2Foot.appendChild(thNew)
+            })
+        }
 }

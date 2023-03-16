@@ -19,14 +19,14 @@
 #resumeTabBtnContainer li button{
     color: black;
 }
-.table-resume-hh td, .table-resume-hh thead th{
+.table-resume-hh td, .table-resume-hh th{
     text-align : center;
 }
 
 @media (max-width: 992px) {
     #res-hh-canvas-2 {
-        width: 900px    ;
-        color: #6b7914
+        width: 900px
+        /* color: #6b7914 */
     }
   }
 
