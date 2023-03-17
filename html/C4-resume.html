@@ -68,7 +68,6 @@
                                 resume-filter-type="hh-by" value="Profesi" onchange="chResFilter(this)">
                             <label class="btn btn-outline-primary" for="resume-hh-1mo-btnPer-profesi"
                                 style="font-size: 0.85rem;">Per Profesi</label>
-
                         </div>
                     </div>
                 </div>
@@ -95,7 +94,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-lg-8 align-item-stretch mb-2 overflow-x-hidden" style="scroll-snap-align: start">
+                    <div class="col-lg-8 align-item-stretch mb-2 overflow-hidden " style="scroll-snap-align: start">
                         <div
                             class="mb-2 p-3 border overflow-x-hidden bg-light border-body-subtle rounded shadow h-100 ">
                             <div class="resume-title" id="res-hh-title-2">
@@ -127,149 +126,114 @@
                 <div class="w-100" style="scroll-snap-align: start">
                     <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
                         <div class="resume-title" id="res-hh-title-3">
-                            <p class="mt-2">Kepatuhan Hand Hygiene</p>
+                            <p class="mt-2">Grafik Longitudinal Kepatuhan Hand Hygiene</p>
                             <p class="mb-2">Kelompok Unit Dadap Serep</p>
                         </div>
-                        <div class="border overflow-x-auto w-100" style="height: 215px" id="res-hh-canvas-3">
-                            canvas</div>
+                        <div class="overflow-x-hidden w-100">
+                            <div class="overflow-x-auto border w-100 " id="res-hh-canvas-3-parent">
+                                <div class="border position-relative" style="height: 200px" id="res-hh-canvas-3">
+                                    canvas</div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="d-lg-flex gap-2 overflow-hidden" style="scroll-snap-align: start">
-                    <div class="col-lg-4 align-item-stretch mb-2">
+                <div class="d-lg-flex overflow-hidden" style="scroll-snap-align: start">
+                    <div class="col-lg-7 align-item-stretch mb-2 pe-lg-3">
                         <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
-                            <div class="resume-title" id="res-hh-title-1">
-                                <p class="mt-2">Kepatuhan Hand Hygiene Per Moment</p>
+                            <div class="resume-title" id="res-hh-title-4">
+                                <p class="mt-2">Kepatuhan Hand Hygiene 3 Bulan Per Moment</p>
                                 <p class="mb-2">Unit Dadap Serep | Bulan Februari 2023</p>
                             </div>
                             <div class="border position-relative w-100" style="height: 215px" id="res-hh-canvas-4">
                                 canvas</div>
-                            <!-- <table class="table table-sm small table-light mt-3 table-resume-hh"
-                                id="table-resume-hh-1mo-profesi" style="font-size: 0.6rem">
-                                <thead>
-                                    <tr class="table-primary res-hh-thead thead-Moment">
-                                        <th scope="col"></th>
-                                        <th scope="col">M1</th>
-                                        <th scope="col">M2</th>
-                                        <th scope="col">M3</th>
-                                        <th scope="col">M4</th>
-                                        <th scope="col">M5</th>
-                                        <th scope="col">Total</th>
-                                    </tr>
-                                    <tr class="table-primary res-hh-thead thead-Profesi d-none">
-                                        <th scope="col"></th>
-                                        <th scope="col">Dokter</th>
-                                        <th scope="col">Perawat Bidan</th>
-                                        <th scope="col">Magang Siswa</th>
-                                        <th scope="col">Lain-lain</th>
-                                        <th scope="col">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Act</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Opp</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Score</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table> -->
-                        </div>
-                    </div>
-                    <div class="col-lg-8 align-item-stretch mb-2">
-                        <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
-                            <div class="resume-title" id="res-hh-title-2">
-                                <p class="mt-2">Kepatuhan Hand Hygiene Per Moment Per Profesi</p>
-                                <p class="mb-2">Unit Dadap Serep | Bulan Februari 2023</p>
-                            </div>
-                            <div class="overflow-x-auto w-100">
-                                <div class="position-relative chart-container border" style="height: 205px"
-                                    id="res-hh-canvas-5">
-                                    canvas</div>
-                            </div>
-                            <!-- <table class="table table-sm small table-light mt-3 table-resume-hh"
-                                id="table-resume-hh-1mo-profesi" style="font-size: 0.6rem">
+                            <table class="table table-sm small table-light mt-3 table-resume-hh" id="tab-res-hh-4"
+                                style="font-size: 0.6rem;">
                                 <thead>
                                     <tr class="table-primary">
-                                        <th scope="col"></th>
-                                        <th scope="col">M1</th>
-                                        <th scope="col">M2</th>
-                                        <th scope="col">M3</th>
-                                        <th scope="col">M4</th>
-                                        <th scope="col">M5</th>
-                                        <th scope="col">Total</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Dokter</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Perawat Bidan</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Magang Siswa</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Lain-lain</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                                 <tfoot>
-                                    <tr>
-                                        <th scope="row" class="text-end border-bottom-0">Total</th>
-                                        <td class="border-bottom-0"></td>
-                                        <td class="border-bottom-0"></td>
-                                        <td class="border-bottom-0"></td>
-                                        <td class="border-bottom-0"></td>
-                                        <td class="border-bottom-0"></td>
-                                        <td class="border-bottom-0"></td>
+                                    <tr class="table-secondary">
                                     </tr>
                                 </tfoot>
-                            </table> -->
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 align-item-stretch mb-2 ">
+                        <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
+                            <!-- <div class="container w-100"> -->
+                            <div class="row">
+                                <div class="col-6">
+                                    <select class="form-select" aria-label="Default select example"
+                                        id="resume-filter-hh-top10" resume-filter-type="hh-top"
+                                        onchange="chResFilter(this)">
+                                        <option value="1-0">Tertinggi</option>
+                                        <option value="0-1">Terendah</option>
+                                    </select>
+                                </div>
+                                <div class="btn-group col-6 d-flex flex-row justify-content-center align-items-center"
+                                    role="group">
+                                    <input type="checkbox" class="btn-check" id="resume-hh-tab5-moment"
+                                        autocomplete="off" tab5="d-none res-hh-tab-moment" onchange="tab5show(this)">
+                                    <label class="btn btn-outline-dark" style="font-size: 0.8rem;"
+                                        for="resume-hh-tab5-moment">Moment</label>
+                                    <input type="checkbox" class="btn-check" id="resume-hh-tab5-profesi"
+                                        tab5="d-none res-hh-tab-group" onchange="tab5show(this)">
+                                    <label class="btn btn-outline-dark" style="font-size: 0.8rem;"
+                                        for="resume-hh-tab5-profesi">Profesi</label>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+
+                            <div class="resume-title" id="res-hh-title-5">
+                                <p class="mt-2">TOP 10 Tertinggi Kepatuhan Hand Hygiene Pada Unit</p>
+                                <p class="mb-2">Bulan Februari 2023</p>
+                            </div>
+                            <div class="overflow-hidden w-100">
+                                <div class="overflow-x-auto border w-100">
+                                    <table class="table table-sm small table-light mt-3 table-resume-hh"
+                                        id="tab-res-hh-5" style="font-size: 0.6rem;">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th rowspan="2" style="width: 25px">No</th>
+                                                <th rowspan="2">Score HH</th>
+                                                <th rowspan="2">Unit</th>
+                                                <th colspan="4" class="d-none res-hh-tab-group">Profesi</th>
+                                                <th colspan="5" class="d-none res-hh-tab-moment">Moment</th>
+                                            </tr>
+                                            <tr class="table-primary" class="d-none res-hh-tab-group">
+                                                <th class="d-none res-hh-tab-group">Dokter</th>
+                                                <th class="d-none res-hh-tab-group">Perawat Bidan</th>
+                                                <th class="d-none res-hh-tab-group">Magang Siswa</th>
+                                                <th class="d-none res-hh-tab-group">Lain-lain</th>
+                                                <th class="d-none res-hh-tab-moment">1</th>
+                                                <th class="d-none res-hh-tab-moment">2</th>
+                                                <th class="d-none res-hh-tab-moment">3</th>
+                                                <th class="d-none res-hh-tab-moment">4</th>
+                                                <th class="d-none res-hh-tab-moment">5</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>98.9%</td>
+                                                <td>Kamar Mayat</td>
+                                                <td class="d-none res-hh-tab-group">98.9%</td>
+                                                <td class="d-none res-hh-tab-group">98.9%</td>
+                                                <td class="d-none res-hh-tab-group">98.9%</td>
+                                                <td class="d-none res-hh-tab-group">98.9%</td>
+                                                <td class="d-none res-hh-tab-moment">98.9%</td>
+                                                <td class="d-none res-hh-tab-moment">98.9%</td>
+                                                <td class="d-none res-hh-tab-moment">98.9%</td>
+                                                <td class="d-none res-hh-tab-moment">98.9%</td>
+                                                <td class="d-none res-hh-tab-moment">98.9%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

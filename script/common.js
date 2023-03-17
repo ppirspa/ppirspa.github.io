@@ -41,7 +41,7 @@ function Toast(text){
 // ===============================================================================
 async function onload(){
   await includeHTML()
-  await login("arga", "ppirspa")
+  // await login("arga", "ppirspa")
   // await NavbarTo("Hand Hygiene")
   await NavbarTo("Resume")
   // Elem("hhEditCanvasBtn").click()

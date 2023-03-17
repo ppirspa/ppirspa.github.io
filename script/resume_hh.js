@@ -6,7 +6,8 @@ var resumeFilterHHDefault = {
     year : (new Date()).getFullYear(),
     group: "All",
     unit: "All",
-    by: "Moment"
+    by: "Moment",
+    top: "1-0"
 }
 var resumeHHData = {
     chart: {}, table: {}
@@ -46,7 +47,7 @@ function updateResume_HH_Data(){
     var momentList2 = ['mo1', 'mo2', 'mo3', 'mo4', 'mo5']
     var profesiList = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain", "All"]
     var profesiList2 = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain"]
-    var color = {serial:["#a62b2b", "#0d7d4b", "#ae7828", "#6a1c96", "#6b7914", "#210cdd"], total:"#210cdd"}
+    var color = {serial:["#a62b2b", "#0d7d4b", "#ae7828", "#6a1c96", "#6b7914", "#210cdd"], total:"#210cdd",increase:["#f49191","#d45858","#a62b2b"]}
     var shortMonthText = {
         1:"Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"Mei", 6:"Jun", 
         7:"Jul", 8:"Agu", 9:"Sep", 10:"Okt", 11:"Nov", 12:"Des"
@@ -99,7 +100,37 @@ function updateResume_HH_Data(){
         data : monthList.map((p)=>{
             var s = hhDataFilter(p.month, p.year, resumeFilter.hh.group, resumeFilter.hh.unit).total.score
             return s
-        }) 
+        })  
+    }
+    var threeMonth = {
+        2: {month: resumeFilter.hh.month, year: resumeFilter.hh.year},
+        1: {
+            month: resumeFilter.hh.month - 1 + (resumeFilter.hh.month < 2 ? 12 : 0),
+            year: resumeFilter.hh.year - 1 + (resumeFilter.hh.month < 2 ? 0 : 1)
+        },
+        0: {
+            month: resumeFilter.hh.month - 2 + (resumeFilter.hh.month < 3 ? 12 : 0),
+            year: resumeFilter.hh.year - 1 + (resumeFilter.hh.month < 3 ? 0 : 1)
+        }
+    }
+    console.log(threeMonth)
+    resumeHHData.chart["chart4"] = {
+        labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiList,
+        datasetData : resumeFilter.hh.by == "Moment" ? Object.keys(threeMonth).map((p)=>{
+            var item = {
+                label : shortMonthText[threeMonth[p].month] + " " + threeMonth[p].year,
+                data : momentList.map((q)=>{return hhDataFilter(threeMonth[p].month, threeMonth[p].year, resumeFilter.hh.group, resumeFilter.hh.unit)[q].score}),
+                backgroundColor: color.increase[p]
+            }
+            return item
+        }) : Object.keys(threeMonth).map((p)=>{
+            var item = {
+                label : shortMonthText[threeMonth[p].month] + " " + threeMonth[p].year,
+                data : profesiList.map((q)=>{return hhDataFilter(threeMonth[p].month, threeMonth[p].year, q, resumeFilter.hh.unit).total.score}),
+                backgroundColor: color.increase[p]
+            }
+            return item
+        })
     }
 
     resumeHHData.table["table1"] = resumeFilter.hh.by == "Moment" ? {
@@ -150,6 +181,41 @@ function updateResume_HH_Data(){
             var s = hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, q, resumeFilter.hh.unit).total.score
             return (Math.floor(s*1000) / 10) + "%"
         }))
+    }
+    resumeHHData.table["table4"] = resumeFilter.hh.by == "Moment" ? {
+        header: [""].concat(Object.keys(threeMonth).map((p)=>{
+            return shortMonthText[threeMonth[p].month] + " " + threeMonth[p].year
+        })), 
+        body: momentList2.map((p)=>{
+            var row = [momentAxes2[momentList2.indexOf(p)]]
+                    .concat(Object.keys(threeMonth).map((q)=>{
+                        var s = hhDataFilter(threeMonth[q].month, threeMonth[q].year, resumeFilter.hh.group, resumeFilter.hh.unit)[p].score
+                        return (Math.floor(s*1000) / 10) + "%"
+                    }))
+            return row
+        }),
+        footer: ["Total"]
+                .concat(Object.keys(threeMonth).map((q)=>{
+                    var s = hhDataFilter(threeMonth[q].month, threeMonth[q].year, resumeFilter.hh.group, resumeFilter.hh.unit).total.score
+                    return (Math.floor(s*1000) / 10) + "%"
+                }))
+    } : {
+        header: [""].concat(Object.keys(threeMonth).map((p)=>{
+            return shortMonthText[threeMonth[p].month] + " " + threeMonth[p].year
+        })), 
+        body: profesiList2.map((p)=>{
+            var row = [p]
+                    .concat(Object.keys(threeMonth).map((q)=>{
+                        var s = hhDataFilter(threeMonth[q].month, threeMonth[q].year, p, resumeFilter.hh.unit).total.score
+                        return (Math.floor(s*1000) / 10) + "%"
+                    }))
+            return row
+        }),
+        footer: ["Total"]
+                .concat(Object.keys(threeMonth).map((q)=>{
+                    var s = hhDataFilter(threeMonth[q].month, threeMonth[q].year, "All", resumeFilter.hh.unit).total.score
+                    return (Math.floor(s*1000) / 10) + "%"
+                }))
     }
 
     
@@ -214,6 +280,11 @@ function updateResume_HH_Title(){
     document.querySelector("#res-hh-title-1 p:nth-child(1)").innerHTML = "Kepatuhan Hand Hygiene Per " + resumeFilter.hh.by
     document.querySelector("#res-hh-title-1 p:nth-child(2)").innerHTML = groupText + unitText + " | Bulan " + monthText[resumeFilter.hh.month * 1] + " " + (resumeFilter.hh.year * 1) 
     document.querySelector("#res-hh-title-2 p:nth-child(2)").innerHTML = unitText + " | Bulan " + monthText[resumeFilter.hh.month * 1] + " " + (resumeFilter.hh.year * 1)
+    document.querySelector("#res-hh-title-3 p:nth-child(2)").innerHTML = groupText + unitText
+    document.querySelector("#res-hh-title-4 p:nth-child(1)").innerHTML = "Kepatuhan Hand Hygiene 3 Bulan Per " + resumeFilter.hh.by
+    document.querySelector("#res-hh-title-4 p:nth-child(2)").innerHTML = groupText + unitText + " | Bulan " + monthText[resumeFilter.hh.month * 1] + " " + (resumeFilter.hh.year * 1)
+    document.querySelector("#res-hh-title-5 p:nth-child(1)").innerHTML = "TOP 10 " + (resumeFilter.hh.top == "1-0" ? "Tertinggi" : "Terendah") + " Kepatuhan Hand Hygiene Pada Unit";
+    document.querySelector("#res-hh-title-5 p:nth-child(2)").innerHTML = "Bulan " + monthText[resumeFilter.hh.month * 1] + " " + (resumeFilter.hh.year * 1)
 }
 function updateResume_HH_Chart(){
     var shortMonthText = {
@@ -223,6 +294,7 @@ function updateResume_HH_Chart(){
     var canva1 = document.createElement("canvas");
     var canva2 = document.createElement("canvas");
     var canva3 = document.createElement("canvas");
+    var canva4 = document.createElement("canvas")
 
     Chart.register(ChartDataLabels)
     new Chart(canva1, {
@@ -250,10 +322,9 @@ function updateResume_HH_Chart(){
         options: {
             maintainAspectRatio: false,
             scales: {y: {beginAtZero: true, min: 0,max: 1,ticks: {stepSize: 0.25 ,callback: function(value) {return Math.floor(value*100) + '%'} , font:{size: 8}, format: {style: 'percent'}}},x : {ticks: {font:{size: 11}}}},
-            plugins: {title: {display: true,padding: {top: 10}},legend: {display: false},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10);},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
+            plugins: {title: {display: true,padding: {top: 10}},legend: {display: true, position: "bottom"},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10);},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
         }
     })
-
     new Chart(canva3, {
         type: 'line',
         data: {
@@ -271,6 +342,18 @@ function updateResume_HH_Chart(){
             plugins: {title: {display: true,padding: {top: 10}},legend: {display: false},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10) + '%';},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
         }
     })
+    new Chart(canva4, {
+        type: 'bar',
+        data: {
+            labels: resumeHHData.chart.chart4.labels,
+            datasets: resumeHHData.chart.chart4.datasetData
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {y: {beginAtZero: true, min: 0,max: 1,ticks: {stepSize: 0.25 ,callback: function(value) {return (Math.floor(value*1000)/10) + '%'} , font:{size: 8}, format: {style: 'percent'}}},x : {ticks: {font:{size: 11}}}},
+            plugins: {tooltip:{callback: function(value) {return Math.floor(value*100) + '%'}},title: {display: true,padding: {top: 10}},legend: {display: true, position: "bottom"},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10);},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
+        }
+    })
 
     Elem("res-hh-canvas-1").innerHTML = ""
     Elem("res-hh-canvas-1").appendChild(canva1)
@@ -278,6 +361,23 @@ function updateResume_HH_Chart(){
     Elem("res-hh-canvas-2").appendChild(canva2)
     Elem("res-hh-canvas-3").innerHTML = ""
     Elem("res-hh-canvas-3").appendChild(canva3)
+    Elem("res-hh-canvas-4").innerHTML = ""
+    Elem("res-hh-canvas-4").appendChild(canva4)
+    var maxLongMonth = 13
+    if(resumeHHData.chart.chart3.labels.length>maxLongMonth){
+        Elem("res-hh-canvas-3").style.width = (resumeHHData.chart.chart3.labels.length/maxLongMonth*900)  +"px"
+    }
+    var scrollMonthIndex =  resumeHHData.chart.chart3.labels.indexOf(
+        shortMonthText[resumeFilter.hh.month] + " " + resumeFilter.hh.year   
+    )
+    var x = scrollMonthIndex
+
+    if(scrollMonthIndex<0){
+        var scrollMonth = Elem("res-hh-canvas-3").offsetWidth  
+    } else {
+        scrollMonth = ((x * 1) - 4 )  / resumeHHData.chart.chart3.labels.length * (Elem("res-hh-canvas-3").offsetWidth * 1) 
+    }
+    Elem("res-hh-canvas-3-parent").scrollTo(scrollMonth,0)
 }
 function updateResume_HH_Table(){
     var table1 = Elem("tab-res-hh-1")    
@@ -351,4 +451,52 @@ function updateResume_HH_Table(){
                 tab2Foot.appendChild(thNew)
             })
         }
+    var table4 = Elem("tab-res-hh-4")
+        tab4Head = table4.querySelector("thead tr")    
+        tab4Head.innerHTML = ""
+        resumeHHData.table["table4"].header.forEach((p)=>{
+            var thNew = document.createElement("th")
+            thNew.setAttribute("scope", "col")
+            thNew.innerHTML = p
+            tab4Head.appendChild(thNew)
+        })
+        tab4Body = table4.querySelector("tbody")
+        tab4Body.innerHTML = ""
+        resumeHHData.table["table4"].body.forEach((p)=>{
+            var tr = document.createElement("tr")
+            var th = document.createElement("th")
+            th.innerHTML = p[0]; th.setAttribute("scope", "row")
+            tr.appendChild(th)
+            for(var i = 1; i<p.length;i++){
+                if(resumeHHData.table["table4"].header[i] == "Total"){
+                    var t = document.createElement("th")
+                    t.setAttribute("scope", "row")
+                }else {
+                    var t = document.createElement("td")
+                }
+                t.innerHTML = p[i]
+                tr.appendChild(t)
+            }
+            tab4Body.appendChild(tr)
+        })
+        tab4Foot = table4.querySelector("tfoot tr")
+        tab4Foot.innerHTML = ""
+        if(resumeHHData.table["table4"].footer.length > 0){
+            resumeHHData.table["table4"].footer.forEach((p)=>{
+                var thNew = document.createElement("th")
+                thNew.setAttribute("scope", "col")
+                thNew.innerHTML = p
+                tab4Foot.appendChild(thNew)
+            })
+        }
+    // var table5 = Elem("tab-res-hh-5")
+    //     document.querySelectorAll()
+}
+function tab5show(elem){
+    console.log(elem)
+    var cla = elem.getAttribute("tab5")
+    document.querySelectorAll("."+cla).forEach((p)=>{
+        p.classList.add("d-none")
+        if(elem.checked){p.classList.remove("d-none")}
+    })
 }

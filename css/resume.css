@@ -1,3 +1,9 @@
+/* .res-hh-tab-group{
+    display: none;
+}
+.res-hh-tab-moment{
+    display: none;
+} */
 .resume-title p:nth-child(1){
     color: blue;
     font-size: 0.9rem;
@@ -23,10 +29,16 @@
     text-align : center;
 }
 
+#res-hh-canvas-3 {
+    min-width: 900px
+}
+
 @media (max-width: 992px) {
     #res-hh-canvas-2 {
-        width: 900px
-        /* color: #6b7914 */
+        width: 900px;
+        color: #f49191;
     }
   }
-
+  /* div:has(#res-hh-canvas-3){ */
+    /* border: 5px solid */
+  /* } */

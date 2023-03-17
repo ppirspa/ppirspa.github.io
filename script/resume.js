@@ -32,7 +32,6 @@ function chResFilter(elem){
                 }
             }
         } 
-
         updateResume_HH()
     }
     
