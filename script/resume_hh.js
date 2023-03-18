@@ -113,7 +113,6 @@ function updateResume_HH_Data(){
             year: resumeFilter.hh.year - 1 + (resumeFilter.hh.month < 3 ? 0 : 1)
         }
     }
-    console.log(threeMonth)
     resumeHHData.chart["chart4"] = {
         labels : resumeFilter.hh.by == "Moment" ? momentAxes : profesiList,
         datasetData : resumeFilter.hh.by == "Moment" ? Object.keys(threeMonth).map((p)=>{
@@ -132,7 +131,6 @@ function updateResume_HH_Data(){
             return item
         })
     }
-
     resumeHHData.table["table1"] = resumeFilter.hh.by == "Moment" ? {
         header: [""].concat(momentAxes), 
         act: momentList.map((p)=>{
@@ -217,9 +215,33 @@ function updateResume_HH_Data(){
                     return (Math.floor(s*1000) / 10) + "%"
                 }))
     }
-
     
-    
+    var tab5Grouping_byUnit = {}
+    database.hhData.filter((p)=>{
+        return (p.month*1 === resumeFilter.hh.month*1) && (p.year*1 === resumeFilter.hh.year*1)
+    }).forEach((q)=>{
+        tab5Grouping_byUnit[q.unit] = {
+            unitName: q.unit,
+            n: database.hhData.filter((p)=>{
+                return (p.unit == q.unit) &&(p.month*1 === resumeFilter.hh.month*1) && (p.year*1 === resumeFilter.hh.year*1)
+            }).length,
+            HHScore: hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "All", q.unit).total.score,
+            mo1: hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "All", q.unit).mo1.score,
+            mo2: hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "All", q.unit).mo2.score,
+            mo3: hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "All", q.unit).mo3.score,
+            mo4: hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "All", q.unit).mo4.score,
+            mo5: hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "All", q.unit).mo5.score,
+            Dokter: hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "Dokter", q.unit).total.score,
+            "Perawat Bidan": hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "Perawat Bidan", q.unit).total.score,
+            "Magang Siswa": hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "Magang Siswa", q.unit).total.score,
+            "Lain-lain": hhDataFilter(resumeFilter.hh.month, resumeFilter.hh.year, "Lain-lain", q.unit).total.score,
+        }
+    })
+    resumeHHData.table["table5"] = Object.values(tab5Grouping_byUnit)
+    .sort((a,b)=>{
+        if(resumeFilter.hh.top == "1-0"){return b.HHScore - a.HHScore} else {return a.HHScore - b.HHScore}
+    })
+    // console.log(Object.values(tab5Grouping_byUnit))
     console.log(resumeHHData)
 }
 function hhDataFilter(month, year, group, unit){
@@ -489,13 +511,34 @@ function updateResume_HH_Table(){
                 tab4Foot.appendChild(thNew)
             })
         }
-    // var table5 = Elem("tab-res-hh-5")
-    //     document.querySelectorAll()
+    var table5 = Elem("tab-res-hh-5")
+    var table5Body = table5.querySelector("tbody")
+        table5Body.innerHTML = ""
+        if(resumeHHData.table["table5"].length > 0){  
+            for(var i = 0; i<10;i++){
+                var tr = document.createElement("tr")
+                var td1 = document.createElement("td")
+                    td1.innerHTML = i+1; 
+                    tr.appendChild(td1)
+                var td2 = document.createElement("td")
+                    td2.innerHTML =  Math.floor(resumeHHData.table["table5"][i].HHScore*1000)/10 + "%" ;
+                    tr.appendChild(td2)
+                var td3 = document.createElement("td")
+                    td3.innerHTML = resumeHHData.table["table5"][i].unitName; tr.appendChild(td3)
+                var td4 = document.createElement("td")
+                    td4.innerHTML = resumeHHData.table["table5"][i].n; tr.appendChild(td4)
+                var tdDok = document.createElement("td"); tdDok.innerHTML = resumeHHData.table["table5"][i]["Dokter"]; tdDok.classList.add("d-none res-hh-tab-group"); tr.appendChild(tdDok)    
+                var tdPer = document.createElement("td"); tdPer.innerHTML = resumeHHData.table["table5"][i]["Perawat Bidan"]; tdPer.classList.add("d-none res-hh-tab-group"); tr.appendChild(tdPer)
+                var tdMag = document.createElement("td"); tdMag.innerHTML = resumeHHData.table["table5"][i]["Magang Siswa"]; tdMag.classList.add("d-none res-hh-tab-group"); tr.appendChild(tdMag)
+                var tdLai = document.createElement("td"); tdLai.innerHTML = resumeHHData.table["table5"][i]["Lain-lain"]; tdLai.classList.add("d-none res-hh-tab-group"); tr.appendChild(tdLai)
+                for(var j = 1; j<6; j++){var td = document.createElement("td"); td.innerHTML = resumeHHData.table["table5"][i]["mo"+j]; ; tr.classList.add("d-none res-hh-tab-moment"); tr.appendChild(td) }
+                table5Body.appendChild(tr)
+            }
+        }
 }
 function tab5show(elem){
-    console.log(elem)
     var cla = elem.getAttribute("tab5")
-    document.querySelectorAll("."+cla).forEach((p)=>{
+    document.querySelectorAll("." + cla).forEach((p)=>{
         p.classList.add("d-none")
         if(elem.checked){p.classList.remove("d-none")}
     })
