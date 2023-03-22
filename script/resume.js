@@ -1,4 +1,6 @@
-
+var momentAxes = ['M1', 'M2', 'M3', 'M4', 'M5', 'Total']
+var profesiAxes = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain", "Total"]
+var color = {serial:["#a62b2b", "#0d7d4b", "#ae7828", "#6a1c96", "#6b7914", "#210cdd"], total:"#210cdd",increase:["#f49191","#d45858","#a62b2b"]}
 
 function ResetResume(){
     console.log("ResetResume")
