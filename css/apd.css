@@ -1,0 +1,138 @@
+@media (max-width: 992px) {
+    .col-md:has(#apd-input-form){
+        scroll-snap-align: start;
+    }
+}
+.table-link{
+    color: blue;
+    text-decoration: underline;
+}
+.col:has(.apd-card){
+    margin:0;
+    padding: 5px;
+}
+.apd-card{
+    padding: 0;
+    overflow: hidden;
+    border-width: 1.5px !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.apd-card > div:nth-child(1) {
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+}
+.apd-card > div:nth-child(1) > div:nth-child(1) {
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.apd-card > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    font-size: 2rem;
+}
+.apd-card > div:nth-child(1) > div:nth-child(1) > small {
+    font-size: 0.6rem;
+    width: 100%;
+}
+.apd-card > div:nth-child(1) > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid black;
+}
+.apd-card.text-white > div:nth-child(1) > div:nth-child(2) {
+    border-left: 1px solid white;
+}
+.apd-card input {
+    position: fixed;
+    left: -1923px;
+}
+.apd-card > div:nth-child(2) {
+    padding: 0;
+    margin: 0;
+}
+.apd-card input + label{
+    color: black;
+    background-color: white;
+    padding: 10px 0;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    /* border-width: 1px; */
+}
+.apd-card input:checked + label{
+    background-color: transparent;
+}
+.apd-card input:checked + label{
+    background-color: transparent;
+    color: white;
+}
+
+.apd-table-container{
+    overflow-x: scroll;
+  }
+.apd-table {
+  position: relative;
+}
+/* tr.tb-dark th {
+  background:var(--bs-dark);
+  color: white;
+} */
+.apd-table th {
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+  /* box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); */
+}
+.apd-table tr[onclick]{
+  cursor: pointer;
+}
+
+#apdGroupingBtns div{
+    cursor: pointer;
+    color: var(--bs-dark);
+    font-size: 0.8rem;
+  }
+#apdGroupingBtns .disabled > div {
+    background-color: var(--bs-dark-subtle) !important;
+    color: rgb(200, 199, 199);
+  }
+#apdGroupingBtns .active > div {
+    background-color: red !important;
+    border-color: var(--bs-dark);
+    color: white;
+  }
+
+.apd-edit-item{
+    /* border rounded border-white d-flex overflow-hidden  */
+    border: 1px solid white;
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 10px;
+}
+.apd-edit-item div:nth-child(1){
+    flex-grow: 0;
+    width: 175px;
+    background-color: darkblue !important;
+}
+.apd-edit-item input{
+    position: fixed;
+    left: -1000px;
+}
+.apd-edit-item input + label {
+    background-color: white;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid white;
+    flex-grow: 1;
+}
+.apd-edit-item input:checked + label {
+    background-color: transparent;
+    color: white;
+}
+.apd-edit-item button {
+    flex-grow: 1;
+}

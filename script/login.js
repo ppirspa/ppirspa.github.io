@@ -3,6 +3,7 @@ async function login(user, password){
     var validLogin = false
     var ppiOnly = false
     var hhData = []
+    var apdData = []
     var userList = {}
     if(user === "out"){
         console.log("log out...")
@@ -17,17 +18,19 @@ async function login(user, password){
         .then(respon => {
             if(respon.ok){
                 console.log("login...respon.ok")
-                validLogin = respon.isLogPass; 
+                validLogin = respon.isLogPass;
                 ppiOnly = respon.isPPI;
                 UserInfo.fullName = respon.fullName;
                 UserInfo.id = respon.userID
                 hhData = respon.hhData
+                apdData = respon.apdData
                 userList = respon.userList
             }
         })
         console.log("validLogin is " + validLogin)
         if(validLogin){
             database["hhData"] = hhData;
+            database["apdData"] = apdData
             database["userList"] = userList;
             Elem("showHTML").setAttribute("w3-include-html", "/html/C-body.html");
             await includeHTML()
@@ -52,12 +55,13 @@ async function login(user, password){
                         database["unitData"] = respon.unitData
                     }
                 })
-            // console.log(database)
+            console.log(database)
             spinner(false)
 
             return
         }
         else{alert("Username dan password tidak sesuai");spinner(false)}
     }
+    
     // spinner(false)
   }

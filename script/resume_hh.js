@@ -1,7 +1,3 @@
-var resumeFilter = {
-    hh: {}
-}
-
 var resumeHHData = {data: {}, chart:{}, table:{}}
 
 function ResetResume_HH(){
@@ -30,6 +26,7 @@ function ResetResume_HH(){
     resumeFilter.hh = resumeFilterHHDefault
     updateResume_HH_Data()
     updateResume_HH()
+    
 }
 function updateResume_HH(){
     // spinner(true)
@@ -39,11 +36,13 @@ function updateResume_HH(){
     updateResume_HH_Title()
     updateResume_HH_Chart()
     updateResume_HH_Table()
+    
     // spinner(false)
 }
 
 function updateResume_HH_Data(){
     resumeHHData.data = {}
+    console.log(database.hhData)
     var iData = 0; var len = database.hhData.length;
     while(iData < len){
         var item = database.hhData[iData]
@@ -51,11 +50,10 @@ function updateResume_HH_Data(){
         if(!(resumeHHData.data[yMo])){
             resumeHHData.data[yMo] = {n:0,"All":{"Dokter":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}},"Perawat Bidan":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}},"Magang Siswa":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}},"Lain-lain":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}},"All":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}}}}
         }
-        
         if(!(resumeHHData.data[yMo][item.unit])){
             resumeHHData.data[yMo][item.unit] = {"Dokter":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}},"Perawat Bidan":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}},"Magang Siswa":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}},"Lain-lain":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}},"All":{n: 0, mo1:{act:0,opp:0,score:""},mo2:{act:0,opp:0,score:""},mo3:{act:0,opp:0,score:""},mo4:{act:0,opp:0,score:""},mo5:{act:0,opp:0,score:""},total:{act:0,opp:0,score:""}}}
         }
-        return
+        
         resumeHHData.data[yMo].n += 1
         resumeHHData.data[yMo].All.All.n += 1
         resumeHHData.data[yMo].All[item.group].n += 1
@@ -119,7 +117,7 @@ function updateResume_HH_Data(){
         }
     iData++
     }
-        
+    
 }
 function hhDataFilter(month, year, group, unit){
     var monthText = {
@@ -374,6 +372,8 @@ function updateResume_HH_Pra(){
 
     function form(val){if(val == "") {return ""} else {return (Math.floor(val*1000)/10) + "%"}}
     function cForm(val){var r = val; if(val === 0 || val === ""){r = "."}; return r}
+    console.log(resumeFilter)
+    console.log(resumeHHData)
 }
 function updateResume_HH_Title(){
     var monthText = {

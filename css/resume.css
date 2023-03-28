@@ -25,16 +25,16 @@
 #resumeTabBtnContainer li button{
     color: black;
 }
-.table-resume-hh td, .table-resume-hh th{
+.table-resume-hh td, .table-resume-hh th, .table-resume-apd td, .table-resume-apd th{
     text-align : center;
 }
 
-#res-hh-canvas-3 {
+#res-hh-canvas-3, #res-apd-canvas-3 {
     min-width: 900px
 }
 
 @media (max-width: 992px) {
-    #res-hh-canvas-2 {
+    #res-hh-canvas-2, #res-apd-canvas-2 {
         width: 900px;
         color: #f49191;
     }

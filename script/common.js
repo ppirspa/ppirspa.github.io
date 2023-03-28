@@ -1,5 +1,5 @@
 var rsAPI = "https://script.google.com/macros/s/AKfycbxqaLuBn2hKTGXQ-SSBbF-QXKCxohWXZSrvdCbTTgyQsstseStiMS79KuEGHOzn0tzt/exec";
-var dbAPI = "https://script.google.com/macros/s/AKfycby95ajfcw7ueiXsq1LQGtXPgJQxvbtI7VnKu6VRs8BWtKBjtEFoy5Y0R7ntjx5pl9C0/exec"
+var dbAPI = "https://script.google.com/macros/s/AKfycbxvkxWqys8mKB_WQYYnOBeYUXX7zR55LEBj8Owwn8kIJ-57OKvzWf3Pk4VpRgtTvjwY/exec"
 var sendform = {
     userName : "",
     userAgent: ""
@@ -43,13 +43,11 @@ async function onload(){
   await includeHTML()
   // await login("arga", "ppirspa")
   // await NavbarTo("Hand Hygiene")
+  // await NavbarTo("Kepatuhan APD")
   // await NavbarTo("Resume")
+  // Elem("apd-tab").click()
   // console.log(database)
-  // Elem("hhEditCanvasBtn").click()
-  // console.log(database.userList)
-  // EditUnit(9)
-  // TambahStaff("arga")
-  // chartTest()
+
 }
 let timeout;
 // ============================================================================
@@ -62,7 +60,7 @@ async function NavbarTo(target){
       p.parentElement.classList.add("active");
     }
   })
-  // return
+  
   if(target === "Hand Hygiene"){
     Elem("bodyContent").setAttribute("w3-include-html", "/html/C1-hh.html");
     Elem("navbarTitle").innerHTML = "Form " + target
@@ -95,7 +93,7 @@ function MenuNavTo(elem){
 }
 function ResetInput(target) {
   if(target === "Hand Hygiene"){ResetHHInput()}
-  if(target === "Kepatuhan APD"){}
+  if(target === "Kepatuhan APD"){ResetAPDInput()}
   if(target === "Supervisi"){}
   if(target === "Resume"){ResetResume()}
   if(target === "Setting"){}
@@ -103,6 +101,7 @@ function ResetInput(target) {
   onChangeAddEvent()
 }
 function InputWithList(){
+  // console.log("inpwithlist")
   document.querySelectorAll(".input-with-list").forEach((elem) => {
       elem.removeEventListener('input', filterInputList)
       elem.addEventListener('input', filterInputList)
@@ -169,7 +168,7 @@ function InputWithList(){
             }
         }
       }
-
+      elem.removeEventListener("keydown", function(e){})
       elem.addEventListener("keydown", function(e){
           var list = document.getElementById(elem.getAttribute("list-name"));
           var x = []
@@ -206,43 +205,7 @@ function InputWithList(){
     
       document.addEventListener("click", function (e) {
           closeAllLists(e.target);
-      });
-    
-    // elem.addEventListener("keydown", function(e) {
-    //   console.log("before:"+inputListCurrentFocus)
-    //     var list = document.getElementById(elem.getAttribute("list-name"));
-    //     var x = []
-    //     if (list) {
-    //         x = list.querySelectorAll("li");
-    //         x.forEach((p)=> p.classList.remove("listCurrActive"))
-    //     }
-
-    //     if((e.keyCode === 40 || e.keyCode === 38) && x.length > 0){
-    //       if (e.keyCode === 40 && inputListCurrentFocus < x.length-1) {
-    //         inputListCurrentFocus ++
-            
-    //       }
-    //       else if (e.keyCode === 38 && inputListCurrentFocus > 0 ){
-    //         inputListCurrentFocus --
-    //       }
-    //     }
-    //     else {
-    //       if (e.keyCode === 13) {
-    //         e.preventDefault();
-    //         if(inputListCurrentFocus > -1 && x.length > 0){
-    //           x[inputListCurrentFocus].querySelector("div:nth-child(1)").click();
-    //         }
-    //       } else if (e.keyCode === 9) {
-    //         Elem(elem.getAttribute('list-name')).innerHTML = ""
-    //       }
-    //       inputListCurrentFocus = -1
-    //     }
-    //     if(inputListCurrentFocus >= 0){
-    //       addActive(x[inputListCurrentFocus])
-    //       SlideTo(x[inputListCurrentFocus], x[inputListCurrentFocus].parentNode)
-    //     }
-    //   console.log("after:"+inputListCurrentFocus)  
-    // });
+      });  
     document.addEventListener("click", function (e) {
         closeAllLists(e.target);
     });
@@ -292,7 +255,7 @@ function onChangeAddEvent(){
 function inputChange(elem){
   var inputGroup = elem.getAttribute("input-value-group")
   if(inputGroup === "hh"){hhInputChange(elem)}
-  else if(inputGroup === "APD"){APDInputChange(elem)}
+  else if(inputGroup === "apd"){apdInputChange(elem)}
   // console.log(inputGroup)
 }
 async function EditStaff(id){

@@ -108,6 +108,12 @@ async function saveHHInput(){
     if(confirm("Simpan penilaian?")){
         spinner(true)
         let respon = await fetch(urlSave).then(respon => respon.json())
+        .then(respon => {
+            if(respon.ok){
+                console.log("respon = ok")
+                database.hhData = respon.data                
+            }
+        })
         ResetHHInput()
         spinner(false)
         alert("Data berhasil disimpan")
@@ -165,6 +171,7 @@ function UpdateHHTable(){
         var tr = document.createElement("tr")    
         if(userID === dataItem["observer"] * 1) {
             tr.setAttribute("onclick", "EditHH("+dataItem.id+")")
+            tr.classList.add('table-link')
         }
         var tgl = new Date(dataItem.time)
         var hour = tgl.getHours(); if(hour < 10){hour = "0"+hour}

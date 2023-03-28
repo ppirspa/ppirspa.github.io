@@ -2,15 +2,16 @@
     <ul class="nav nav-tabs px-2 text-dark" id="resumeTabBtnContainer" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="hh-tab" data-bs-toggle="tab" data-bs-target="#hh-tab-pane" type="button"
-                role="tab" aria-controls="hh-tab-pane" aria-selected="true">Hand Hygiene</button>
+                role="tab" aria-controls="hh-tab-pane" aria-selected="true" onclick="resumeNav(1)">Hand Hygiene</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="apd-tab" data-bs-toggle="tab" data-bs-target="#apd-tab-pane" type="button"
-                role="tab" aria-controls="apd-tab-pane" aria-selected="false">APD</button>
+                role="tab" aria-controls="apd-tab-pane" aria-selected="false" onclick="resumeNav(2)">APD</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="supervisi-tab" data-bs-toggle="tab" data-bs-target="#supervisi-tab-pane"
-                type="button" role="tab" aria-controls="supervisi-tab-pane" aria-selected="false">Supervisi</button>
+                type="button" role="tab" aria-controls="supervisi-tab-pane" aria-selected="false"
+                onclick="resumeNav(3)">Supervisi</button>
         </li>
     </ul>
     <div class="tab-content overflow-y-auto flex-grow-1" id="myTabContent">
@@ -126,7 +127,7 @@
                 <div class="w-100" style="scroll-snap-align: start">
                     <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
                         <div class="resume-title" id="res-hh-title-3">
-                            <p class="mt-2">Grafik Longitudinal Kepatuhan Hand Hygiene</p>
+                            <p class="mt-2">Trend Kepatuhan Hand Hygiene</p>
                             <p class="mb-2">Kelompok Unit Dadap Serep</p>
                         </div>
                         <div class="overflow-x-hidden w-100">
@@ -241,7 +242,237 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="apd-tab-pane" role="tabpanel" aria-labelledby="apd-tab" tabindex="0">APD
+        <div class="tab-pane fade bg-secondary" id="apd-tab-pane" role="tabpanel" style=" --bs-bg-opacity: 0.2"
+            aria-labelledby="apd-tab" tabindex="0">
+            <div id="resume-apd-filter-container" class="py-3 px-3 container-fluid">
+                <div class="row">
+                    <div class="col-lg mb-1">
+                        <select class="form-select" aria-label="Default select example" id="resume-filter-apd-bulan"
+                            resume-filter-type="apd-month" onchange="chResFilter(this)">
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="col-lg mb-1">
+                        <input type="number" class="form-control" min="2022" placeholder="Tahun"
+                            id="resume-filter-apd-tahun" resume-filter-type="apd-year" onchange="chResFilter(this)">
+                    </div>
+                    <div class="col-lg mb-1">
+                        <select class="form-select" aria-label="Kelompok" id="resume-filter-apd-kelompok"
+                            resume-filter-type="apd-group" onchange="chResFilter(this)">
+                            <option value="All" selected>Semua Kelompok</option>
+                            <option value="Dokter">Dokter</option>
+                            <option value="Perawat Bidan">Perawat Bidan</option>
+                            <option value="Magang Siswa">Magang Siswa</option>
+                            <option value="Lain-lain">Lain-lain</option>
+                        </select>
+                    </div>
+                    <div class="col-lg mb-1">
+                        <select class="form-select" aria-label="unit" id="resume-filter-apd-unit"
+                            resume-filter-type="apd-unit" onchange="chResFilter(this)">
+                        </select>
+                        <div class="d-none">
+                            <option value="All" selected id="resume-filter-apd-unit-first">Semua Unit</option>
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" id="resume-apd-byType" autocomplete="off"
+                                name="resume-apd-by" resume-filter-type="apd-by" value="apdType"
+                                onchange="chResFilter(this)" checked>
+                            <label class="btn btn-outline-primary" for="resume-apd-byType"
+                                style="font-size: 0.85rem;">Per Jenis APD</label>
+                            <input type="radio" class="btn-check" id="resume-apd-byProfesi" autocomplete="off"
+                                name="resume-apd-by" resume-filter-type="apd-by" value="Profesi"
+                                onchange="chResFilter(this)">
+                            <label class="btn btn-outline-primary" for="resume-apd-byProfesi"
+                                style="font-size: 0.85rem;">Per Profesi</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="resume-apd-result-container" class="px-lg-2 overflow-x-hidden w-100">
+                <div class="d-lg-flex overflow-hidden" style="scroll-snap-align: start">
+                    <div class="col-lg-4 align-item-stretch mb-2 pe-lg-3" style="scroll-snap-align: start">
+                        <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
+                            <div class="resume-title" id="res-apd-title-1">
+                                <p class="mt-2">Kepatuhan APD Berdasarkan Jenis</p>
+                                <p class="mb-2">Unit Dadap Serep | Bulan Februari 2023</p>
+                            </div>
+                            <div class="border position-relative w-100" style="height: 215px" id="res-apd-canvas-1">
+                                canvas</div>
+                            <div class="overflow-x-scroll">
+                                <table class="table table-sm small table-light mt-3 table-resume-apd" id="tab-res-apd-1"
+                                    style="font-size: 0.6rem">
+                                    <thead>
+                                        <tr class="table-primary"></tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr class="table-secondary"></tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 align-item-stretch mb-2 overflow-hidden " style="scroll-snap-align: start">
+                        <div
+                            class="mb-2 p-3 border overflow-x-hidden bg-light border-body-subtle rounded shadow h-100 ">
+                            <div class="resume-title" id="res-apd-title-2">
+                                <p class="mt-2">Kepatuhan APD Berdasarkan Jenis dan Profesi</p>
+                                <p class="mb-2">Unit Dadap Serep | Bulan Februari 2023</p>
+                            </div>
+                            <div class="overflow-x-hidden w-100">
+                                <div class="overflow-x-auto border w-100">
+                                    <div class="position-relative chart-container" style="height: 205px"
+                                        id="res-apd-canvas-2">
+                                        canvas</div>
+                                </div>
+                            </div>
+                            <table class="table table-sm small table-light mt-3 table-resume-apd" id="tab-res-apd-2"
+                                style="font-size: 0.6rem;">
+                                <thead>
+                                    <tr class="table-primary">
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr class="table-secondary">
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100" style="scroll-snap-align: start">
+                    <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
+                        <div class="resume-title" id="res-apd-title-3">
+                            <p class="mt-2">Trend Kepatuhan APD</p>
+                            <p class="mb-2">Kelompok Unit Dadap Serep</p>
+                        </div>
+                        <div class="overflow-x-hidden w-100">
+                            <div class="overflow-x-auto border w-100 " id="res-apd-canvas-3-parent">
+                                <div class="border position-relative" style="height: 200px" id="res-apd-canvas-3">
+                                    canvas</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="d-lg-flex overflow-hidden" style="scroll-snap-align: start">
+                    <div class="col-lg-7 align-item-stretch mb-2 pe-lg-3">
+                        <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
+                            <div class="resume-title" id="res-apd-title-4">
+                                <p class="mt-2">Kepatuhan APD 3 Bulan Berdasarkan Jenis APD</p>
+                                <p class="mb-2">Unit Dadap Serep | Bulan Februari 2023</p>
+                            </div>
+                            <div class="border position-relative w-100" style="height: 215px" id="res-apd-canvas-4">
+                                canvas</div>
+                            <table class="table table-sm small table-light mt-3 table-resume-hh" id="tab-res-apd-4"
+                                style="font-size: 0.6rem;">
+                                <thead>
+                                    <tr class="table-primary">
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr class="table-secondary">
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 align-item-stretch mb-2 ">
+                        <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
+                            <!-- <div class="container w-100"> -->
+                            <div class="row">
+                                <div class="col-6">
+                                    <select class="form-select" aria-label="Default select example"
+                                        id="resume-filter-apd-top10" resume-filter-type="apd-top"
+                                        onchange="chResFilter(this)">
+                                        <option value="1-0">Tertinggi</option>
+                                        <option value="0-1">Terendah</option>
+                                    </select>
+                                </div>
+                                <div class="btn-group col-6 d-flex flex-row justify-content-center align-items-center"
+                                    role="group">
+                                    <input type="checkbox" class="btn-check" id="resume-apd-tab5-profesi"
+                                        tab5="res-apd-tab-group" onchange="tab5show(this)">
+                                    <label class="btn btn-outline-dark" style="font-size: 0.8rem;"
+                                        for="resume-apd-tab5-profesi">Profesi</label>
+                                    <input type="checkbox" class="btn-check" id="resume-apd-tab5-type"
+                                        autocomplete="off" tab5="res-apd-tab-type" onchange="tab5show(this)">
+                                    <label class="btn btn-outline-dark" style="font-size: 0.8rem;"
+                                        for="resume-apd-tab5-type">Jenis</label>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+
+                            <div class="resume-title" id="res-apd-title-5">
+                                <p class="mt-2">TOP 10 Tertinggi Kepatuhan APD Pada Unit</p>
+                                <p class="mb-2">Bulan Februari 2023</p>
+                            </div>
+                            <div class="overflow-hidden w-100">
+                                <div class="overflow-x-auto border w-100">
+                                    <table class="table table-sm small table-light mt-3 table-resume-apd"
+                                        id="tab-res-apd-5" style="font-size: 0.6rem;">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th rowspan="2" style="width: 25px">No</th>
+                                                <th rowspan="2">Score APD</th>
+                                                <th rowspan="2">Unit</th>
+                                                <th rowspan="2">n</th>
+                                                <th colspan="4" class="d-none res-apd-tab-group">Profesi</th>
+                                                <th colspan="6" class="d-none res-apd-tab-type">Jenis</th>
+                                            </tr>
+                                            <tr class="table-primary" class="d-none res-apd-tab-group">
+                                                <th class="d-none res-apd-tab-group">Dokter</th>
+                                                <th class="d-none res-apd-tab-group">Perawat Bidan</th>
+                                                <th class="d-none res-apd-tab-group">Magang Siswa</th>
+                                                <th class="d-none res-apd-tab-group">Lain-lain</th>
+                                                <th class="d-none res-apd-tab-type">Handscoon</th>
+                                                <th class="d-none res-apd-tab-type">Masker</th>
+                                                <th class="d-none res-apd-tab-type">Gown</th>
+                                                <th class="d-none res-apd-tab-type">Faceshield</th>
+                                                <th class="d-none res-apd-tab-type">Boots</th>
+                                                <th class="d-none res-apd-tab-type">Headcup</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>98.9%</td>
+                                                <td>Kamar Mayat</td>
+                                                <td>34</td>
+                                                <td class="d-none res-apd-tab-group">98.9%</td>
+                                                <td class="d-none res-apd-tab-group">98.9%</td>
+                                                <td class="d-none res-apd-tab-group">98.9%</td>
+                                                <td class="d-none res-apd-tab-group">98.9%</td>
+                                                <td class="d-none res-apd-tab-type">98.9%</td>
+                                                <td class="d-none res-apd-tab-type">98.9%</td>
+                                                <td class="d-none res-apd-tab-type">98.9%</td>
+                                                <td class="d-none res-apd-tab-type">98.9%</td>
+                                                <td class="d-none res-apd-tab-type">98.9%</td>
+                                                <td class="d-none res-apd-tab-type">98.9%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="supervisi-tab-pane" role="tabpanel" aria-labelledby="supervisi-tab" tabindex="0">
             Supervisi</div>
