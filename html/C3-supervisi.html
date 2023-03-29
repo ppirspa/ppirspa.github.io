@@ -1,1 +1,206 @@
-SUPERVISI
+<div class="container h-100 overflow-x-hidden">
+    <div class="row h-100 overflow-hidden position-relative">
+        <div class="col-3 p-0 p-md-1 overflow-hidden flex-column z-1" id="sup-unitData-container">
+            <div class="bg-white rounded border border-dark h-100 d-flex flex-column overflow-hidden">
+                <div class="h-6 d-flex p-3 bg-dark text-white">
+                    <div class="flex-grow-1">Unit / Ruangan</div>
+                    <div onclick="SupHide('unitData')"><i class="fa-solid fa-xmark"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 flex-grow-1 bg-body overflow-hidden d-flex flex-column p-0">
+            <div class="w-100 d-flex p-3 bg-dark text-white position-relative">
+                <div class="d-none" id="sup-unitData-btn" onclick="SupShow('unitData')"><i
+                        class="fa-solid fa-house"></i>
+                </div>
+                <div class="flex-grow-1 text-center">Checklist Supervisi</div>
+                <div class="align-middle bg-primary align-items-stretch p-1 px-3 rounded position-absolute"
+                    style="font-size: 0.7rem; right:40px; top:18px">
+                    Simpan
+                </div>
+                <div class="" id="sup-listData-btn" onclick="SupShow('listData')"><i class="fa-solid fa-list"></i>
+                </div>
+            </div>
+            <div class="px-3 pt-1 pb-3">
+                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25"
+                    aria-valuemin="0" aria-valuemax="100" style="height: 10px">
+                    <div class="progress-bar" style="width: 25%">25%</div>
+                </div>
+            </div>
+            <div class="pt-2 flex-grow-1 px-2 overflow-hidden">
+                <div class="overflow-y-auto">
+                    <div class="sup-q-bab active" box-for="sup-q-bab-A">
+                        <div>A. HAND HYGIENE</div>
+                        <div><i class="fa-solid fa-angle-up"></i></div>
+                    </div>
+                    <div class="sup-q-bab-box" id="sup-q-bab-A">1</div>
+                    <div class="sup-q-bab" box-for="sup-q-bab-B">
+                        <div>B. APD</div>
+                        <div><i class="fa-solid fa-angle-up"></i></div>
+                    </div>
+                    <div class="sup-q-bab-box" id="sup-q-bab-B">1</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3 p-0 p-md-1 bg-white overflow-hidden flex-column hidden" id="sup-listData-container">
+            <div class="rounded bg-white border overflow-hidden shadow p-3 h-100 d-flex flex-column">
+                <div class="h-6 d-flex">
+                    <div class="flex-grow-1 text-center fw-bold text-dark">Daftar Data Supervisi</div>
+                    <div class="" id="sup-listData-btn-close" onclick="SupHide('listData')"><i
+                            class="fa-solid fa-xmark"></i></div>
+                </div>
+                <div class="pt-3 flex-grow-1 overflow-hidden">
+                    <div class="h-100 overflow-y-auto">
+                        <table class="table table-sm table-striped position-sticky" style="font-size: 0.9rem;">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-size: 0.6rem;">Mar 2023</div>
+                                        <div class="fw-bold">Adas Manis</div>
+                                        <div style="font-size: 0.6rem;">notos..@gmail.com</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="text-center" style="font-size: 0.6rem;">Score: 84.6%</div>
+                                        <div class="text-center" style="font-size: 0.6rem;">(65% Checked)</div>
+                                    </td>
+                                    <td class="align-middle"><i class="fa-solid fa-pen-to-square"></i></td>
+                                    <td class="align-middle"><i class="fa-solid fa-trash"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
