@@ -18,3 +18,16 @@ function SupHide(code){
         Elem("sup-listData-btn").classList.remove('d-none')
     }
 }
+function supQueShow(elem){
+    var isActive = elem.classList.value.includes("active")
+    if(isActive){
+        elem.classList.remove('active')
+        targetElem = document.querySelector("#"+elem.getAttribute("box-for"))
+    }
+    else {
+        document.querySelectorAll('.'+ elem.getAttribute("box-group")).forEach((p)=>{p.classList.remove('active')})
+        elem.classList.add('active')
+        targetElem = document.querySelector("#"+elem.getAttribute("box-for"))
+    }
+    console.log(isActive)
+}

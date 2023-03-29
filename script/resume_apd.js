@@ -251,8 +251,14 @@ function updateResume_apd_OnChange_Pra(){
             if(resumeAPDData.data[ymo]){    
                 var nType4 = 0; var ch4Data = []
                 while (nType4 < 7){
-                    ch4Data.push(cForm(resumeAPDData.data[ymo][resumeFilter.apd.unit][resumeFilter.apd.group][apdTypeList_All[nType4]].score))
-                    resumeAPDData.table["table4"][1+nType4].push(form(resumeAPDData.data[ymo][resumeFilter.apd.unit][resumeFilter.apd.group][apdTypeList_All[nType4]].score))
+                    var chScore = "."; var tbScore = ""
+                    if(resumeAPDData.data[ymo][resumeFilter.apd.unit]){
+                        chScore = cForm(resumeAPDData.data[ymo][resumeFilter.apd.unit][resumeFilter.apd.group][apdTypeList_All[nType4]].score);
+                        tbScore =  form(resumeAPDData.data[ymo][resumeFilter.apd.unit][resumeFilter.apd.group][apdTypeList_All[nType4]].score);
+                    }
+
+                    ch4Data.push(chScore)
+                    resumeAPDData.table["table4"][1+nType4].push(tbScore)
                 nType4++
                 }
             } else {
@@ -327,8 +333,14 @@ function updateResume_apd_OnChange_Pra(){
             if(resumeAPDData.data[ymo]){    
                 var nPro4 = 0; var ch4Data = [] 
                 while(nPro4 < profesiList2.length){
-                    ch4Data.push(cForm(resumeAPDData.data[ymo][resumeFilter.apd.unit][profesiList2[nPro4]].total.score))
-                    resumeAPDData.table["table4"][1+nPro4].push(form(resumeAPDData.data[ymo][resumeFilter.apd.unit][profesiList2[nPro4]].total.score))
+                    var chScore = "."; var tbScore = ""
+                    if(resumeAPDData.data[ymo][resumeFilter.apd.unit]){
+                        chScore = cForm(resumeAPDData.data[ymo][resumeFilter.apd.unit][profesiList2[nPro4]].total.score);
+                        tbScore =  form(resumeAPDData.data[ymo][resumeFilter.apd.unit][profesiList2[nPro4]].total.score);
+                    }
+
+                    ch4Data.push(chScore)
+                    resumeAPDData.table["table4"][1+nPro4].push(tbScore)
                 nPro4++
                 }
             } else {
@@ -391,7 +403,11 @@ function updateResume_apd_OnChange_Pra(){
         var year = monthList[nCh3].toString().substring(0,4) * 1
         var month = monthList[nCh3].toString().substring(4) * 1
         resumeAPDData.chart.chart3.label.push(shortMonthText[month] + " " + year)
-        resumeAPDData.chart.chart3.data.push(cForm(resumeAPDData.data[monthList[nCh3]][resumeFilter.apd.unit][resumeFilter.apd.group].total.score))
+        var cScore = ".";
+        if(resumeAPDData.data[monthList[nCh3]][resumeFilter.apd.unit]){
+            cScore = cForm(resumeAPDData.data[monthList[nCh3]][resumeFilter.apd.unit][resumeFilter.apd.group].total.score)
+        }
+        resumeAPDData.chart.chart3.data.push(cScore)
     nCh3++
     }
 

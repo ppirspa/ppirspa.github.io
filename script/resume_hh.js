@@ -202,8 +202,13 @@ function updateResume_HH_Pra(){
             if(resumeHHData.data[ymo]){    
                 var nMo4 = 0; var ch4Data = []
                 while (nMo4 < 6){
-                    ch4Data.push(cForm(resumeHHData.data[ymo][resumeFilter.hh.unit][resumeFilter.hh.group][momentList[nMo4]].score))
-                    resumeHHData.table["table4"][1+nMo4].push(form(resumeHHData.data[ymo][resumeFilter.hh.unit][resumeFilter.hh.group][momentList[nMo4]].score))
+                    var chScore = "."; var tbScore = ""
+                    if(resumeHHData.data[ymo][resumeFilter.hh.unit]){
+                        chScore = cForm(resumeHHData.data[ymo][resumeFilter.hh.unit][resumeFilter.hh.group][momentList[nMo4]].score);
+                        tbScore = form(resumeHHData.data[ymo][resumeFilter.hh.unit][resumeFilter.hh.group][momentList[nMo4]].score)
+                    }
+                    ch4Data.push(chScore)
+                    resumeHHData.table["table4"][1+nMo4].push(tbScore)
                 nMo4++
                 }
             } else {
@@ -274,8 +279,13 @@ function updateResume_HH_Pra(){
             if(resumeHHData.data[ymo]){    
                 var nPro4 = 0; var ch4Data = [] 
                 while(nPro4 < profesiList2.length){
-                    ch4Data.push(cForm(resumeHHData.data[ymo][resumeFilter.hh.unit][profesiList2[nPro4]].total.score))
-                    resumeHHData.table["table4"][1+nPro4].push(form(resumeHHData.data[ymo][resumeFilter.hh.unit][profesiList2[nPro4]].total.score))
+                    var chScore = "."; var tbScore = ""
+                    if(resumeHHData.data[ymo][resumeFilter.hh.unit]){
+                        chScore = cForm(resumeHHData.data[ymo][resumeFilter.hh.unit][profesiList2[nPro4]].total.score);
+                        tbScore = form(resumeHHData.data[ymo][resumeFilter.hh.unit][profesiList2[nPro4]].total.score)
+                    }
+                    ch4Data.push(chScore)
+                    resumeHHData.table["table4"][1+nPro4].push(tbScore)
                 nPro4++
                 }
             } else {
@@ -331,6 +341,8 @@ function updateResume_HH_Pra(){
         resumeHHData.chart["chart1"].barColor = [color.serial[0],color.serial[0],color.serial[0],color.serial[0],color.total]
     }
 
+
+
     var monthList = Object.keys(resumeHHData.data)
     var nCh3 = 0; var nCh3Max = monthList.length; 
     resumeHHData.chart["chart3"] = {label: [], data:[]}
@@ -338,7 +350,9 @@ function updateResume_HH_Pra(){
         var year = monthList[nCh3].toString().substring(0,4) * 1
         var month = monthList[nCh3].toString().substring(4) * 1
         resumeHHData.chart.chart3.label.push(shortMonthText[month] + " " + year)
-        resumeHHData.chart.chart3.data.push(cForm(resumeHHData.data[monthList[nCh3]][resumeFilter.hh.unit][resumeFilter.hh.group].total.score))
+        var score = "."
+        if(resumeHHData.data[monthList[nCh3]][resumeFilter.hh.unit]){score = cForm(resumeHHData.data[monthList[nCh3]][resumeFilter.hh.unit][resumeFilter.hh.group].total.score)}
+        resumeHHData.chart.chart3.data.push(score)
     nCh3++
     }
 
@@ -371,7 +385,11 @@ function updateResume_HH_Pra(){
     }
 
     function form(val){if(val == "") {return ""} else {return (Math.floor(val*1000)/10) + "%"}}
-    function cForm(val){var r = val; if(val === 0 || val === ""){r = "."}; return r}
+    function cForm(val){
+        var r = val; 
+        if(val === 0 || val === "" || val == undefined){r = "."}; 
+        return r
+    }
     console.log(resumeFilter)
     console.log(resumeHHData)
 }

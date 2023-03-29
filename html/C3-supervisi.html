@@ -29,13 +29,46 @@
             </div>
             <div class="pt-2 flex-grow-1 px-2 overflow-hidden">
                 <div class="overflow-y-auto">
-                    <div class="sup-q-bab active" box-for="sup-q-bab-A">
-                        <div>A. HAND HYGIENE</div>
+                    <div class="sup-q-bab active" box-group="sup-q-bab" box-for="sup-q-bab-A"
+                        onclick="supQueShow(this)">
+                        <div><span>A.</span>HAND HYGIENE</div>
                         <div><i class="fa-solid fa-angle-up"></i></div>
                     </div>
-                    <div class="sup-q-bab-box" id="sup-q-bab-A">1</div>
-                    <div class="sup-q-bab" box-for="sup-q-bab-B">
-                        <div>B. APD</div>
+                    <div class="sup-q-bab-box" id="sup-q-bab-A">
+                        <div class="sup-q-subbab" box-group="sup-q-subbab" box-for="sup-q-subbab-A1"
+                            onclick="supQueShow(this)">
+                            <div><span>A1.</span>Sarana Prasarana</div>
+                            <div><i class="fa-solid fa-angle-up"></i></div>
+                        </div>
+                        <div class="sup-q-subbab-box" id="sup-q-subbab-A1">
+                            <div class="sup-que-item-box">
+                                <div class="sup-que-item-text">lkj aslkj adlskjd alwkjd asdjlakwj d lkj aslkj adlskjd
+                                    alwkjd asdjlakwj d</div>
+                                <div class="sup-que-item-yes">Yes</div>
+                                <div class="sup-que-item-no">No</div>
+                            </div>
+                            <div class="sup-que-item-box">
+                                <div class="sup-que-item-text">lkj aslkj adlskjd alwkjd asdjlakwj d lkj aslkj adlskjd
+                                    alwkjd asdjlakwj d</div>
+                                <div class="sup-que-item-yes">Yes</div>
+                                <div class="sup-que-item-no">No</div>
+                            </div>
+                            <div class="sup-que-item-box">
+                                <div class="sup-que-item-text">lkj aslkj adlskjd alwkjd asdjlakwj d lkj aslkj adlskjd
+                                    alwkjd asdjlakwj d</div>
+                                <div class="sup-que-item-yes">Yes</div>
+                                <div class="sup-que-item-no">No</div>
+                            </div>
+                        </div>
+                        <div class="sup-q-subbab" box-group="sup-q-subbab" box-for="sup-q-subbab-A2"
+                            onclick="supQueShow(this)">
+                            <div><span>A2.</span>Kepatuhan</div>
+                            <div><i class="fa-solid fa-angle-up"></i></div>
+                        </div>
+                        <div class="sup-q-subbab-box" id="sup-q-subbab-A2">1</div>
+                    </div>
+                    <div class="sup-q-bab" box-group="sup-q-bab" box-for="sup-q-bab-B" onclick="supQueShow(this)">
+                        <div><span>B.</span>APD</div>
                         <div><i class="fa-solid fa-angle-up"></i></div>
                     </div>
                     <div class="sup-q-bab-box" id="sup-q-bab-B">1</div>
