@@ -202,7 +202,7 @@ function updateResume_HH_Pra(){
             if(resumeHHData.data[ymo]){    
                 var nMo4 = 0; var ch4Data = []
                 while (nMo4 < 6){
-                    var chScore = "."; var tbScore = ""
+                    var chScore = "."; var tbScore = "-"
                     if(resumeHHData.data[ymo][resumeFilter.hh.unit]){
                         chScore = cForm(resumeHHData.data[ymo][resumeFilter.hh.unit][resumeFilter.hh.group][momentList[nMo4]].score);
                         tbScore = form(resumeHHData.data[ymo][resumeFilter.hh.unit][resumeFilter.hh.group][momentList[nMo4]].score)
@@ -279,7 +279,7 @@ function updateResume_HH_Pra(){
             if(resumeHHData.data[ymo]){    
                 var nPro4 = 0; var ch4Data = [] 
                 while(nPro4 < profesiList2.length){
-                    var chScore = "."; var tbScore = ""
+                    var chScore = "."; var tbScore = "-"
                     if(resumeHHData.data[ymo][resumeFilter.hh.unit]){
                         chScore = cForm(resumeHHData.data[ymo][resumeFilter.hh.unit][profesiList2[nPro4]].total.score);
                         tbScore = form(resumeHHData.data[ymo][resumeFilter.hh.unit][profesiList2[nPro4]].total.score)
@@ -350,9 +350,14 @@ function updateResume_HH_Pra(){
         var year = monthList[nCh3].toString().substring(0,4) * 1
         var month = monthList[nCh3].toString().substring(4) * 1
         resumeHHData.chart.chart3.label.push(shortMonthText[month] + " " + year)
-        var score = "."
-        if(resumeHHData.data[monthList[nCh3]][resumeFilter.hh.unit]){score = cForm(resumeHHData.data[monthList[nCh3]][resumeFilter.hh.unit][resumeFilter.hh.group].total.score)}
-        resumeHHData.chart.chart3.data.push(score)
+        // var score = {}
+        if(resumeHHData.data[monthList[nCh3]][resumeFilter.hh.unit]){
+            var score = {
+                x: shortMonthText[month] + " " + year,
+                y: cForm(resumeHHData.data[monthList[nCh3]][resumeFilter.hh.unit][resumeFilter.hh.group].total.score)
+            }; 
+            resumeHHData.chart.chart3.data.push(score)
+        }
     nCh3++
     }
 
@@ -384,10 +389,10 @@ function updateResume_HH_Pra(){
         })
     }
 
-    function form(val){if(val == "") {return ""} else {return (Math.floor(val*1000)/10) + "%"}}
+    function form(val){if(val === "") {return "-"} else {return (Math.floor(val*1000)/10) + "%"}}
     function cForm(val){
         var r = val; 
-        if(val === 0 || val === "" || val == undefined){r = "."}; 
+        if(val === "" || val == undefined){r = "."}; 
         return r
     }
     console.log(resumeFilter)
@@ -465,8 +470,10 @@ function updateResume_HH_Chart(){
         type: 'line',
         data: {
             labels: resumeHHData.chart.chart3.label,
+            // labels: ["a", "b", "c"],
             datasets: [{
                 data: resumeHHData.chart.chart3.data,
+                // data:[{x:"a", y: 0.1}, {x:"c", y: 0.3}],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
@@ -474,8 +481,42 @@ function updateResume_HH_Chart(){
         },
         options: {
             maintainAspectRatio: false,
-            scales: {y: {beginAtZero: true, min: 0,max: 1,ticks: {stepSize: 0.25 ,callback: function(value) {return Math.floor(value*100) + '%'} , font:{size: 8}, format: {style: 'percent'}}},x : {ticks: {font:{size: 10}}}},
-            plugins: {tooltip:{enabled:true,callbacks: {label: function(context) {let label = "";if(context.parsed.y !== null) {label += (context.parsed.y*100) + "%";}return label;}}},title: {display: true,padding: {top: 10}, text:""},legend: {display: false},datalabels: {formatter: function(value, context) {return (Math.floor(value*1000) / 10) + '%';},color: 'black',anchor: 'end',align: 'end',offset: 1,font:{size: 9}}}
+            scales: {
+                y: {
+                    beginAtZero: true, min: 0,max: 1,ticks: {stepSize: 0.25 ,
+                    // callback: function(value) {return Math.floor(value*100) + '%'}, 
+                    font:{size: 8}, format: {style: 'percent'}}
+                },
+                x : {
+                    ticks: {font:{size: 10}}
+                }
+            },
+            plugins: {
+                tooltip:{
+                    enabled:true,
+                    callbacks: {
+                        label: function(context) {
+                            let label = "";
+                            if(context.parsed.y !== null) {
+                                label += (context.parsed.y*100) + "%";
+                            }
+                            return label;
+                        }
+                    }
+                },
+                title: {display: true,padding: {top: 10}, text:""},
+                legend: {display: false},
+                datalabels: {
+                    formatter: function(value) {
+                        return (Math.floor(value.y*1000) / 10) + '%';
+                    },
+                    color: 'blue',
+                    anchor: 'end',
+                    align: 'end',
+                    offset: 1,
+                    font:{size: 9}
+                }
+            }
         }
     })
     Elem("res-hh-canvas-3").innerHTML = ""
