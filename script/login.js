@@ -3,6 +3,7 @@ async function login(user, password){
     var validLogin = false
     var ppiOnly = false
     var hhData = []
+    var spvData = []
     var apdData = []
     var userList = {}
     if(user === "out"){
@@ -25,13 +26,15 @@ async function login(user, password){
                 hhData = respon.hhData
                 apdData = respon.apdData
                 userList = respon.userList
+                spvData = respon.spvData
             }
         })
         console.log("validLogin is " + validLogin)
         if(validLogin){
             database["hhData"] = hhData;
-            database["apdData"] = apdData
+            database["apdData"] = apdData;
             database["userList"] = userList;
+            database["spvData"] = spvData;
             Elem("showHTML").setAttribute("w3-include-html", "/html/C-body.html");
             await includeHTML()
             Elem("userLoginName").innerHTML = UserInfo.fullName
@@ -53,6 +56,9 @@ async function login(user, password){
                         Toast("RSAPI - Success")
                         database["staffData"] = respon.staffData
                         database["unitData"] = respon.unitData
+                        database["ceklist"] = respon.queData
+                        database["superBab"] = respon.babData
+                        database["superSub"] = respon.subData
                     }
                 })
             console.log(database)

@@ -1,7 +1,7 @@
 var rsAPI =
-  "https://script.google.com/macros/s/AKfycbxqaLuBn2hKTGXQ-SSBbF-QXKCxohWXZSrvdCbTTgyQsstseStiMS79KuEGHOzn0tzt/exec";
+  "https://script.google.com/macros/s/AKfycbxXRjpUHhooDxx18IjMxJP4dDCywNItNKgAm4aqgrrM3Cy9JWFJVzmThbt0NpDMSxJy/exec";
 var dbAPI =
-  "https://script.google.com/macros/s/AKfycbxvkxWqys8mKB_WQYYnOBeYUXX7zR55LEBj8Owwn8kIJ-57OKvzWf3Pk4VpRgtTvjwY/exec";
+  "https://script.google.com/macros/s/AKfycbzsCaqK1vc0LhELkxV_e6HYOWLv0sVS9vK6XhAKYPdOM4s_PRXDoPXH9ZrxNyQSPBV_/exec";
 var sendform = {
   userName: "",
   userAgent: "",
@@ -51,6 +51,7 @@ async function onload() {
   // await NavbarTo("Resume")
   // await NavbarTo("Supervisi");
   // Elem("apd-tab").click()
+  // console.log(database)
   // console.log(database)
 }
 let timeout;
@@ -111,6 +112,7 @@ function ResetInput(target) {
     ResetAPDInput();
   }
   if (target === "Supervisi") {
+    ResetSupervisiPage()
   }
   if (target === "Resume") {
     ResetResume();
@@ -468,19 +470,7 @@ async function EditUnit(id) {
   modalBody.querySelector("#unit-input-id").classList.remove("d-none");
   modalBody.querySelector("#unit-input-nama").value = unitName;
   modalBody.querySelector("#unit-input-alternate").value = altName;
-  var formAssignInput = modalBody.querySelector("#unit-input-formAssign");
-  formAssignInput.innerHTML = "";
-  formAssignList.forEach((p) => {
-    var opt = document.createElement("option");
-    opt.setAttribute("value", p[0]);
-    opt.innerHTML = p[0] + ": " + p[1];
-    formAssignInput.appendChild(opt);
-  });
-  formAssignInput.value = "";
-  if (formAssign !== "") {
-    formAssignInput.value = formAssign;
-  }
-
+  
   //footer
   var footer = Elem("unitModal-footer").cloneNode(true);
   footer.querySelectorAll(".modal-btn").forEach((p) => {
@@ -543,20 +533,20 @@ async function TambahUnit(nama) {
   modalBody.querySelector("#unit-input-nama").value = nama;
   modalBody.querySelector("#unit-input-alternate").value = "";
 
-  var formAssignInput = modalBody.querySelector("#unit-input-formAssign");
-  formAssignInput.innerHTML = "";
-  var firstOpt = document.createElement("option");
-  firstOpt.setAttribute("disabled", "");
-  firstOpt.setAttribute("selected", "");
-  firstOpt.innerHTML = "Jenis Formulir Supervisi";
-  formAssignInput.appendChild(firstOpt);
-  formAssignList.forEach((p) => {
-    var opt = document.createElement("option");
-    opt.setAttribute("value", p[0]);
-    opt.innerHTML = p[0] + ": " + p[1];
-    formAssignInput.appendChild(opt);
-  });
-  formAssignInput.selectedIndex = 0;
+  // var formAssignInput = modalBody.querySelector("#unit-input-formAssign");
+  // formAssignInput.innerHTML = "";
+  // var firstOpt = document.createElement("option");
+  // firstOpt.setAttribute("disabled", "");
+  // firstOpt.setAttribute("selected", "");
+  // firstOpt.innerHTML = "Jenis Formulir Supervisi";
+  // formAssignInput.appendChild(firstOpt);
+  // formAssignList.forEach((p) => {
+  //   var opt = document.createElement("option");
+  //   opt.setAttribute("value", p[0]);
+  //   opt.innerHTML = p[0] + ": " + p[1];
+  //   formAssignInput.appendChild(opt);
+  // });
+  // formAssignInput.selectedIndex = 0;
 
   //footer
   var footer = Elem("unitModal-footer").cloneNode(true);
@@ -665,20 +655,12 @@ async function unitAPI(code) {
       .value.toString()
       .toUpperCase();
     var unitID = myModal.querySelector("#unit-input-id").value;
-    var unitForm = myModal
-      .querySelector("#unit-input-formAssign")
-      .value.toString()
-      .toUpperCase();
+    
     if (code == "Tambah") {
       console.log("Req Send: Tambah ....");
       await fetch(
         rsAPI +
-          "?req=untins&name=" +
-          nama +
-          "&alternatif=" +
-          unitAltName +
-          "&formAssign=" +
-          unitForm
+          "?req=untins&name=" + unitName + "&alternatif=" + unitAltName
       )
         .then((respon) => respon.json())
         .then((respon) => {
@@ -702,13 +684,9 @@ async function unitAPI(code) {
       await fetch(
         rsAPI +
           "?req=untupd&name=" +
-          nama +
+          unitName +
           "&id=" +
-          unitID +
-          "&alternatif=" +
-          unitAltName +
-          "&formAssign=" +
-          unitForm
+          unitID
       )
         .then((respon) => respon.json())
         .then((respon) => {
@@ -719,6 +697,7 @@ async function unitAPI(code) {
         });
     }
     Toast(code + " - Success");
+    if(code == "Tambah"){Toast("Pemilihan ceklist supervisi pada unit yang ditambahkan, dilakukan pada menu SETING")}
     spinner(false);
     return;
   } else {
