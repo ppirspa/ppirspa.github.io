@@ -78,6 +78,9 @@
     width: 100px;
     color: white;
 }
+.sup-que-item-yesno label, .spv-que-yn label, .spv-tr > td:nth-child(3), .spv-tr > td:nth-child(4){
+    cursor: pointer;
+}
 .spv-box-bab > .sup-que-item-yesno input{
     width: 20px;
     margin-right: 10px;

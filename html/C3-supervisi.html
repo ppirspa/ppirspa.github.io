@@ -85,6 +85,7 @@
                 </div>
                 <div class="flex-grow-1 text-center">Checklist Supervisi</div>
                 <div class="align-middle bg-primary align-items-stretch p-1 text-center rounded position-absolute"
+                    onclick="SimpanSupervisi()"
                     style="width: 59px; font-size: 0.8rem; right:40px; top:16px; cursor: pointer;">
                     Simpan
                 </div>
@@ -95,7 +96,7 @@
                 <div id="progress-text">0 / 0 checked</div>
                 <div id="sup-progress" class="progress" role="progressbar" aria-label="Example with label"
                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 10px">
-                    <div class="progress-bar" style="width: 0%">0%</div>
+                    <div class="progress-bar" id="spv-progress-bar" style="width: 0%">0%</div>
                 </div>
             </div>
             <div class="d-none">

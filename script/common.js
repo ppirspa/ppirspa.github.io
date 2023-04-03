@@ -1,7 +1,7 @@
 var rsAPI =
   "https://script.google.com/macros/s/AKfycbxXRjpUHhooDxx18IjMxJP4dDCywNItNKgAm4aqgrrM3Cy9JWFJVzmThbt0NpDMSxJy/exec";
 var dbAPI =
-  "https://script.google.com/macros/s/AKfycbzsCaqK1vc0LhELkxV_e6HYOWLv0sVS9vK6XhAKYPdOM4s_PRXDoPXH9ZrxNyQSPBV_/exec";
+  "https://script.google.com/macros/s/AKfycbw41O2NJW-aJ7iLLoKGQ0clmtEQUYnVa3qPK5rYDWeKkDoFZigX4FevSuIuAY8dzdA2/exec";
 var sendform = {
   userName: "",
   userAgent: "",

@@ -12,8 +12,11 @@ function ResetSupervisiPage(){
     // hhTableFilterShort = hhTableFilterShortDefault
     UpdateSPVTable()
     InputWithList()
-
-    // unitFilter("TPA")
+    
+    
+    // SupHide('unitData')
+    // Elem("sup-input-unit").value = "ADAS MANIS"
+    // unitFilter("ADAS MANIS")
     // SupHide('unitData')
 
 }
@@ -66,6 +69,7 @@ function spvTabTo(elem){
     }
 }
 function unitFilter(val){
+    // quesFiltered = []
     var cekList = Object.values(database.ceklist)
     var babTabContainer = Elem("spv-scroll-tab-container")
         babTabContainer.innerHTML = ""
@@ -130,14 +134,16 @@ function unitFilter(val){
             var queItemElem = Elem("spv-que-box-sample").cloneNode(true)
                 queItemElem.querySelector(".spv-que-text").innerHTML = chItem.text
                 var yesInp = queItemElem.querySelector(".spv-que-yn > input:nth-child(1)")
-                    yesInp.setAttribute("bab-group", "bab-" + babCode)
-                    yesInp.setAttribute("sub-group", "bab-" + subCode)
-                    yesInp.id = "que-" + chItem.code+ "-true"
+                    yesInp.setAttribute("bab-group", "bab-" + babCode + "-true")
+                    yesInp.setAttribute("sub-group", "sub-" + subCode + "-true")
+                    yesInp.setAttribute("name", "que-" + chItem.code)
+                    yesInp.id = "que-" + chItem.code + "-true"
                 var yesLab = queItemElem.querySelector(".spv-que-yn label:nth-child(2)")
                     yesLab.setAttribute("for", "que-" + chItem.code+ "-true")
                 var noInp = queItemElem.querySelector(".spv-que-yn > input:nth-child(3)")
-                    noInp.setAttribute("bab-group", "bab-" + babCode)
-                    noInp.setAttribute("sub-group", "bab-" + subCode)
+                    noInp.setAttribute("bab-group", "bab-" + babCode + "-false")
+                    noInp.setAttribute("sub-group", "sub-" + subCode + "-false")
+                    noInp.setAttribute("name", "que-" + chItem.code)
                     noInp.id = "que-" + chItem.code+ "-false"
                 var noLab = queItemElem.querySelector(".spv-que-yn label:nth-child(4)")
                     noLab.setAttribute("for", "que-" + chItem.code+ "-false")    
@@ -152,108 +158,6 @@ function unitFilter(val){
         }
     nCekList++
     } 
-    console.log(quesFiltered)
-    //     var chItem = cekList[nCekList]
-    //     var queText = chItem.text
-    //     var bab = chItem.bab
-    //     var sub = chItem.subbab
-    //     var units = chItem.unitAssign
-    //     console.log(units)
-    //     if(units.indexOf(val) > -1){
-    //         quesFiltered.push(chItem)
-    //         console.log(chItem)
-    //         var qBox = Elem("sup-que-item-box-example").cloneNode(true)
-    //             qBox.id = "qBox-" + chItem.code
-    //             qBox.querySelector(".sup-que-item-text").innerHTML = "<span>"+nItemAssign+". </span>"+queText
-    //             var yesBoxLabel = qBox.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
-    //                 yesBoxLabel.setAttribute("for", "que-"+chItem.code+"-true")
-    //                 yesBoxLabel.querySelector("input").setAttribute("name", "que-"+chItem.code)
-    //                 yesBoxLabel.querySelector("input").setAttribute("sub-group", "sub-"+chItem.code.substring(6)+"-true")
-    //                 yesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
-    //                 yesBoxLabel.querySelector("input").id = "que-"+chItem.code+"-true"
-    //             var noBoxLabel = qBox.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
-    //                 noBoxLabel.setAttribute("for", "que-"+chItem.code+"-false")
-    //                 noBoxLabel.querySelector("input").setAttribute("name", "que-"+chItem.code)
-    //                 noBoxLabel.querySelector("input").setAttribute("sub-group", "sub-"+chItem.code.substring(6)+"-false")
-    //                 noBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-false")
-    //                 noBoxLabel.querySelector("input").id = "que-"+chItem.code+"-false"
-    //         if(sub!==""){
-    //             if(!(Elem("sup-subbab-box-" + chItem.code.substring(6)))){
-    //                 var subbabHead = Elem("sup-subbab-example").cloneNode(true)
-    //                     subbabHead.querySelector(".sup-q-subbab-title > div").innerHTML = "<span>"+chItem.code.substring(6)+". </span>"+sub
-    //                     subbabHead.setAttribute("box-for", "sup-subbab-box-" + chItem.code.substring(6))
-    //                     if(nItemAssign === 1){subbabHead.classList.add('active')}
-    //                     var subYesBoxLabel = subbabHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
-    //                         subYesBoxLabel.setAttribute("for", "sub-"+chItem.code.substring(6)+"-true")
-    //                         subYesBoxLabel.querySelector("input").setAttribute("name", "sub-"+chItem.code.substring(6))
-    //                         subYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
-    //                         subYesBoxLabel.querySelector("input").id = "sub-"+chItem.code.substring(6)+"-true"
-    //                     var subNoBoxLabel = subbabHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
-    //                         subNoBoxLabel.setAttribute("for", "sub-"+chItem.code.substring(6)+"-false")
-    //                         subNoBoxLabel.querySelector("input").setAttribute("name", "sub-"+chItem.code.substring(6))
-    //                         subNoBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-false")
-    //                         subNoBoxLabel.querySelector("input").id = "sub-"+chItem.code.substring(6)+"-false"
-    //                 var subbabBox = Elem("sup-subbab-box-example").cloneNode(true)
-    //                     subbabBox.id = "sup-subbab-box-" + chItem.code.substring(6)
-                    
-    //                 if(!(Elem("sup-bab-"+chItem.code.substring(4,5)))){
-    //                     var babHead = Elem("sup-bab-example").cloneNode(true)
-    //                         babHead.id = "sup-bab"+chItem.code.substring(4,5)
-    //                         babHead.querySelector(".sup-bab-title > div").innerHTML = "<span>"+chItem.code.substring(4,5)+". </span>" + bab
-    //                     babHead.setAttribute("box-for", "sup-bab-"+chItem.code.substring(4,5))
-    //                     if(nItemAssign === 1){babHead.classList.add('active')}
-    //                     var babYesBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
-    //                         babYesBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-true")
-    //                         babYesBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
-    //                         // babYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
-    //                         babYesBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-true"
-    //                         // babYesBoxLabel.querySelector("input").setAttribute("YNgroup-value", "true")
-    //                     var babNoBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
-    //                         babNoBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-false")
-    //                         babNoBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
-    //                         babNoBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-false" 
-    //                     var babBox = Elem("sup-bab-box-example").cloneNode(true)
-    //                         babBox.id = "sup-bab-"+chItem.code.substring(4,5)
-
-    //                     cekListContainer.appendChild(babHead)
-    //                     cekListContainer.appendChild(babBox)        
-    //                 }
-    //                 Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(subbabHead)
-    //                 Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(subbabBox)
-    //             }
-    //             var subbabParent = Elem("sup-subbab-box-" + chItem.code.substring(6))
-    //             subbabParent.appendChild(qBox)
-    //         } 
-    //         else {
-    //             if(!(Elem("sup-bab-"+chItem.code.substring(4,5)))){
-    //                 var babHead = Elem("sup-bab-example").cloneNode(true)
-    //                     babHead.id = "sup-bab"+chItem.code.substring(4,5)
-    //                     babHead.querySelector(".sup-bab-title > div").innerHTML = "<span>"+chItem.code.substring(4,5)+". </span>" + bab
-    //                 babHead.setAttribute("box-for", "sup-bab-"+chItem.code.substring(4,5))
-    //                 if(nItemAssign === 1){babHead.classList.add('active')}
-    //                 var babYesBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
-    //                     babYesBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-true")
-    //                     babYesBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
-    //                     // babYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
-    //                     babYesBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-true"
-    //                     // babYesBoxLabel.querySelector("input").setAttribute("YNgroup-value", "true")
-    //                 var babNoBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
-    //                     babNoBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-false")
-    //                     babNoBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
-    //                     babNoBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-false" 
-    //                 var babBox = Elem("sup-bab-box-example").cloneNode(true)
-    //                     babBox.id = "sup-bab-"+chItem.code.substring(4,5)
-
-    //                 cekListContainer.appendChild(babHead)
-    //                 cekListContainer.appendChild(babBox) 
-    //             }
-    //             Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(qBox)
-    //         }
-    //     nItemAssign++
-    //     }
-    // nCekList++
-    // } 
-    // console.log(quesFiltered)
     progressBar(0,quesFiltered.length)
 }
 function subBoxShow(elem){
@@ -280,7 +184,7 @@ function clickCeklist(elem){
     var level = yesnoGroup.substring(0,3)
     if(!(isChecked)){elem.checked = false} else {elem.checked = true}
     
-    return
+    // console.log(yesnoGroup)
     if(level == "sub"){
         var quesSubGroupName = elem.id
         var quesSubGroupElem = document.querySelectorAll("[sub-group='"+quesSubGroupName+"']")
@@ -373,7 +277,6 @@ function progressBar(checked, total){
     progBar.querySelector(".progress-bar").innerHTML = score.toString()+"%" 
 }
 function UpdateSPVTable(){
-    return
     var container = Elem("spv-table-container")
     var shortMonthText = {
         1:"Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"Mei", 6:"Jun", 
@@ -479,12 +382,102 @@ function spvDataEdit(itemID){
     nLoop++
     }
 }
-function spvDataDel(itemID){
-    if(!(confirm("Menghapus data lama dengan id: " + itemID + " ?"))){return}
-
+async function spvDataDel(itemID){
+    if(confirm("Menghapus data lama dengan id: " + itemID + " ?")){
+        spinner(true)
+        console.log("API requesting.... ")
+        var url = dbAPI + "?" + "req=spvdel&id="+itemID
+        console.log(url)
+        return
+        await fetch(dbAPI + "?" + "req=spvdel&id="+itemID)
+                .then(respon => respon.json())
+                .then(respon => {
+                    if(respon.ok){
+                        console.log("Respon: ok...")
+                        database.spvData = respon.data;
+                        ResetSupervisiPage()
+                        spinner(false)
+                        Toast("Data berhasil dihapus")
+                        console.log(database)
+                    }
+                })        
+    }
 }
 function spvNewData(){
     if(confirm("Data yang belum disimpan akan terhapus. Lanjutkan membuat input data baru?")){
         ResetSupervisiPage()
+        Elem("sup-unitData-btn").click()
     }
+}
+async function SimpanSupervisi(){
+    var SimpanObj = {}
+    SimpanObj["observer"] = UserInfo.id
+    SimpanObj["unit"] = Elem("sup-input-unit").value
+        if(SimpanObj["unit"] == ""){
+            alert('Ups.... Unit masih kosong'); 
+            SupShow("unitData")
+            Elem("sup-input-unit").focus(); 
+            return 
+        }
+    SimpanObj["subunit"] = Elem("sup-input-subunit").value
+    SimpanObj["month"] = Elem("sup-input-bulan").value * 1
+    SimpanObj["year"] = Elem("sup-input-tahun").value * 1
+    SimpanObj["id"] = Elem("sup-input-id").value * 1
+    if(quesFiltered.length === 0){
+        alert('Ada kesalahan. Mohon diulang');  
+        return
+    }
+    if(Elem("spv-progress-bar").innerHTML == "0%"){
+        alert('Ups... Belum ada ceklist yang dinilai');  
+        return
+    }
+    var nQueList = 0
+    while(nQueList < quesFiltered.length){
+        var code = quesFiltered[nQueList].code 
+        var yesInp = Elem("que-"+code+"-true")
+        var noInp = Elem("que-"+code+"-false")
+        var key = code.substring(0,3)*1
+        if(yesInp.checked){SimpanObj[key] = true}
+        if(noInp.checked){SimpanObj[key] = false}
+    nQueList++
+    }
+
+    if(SimpanObj.id === 0){
+        if(confirm("Simpan penilaian ceklist supervisi?")){
+            spinner(true)
+            console.log("API requesting.... ")
+            var url = dbAPI + "?" + "req=spvins"
+            var nSaveInp = 0; var simpanObjKey = Object.keys(SimpanObj)
+            while(nSaveInp < simpanObjKey.length){
+                url += "&"+ simpanObjKey[nSaveInp] + "=" + SimpanObj[simpanObjKey[nSaveInp]]
+                nSaveInp++
+            }
+            console.log(url)
+        }
+    } else if(SimpanObj.id > 0){
+        if(confirm("Simpan PERUBAHAN penilaian ceklist supervisi?")){
+            spinner(true)
+            console.log("API requesting.... ")
+            var url = dbAPI + "?" + "req=spvupd"
+            var nSaveInp = 0; var simpanObjKey = Object.keys(SimpanObj)
+            while(nSaveInp < simpanObjKey.length){
+                url += "&"+ simpanObjKey[nSaveInp] + "=" + SimpanObj[simpanObjKey[nSaveInp]]
+                nSaveInp++
+            }
+            console.log(url)
+        }
+    }
+    if(url){
+    await fetch(url)
+                .then(respon => respon.json())
+                .then(respon => {
+                    if(respon.ok){
+                        console.log("Respon: ok...")
+                        database.spvData = respon.data;
+                        ResetSupervisiPage()
+                        spinner(false)
+                        Toast("Data penilaian ceklist berhasil disimpan")
+                    }
+                })
+            }
 }
