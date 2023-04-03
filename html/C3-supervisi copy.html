@@ -15,10 +15,10 @@
                             class="border border-dark border-2 form-control input-with-list onchange-check input-unit"
                             list-name="sup-input-list-unit" placeholder="Masukkan nama unit"
                             aria-label="Nama Unit Penilaian" input-value-group="supervisi" input-value-type="unit"
-                            onchange="unitFilter(this.value)" id="sup-input-unit" edit-function="EditUnit"
+                            onchange="checklistFilter(this.value)" id="sup-input-unit" edit-function="EditUnit"
                             autocomplete="off">
                         <div class="input-group-text bg-dark border border-dark d-flex text-white"
-                            onclick="Elem('sup-input-unit').value = ''; unitFilter('')" style="cursor: pointer">
+                            onclick="Elem('sup-input-unit').value = ''; checklistFilter('')" style="cursor: pointer">
                             <i class="fa-solid fa-xmark"></i>
                         </div>
                     </div>
@@ -91,25 +91,31 @@
                 <div class="" id="sup-listData-btn" onclick="SupShow('listData')"><i class="fa-solid fa-list"></i>
                 </div>
             </div>
-            <div class="px-3 pt-1 pb-2">
+            <div class="px-3 pt-1 pb-3">
                 <div id="progress-text">0 / 0 checked</div>
                 <div id="sup-progress" class="progress" role="progressbar" aria-label="Example with label"
                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 10px">
                     <div class="progress-bar" style="width: 0%">0%</div>
                 </div>
             </div>
-            <div class="d-none">
-                <input type="radio" name="spv-tab" id="spv-tab-sample" onchange="spvTabTo(this)" checked>
-                <label for="spv-tab-sample" id="spv-tab-label-sample">
-                    <div>A. Sample</div>
-                </label>
-                <div class="overflow-y-auto spv-box-bab h-100" id="spv-box-sample">
+            <div class="d-none" id="checklistQueSample">
+                <div class="sup-bab" id="sup-bab-example" box-group="sup-bab" box-for="sup-bab-box-example">
+                    <div class="sup-subbab-headbtn" onclick="subBoxShow(this)">
+                        <div></div>
+                        <div class="sup-bab-title">
+                            <div>
+                                <span>A. </span>
+                                Kebersihan Tangan
+                            </div>
+                        </div>
+                        <div><i class="fa-solid fa-angle-up"></i></div>
+                    </div>
                     <div class="sup-que-item-yesno">
-                        <div>Pilih semua: </div>
                         <div>
                             <label class="" for="bab-A-true-ex">
                                 <input type="checkbox" name="bab-A-ex" id="bab-A-true-ex" onchange="clickCeklist(this)">
                                 <div>Ya</div>
+                                <div>Semua</div>
                             </label>
                         </div>
                         <div>
@@ -117,58 +123,70 @@
                                 <input type="checkbox" name="bab-A-ex" id="bab-A-false-ex"
                                     onchange="clickCeklist(this)">
                                 <div>Tidak</div>
+                                <div>Semua</div>
                             </label>
                         </div>
                     </div>
-                    <div class="bab-container-sample" id="bab-container-sample">
-                    </div>
                 </div>
-                <div class="spv-subbab" id="spv-subbab-sample">
-                    <div>
-                        <div class="spv-subbab-title">
-                            1. Audit Pencegahan IADP (Umbilical dan CVC)
-                        </div>
-                        <div class="sup-que-item-yesno">
-                            <div>Pilih semua: </div>
+                <div class="sup-bab-box" id="sup-bab-box-example">
+                </div>
+                <div class="sup-q-subbab" id="sup-subbab-example" box-group="sup-q-subbab" box-for="sup-q-subbab-01">
+                    <div class="sup-subbab-headbtn" onclick="subBoxShow(this)">
+                        <div></div>
+                        <div class="sup-q-subbab-title">
                             <div>
-                                <div>
-                                    <label class="" for="bab-A-true-ex">
-                                        <input type="checkbox" name="bab-A-ex" id="bab-A-true-ex"
-                                            onchange="clickCeklist(this)">
-                                        <div>Ya</div>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label class="" for="bab-A-false-ex">
-                                        <input type="checkbox" name="bab-A-ex" id="bab-A-false-ex"
-                                            onchange="clickCeklist(this)">
-                                        <div>Tidak</div>
-                                    </label>
-                                </div>
+                                <span>A1. </span>
+                                Sarana Prasarana
                             </div>
                         </div>
+                        <div><i class="fa-solid fa-angle-up"></i></div>
                     </div>
-                    <div class="spv-subbab-box" id="spv-subbab-01-sample"></div>
+                    <div class="sup-que-item-yesno">
+                        <div>
+                            <label class="" for="sub-01-true-examp">
+                                <input type="checkbox" bab-group="bab-A" name="sub-01-examp" id="sub-01-true-examp"
+                                    onchange="clickCeklist(this)">
+                                <div>Ya</div>
+                                <div>Semua</div>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="" for="sub-01-false-examp">
+                                <input type="checkbox" bab-group="bab-A" name="sub-01-examp" id="sub-01-false-examp"
+                                    onchange="clickCeklist(this)">
+                                <div>Tidak</div>
+                                <div>Semua</div>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="spv-que-box" id="spv-que-box-sample">
-                    <div class="spv-que-text">1. lkj lkj alwkj lkj alwkj dlkj alwkj dawlkjdawd</div>
-                    <div class="spv-que-yn">
-                        <input type="checkbox" bab-group="bab-sample" id="que-A-02-003-ex-true"
-                            onchange="clickCeklist(this)" name="que-A-02-003-ex">
-                        <label for="que-A-02-003-ex-true">Ya</label>
-                        <input type="checkbox" bab-group="bab-sample" id="que-A-02-003-ex-false"
-                            onchange="clickCeklist(this)" name="que-A-02-003-ex">
-                        <label for="que-A-02-003-ex-false">Tidak</label>
+                <div class="sup-q-subbab-box" id="sup-subbab-box-example"></div>
+                <div class="sup-que-item-box" id="sup-que-item-box-example">
+                    <div class="sup-que-item-text">
+                        <span>A-01-003</span>
+                        adlskjd alwkjd asdjlakwj d lkj aslkj
+                    </div>
+                    <div class="sup-que-item-yesno">
+                        <div>
+                            <label class="" for="que-A-02-003-true-ex">
+                                <input type="checkbox" id="que-A-02-003-true-ex" onchange="clickCeklist(this)">
+                                <div>Ya</div>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="" for="que-A-02-003-false-ex">
+                                <input type="checkbox" name="que-A-02-003" id="que-A-02-003-false-ex"
+                                    onchange="clickCeklist(this)">
+                                <div>Tidak</div>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="spv-tab-container">
-                <button id="spv-tab-before" onclick="spvTabTo(this)"><i class="fa-solid fa-angle-left"></i></button>
-                <div class="spv-scroll-tab-container mx-md-2" id="spv-scroll-tab-container">
+            <div class="flex-grow-1 overflow-hidden px-3 py-1 pb-3">
+                <div class="overflow-y-auto h-100" id="checklistQueContainer">
+
                 </div>
-                <button id="spv-tab-after" onclick="spvTabTo(this)"><i class="fa-solid fa-angle-right"></i></button>
-            </div>
-            <div class="flex-grow-1 overflow-hidden mb-3" id="spv-bab-container">
             </div>
         </div>
         <div class="col-3 p-0 p-md-1 bg-white overflow-hidden flex-column hidden" id="sup-listData-container">

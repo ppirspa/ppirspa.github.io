@@ -24,6 +24,7 @@ var UserInfo = {
   fullName: "",
   id: "",
 };
+const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
 // ============================================================================
 function spinner(bo) {
@@ -49,8 +50,8 @@ async function onload() {
   // await NavbarTo("Hand Hygiene")
   // await NavbarTo("Kepatuhan APD")
   // await NavbarTo("Resume")
-  // await NavbarTo("Supervisi");
   // Elem("apd-tab").click()
+  // await NavbarTo("Supervisi");
   // console.log(database)
   // console.log(database)
 }
@@ -327,6 +328,22 @@ function SlideTo(elm, container) {
   pos.left = cPos.left - pPos.left;
   container.scrollTop += pos.top;
   // console.log(pos.top)
+}
+function ScrollToX(elm, container) {
+  var pPos = elm.parentNode.getBoundingClientRect(), // parent pos
+    cPos = elm.getBoundingClientRect(), // target pos
+    pos = {
+      top: "",
+      right: "",
+      bottom: "",
+      left: "",
+    };
+  pos.top = cPos.top - pPos.top;
+  pos.right = cPos.right - pPos.right;
+  pos.bottom = cPos.bottom - pPos.bottom;
+  pos.left = cPos.left - pPos.left;
+  container.scrollLeft += pos.left;
+  // console.log(pos.left)
 }
 function onChangeAddEvent() {
   var obyekDataField = document.querySelectorAll("[input-value-group='hh']");

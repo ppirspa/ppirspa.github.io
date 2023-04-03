@@ -1,0 +1,148 @@
+#sup-unitData-container{position: static; display: flex;}
+#sup-listData-container{position: static; display: flex; height: 100%; overflow: hidden;}
+/* #sup-listData-container div:nth-child(2){overflow-y: auto !important;} */
+#sup-unitData-container.hidden, #sup-listData-btn, #sup-listData-btn.hidden{display: none;}
+#sup-listData-container.hidden{display: flex; overflow: hidden;}
+#sup-unitData-btn{display: block;}
+#sup-unitData-btn.d-none{display: none;}
+#sup-listData-btn-close{display: none;}
+.subunit-parent{
+    padding: 5px 0 5px 45px;
+}
+@media (max-width: 992px){
+    #sup-unitData-container{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        transition: width .2s, padding .2s;
+    }
+    #sup-unitData-container.hidden{
+        display: block;
+        width: 0px;
+        padding: 0 !important;
+        overflow: hidden;
+    }
+    #sup-listData-container{
+        display: flex;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        transition: width .2s, padding .2s;
+    }
+    #sup-listData-container.hidden{
+        display: block;
+        width: 0px;
+        padding: 0 !important;
+        overflow: hidden;
+    }
+    #sup-listData-btn-close{display: block;}
+    #sup-unitData-btn{display: block !important;}
+    #sup-listData-btn{display: block !important;}
+}
+
+.sup-que-item-box{
+    border: 1px solid grey;
+    display: flex
+}
+.sup-que-item-text{
+    flex-grow: 1;
+    padding: 2px 10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.sup-que-item-text > span{
+    color: darkblue;
+    font-weight: bold;
+}
+.sup-que-item-yesno, .sup-subbab-yesno{
+    flex-shrink: 0;
+    display:flex
+}
+.sup-que-item-yesno > div, .sup-subbab-yesno > div{
+    width: 50px;
+}
+.sup-que-item-yesno > div > label, .sup-subbab-yesno > div > label {
+    width: 100%;
+    padding-top: 5px;
+    cursor: pointer;
+    border-left: 1px solid grey ;
+    height: 100%;
+    margin: 0px;
+}
+.sup-que-item-yesno > div > label > input, .sup-subbab-yesno > div > label > input{
+    width: 100%;
+    height: 15px;
+
+}
+.sup-que-item-yesno > div > label > div, .sup-subbab-yesno > div > label > div{
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-top: -10px;
+}
+.sup-q-subbab, .sup-bab{
+    border: 1px solid grey;
+    display: flex;
+    align-items: stretch;
+    height: 65px;
+    
+}
+.sup-bab{background-color: rgb(83, 82, 82); color: white; position: static;}
+.sup-bab.active{background-color:rgb(83, 21, 4); position: sticky; top: 0;}
+/* .sup-bab .sup-que-item-yesno{background-color: white;color: black;} */
+.sup-q-subbab{background-color: beige; position: static;}
+/* .sup-q-subbab.active{position: sticky; top: 0;} */
+
+.sup-q-subbab > div:nth-child(1), .sup-bab > div:nth-child(1) {
+    flex-grow: 1;
+    display: flex;
+    align-items: stretch;
+    cursor: pointer;
+}
+.sup-q-subbab > div:nth-child(1) > div:nth-child(1){
+    background-color: black;
+    width: 10px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+.sup-q-subbab > div:nth-child(1) > div:nth-child(2), .sup-bab > div:nth-child(1) > div:nth-child(2){
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-weight: bold;
+}
+.sup-q-subbab > div:nth-child(1) > div:nth-child(2){color: rgb(103, 103, 94);}
+.sup-q-subbab > div:nth-child(1) > div:nth-child(3), .sup-bab > div:nth-child(1) > div:nth-child(3){
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+}
+.sup-q-subbab + .sup-q-subbab-box, .sup-bab + .sup-bab-box{
+    padding: 0;
+    max-height: 0;
+    transition: max-height 0.2s;
+    overflow: hidden;
+}
+.sup-q-subbab .fa-solid.fa-angle-up, .sup-bab .fa-solid.fa-angle-up {
+    text-shadow: 0;
+    transform: rotate(0);
+    transition: transform 1s;
+}
+.sup-q-subbab .fa-solid.fa-angle-up{color: black;}
+.sup-bab .fa-solid.fa-angle-up{color: rgb(189, 189, 255);}
+.sup-q-subbab.active .fa-solid.fa-angle-up, .sup-bab.active .fa-solid.fa-angle-up {
+    color: #00FF00;
+    text-shadow: 0px 0px 2px white;
+    transform: rotate(180deg);
+}
+.sup-q-subbab.active + .sup-q-subbab-box, .sup-bab.active + .sup-bab-box{
+    max-height: 1000px;
+}
+.sup-q-subbab.active > div:nth-child(1) > div:nth-child(1){
+    background-color: #00FF00;
+}
+
+#progress-text{
+    font-size: 0.9rem;
+}

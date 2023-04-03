@@ -17,6 +17,9 @@ function resumeNav(val){
     if(val === 2){
         ResetResume_APD()
     }
+    if(val === 3){
+        ResetResume_SPV()
+    }
 }
 function chResFilter(elem){
     spinner(true)

@@ -2,7 +2,7 @@ var quesFiltered = []
 function ResetSupervisiPage(){
     console.log("ResetSupervisiPage...")
     var today = new Date()
-    Elem("sup-input-unit").value = ""; checklistFilter('')
+    Elem("sup-input-unit").value = ""; unitFilter('')
     Elem("sup-input-bulan").value = today.getMonth() + 1
     Elem("sup-input-tahun").value = today.getFullYear()
     Elem("sup-input-id").value = ""
@@ -12,6 +12,9 @@ function ResetSupervisiPage(){
     // hhTableFilterShort = hhTableFilterShortDefault
     UpdateSPVTable()
     InputWithList()
+
+    // unitFilter("TPA")
+    // SupHide('unitData')
 
 }
 function SupShow(code){
@@ -34,112 +37,222 @@ function SupHide(code){
         Elem("sup-listData-btn").classList.remove('d-none')
     }
 }
-function checklistFilter(val){
-    // return
+function spvTabTo(elem){
+    var babSelect = elem.id.substring(8) 
+    if(babSelect !== "before" && babSelect !== "after"){
+        document.querySelectorAll(".spv-box-bab").forEach((p)=>{p.classList.add('d-none')})
+        Elem("spv-box-" + babSelect).classList.remove('d-none')
+        ScrollToX(document.querySelector("#spv-tab-" + babSelect + "-label"), Elem("spv-scroll-tab-container"))
+    }
+    else {
+        var babAvaibleElem = document.querySelectorAll("[name='spv-tab']")
+        var babAvaible = []
+        var nBabAvail = 0;
+        while(nBabAvail < babAvaibleElem.length){
+            babAvaible.push(babAvaibleElem[nBabAvail].id.substring(8))
+        nBabAvail++    
+        }
+        // console.log(babAvaible)
+        var currentBabId = babAvaible.indexOf(document.querySelector("[name='spv-tab']:checked").id.substring(8).toUpperCase()) - 1
+        if(babSelect == "before" && currentBabId > 0){
+            currentBabId--
+        } else if (babSelect == "after" && currentBabId < (babAvaible.length -1 )){
+            currentBabId++
+        }
+        var elemTarget = Elem("spv-tab-" + babAvaible[currentBabId + 1])
+        elemTarget.checked = true
+        var event = new Event('change'); elemTarget.dispatchEvent(event);
+        ScrollToX(document.querySelector("#spv-tab-" + babAvaible[currentBabId + 1] + "-label"), Elem("spv-scroll-tab-container"))
+    }
+}
+function unitFilter(val){
     var cekList = Object.values(database.ceklist)
-    var cekListContainer = Elem("checklistQueContainer"); cekListContainer.innerHTML = ""
-    var nCekList = 0; nItemAssign = 1
+    var babTabContainer = Elem("spv-scroll-tab-container")
+        babTabContainer.innerHTML = ""
+    var babPageContainer = Elem("spv-bab-container"); 
+        babPageContainer.innerHTML = ""
+    var nCekList = 0; var nBabAssign = 0; var QueFiltered = {}
     quesFiltered = []
     if(val == ""){return}
     while(nCekList < cekList.length){
         var chItem = cekList[nCekList]
-        var queText = chItem.text
-        var bab = chItem.bab
-        var sub = chItem.subbab
         var units = chItem.unitAssign
         if(units.indexOf(val) > -1){
             quesFiltered.push(chItem)
-            var qBox = Elem("sup-que-item-box-example").cloneNode(true)
-                qBox.id = "qBox-" + chItem.code
-                qBox.querySelector(".sup-que-item-text").innerHTML = "<span>"+nItemAssign+". </span>"+queText
-                var yesBoxLabel = qBox.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
-                    yesBoxLabel.setAttribute("for", "que-"+chItem.code+"-true")
-                    yesBoxLabel.querySelector("input").setAttribute("name", "que-"+chItem.code)
-                    yesBoxLabel.querySelector("input").setAttribute("sub-group", "sub-"+chItem.code.substring(6)+"-true")
-                    yesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
-                    yesBoxLabel.querySelector("input").id = "que-"+chItem.code+"-true"
-                var noBoxLabel = qBox.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
-                    noBoxLabel.setAttribute("for", "que-"+chItem.code+"-false")
-                    noBoxLabel.querySelector("input").setAttribute("name", "que-"+chItem.code)
-                    noBoxLabel.querySelector("input").setAttribute("sub-group", "sub-"+chItem.code.substring(6)+"-false")
-                    noBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-false")
-                    noBoxLabel.querySelector("input").id = "que-"+chItem.code+"-false"
-            if(sub!==""){
-                if(!(Elem("sup-subbab-box-" + chItem.code.substring(6)))){
-                    var subbabHead = Elem("sup-subbab-example").cloneNode(true)
-                        subbabHead.querySelector(".sup-q-subbab-title > div").innerHTML = "<span>"+chItem.code.substring(6)+". </span>"+sub
-                        subbabHead.setAttribute("box-for", "sup-subbab-box-" + chItem.code.substring(6))
-                        if(nItemAssign === 1){subbabHead.classList.add('active')}
-                        var subYesBoxLabel = subbabHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
-                            subYesBoxLabel.setAttribute("for", "sub-"+chItem.code.substring(6)+"-true")
-                            subYesBoxLabel.querySelector("input").setAttribute("name", "sub-"+chItem.code.substring(6))
-                            subYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
-                            subYesBoxLabel.querySelector("input").id = "sub-"+chItem.code.substring(6)+"-true"
-                        var subNoBoxLabel = subbabHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
-                            subNoBoxLabel.setAttribute("for", "sub-"+chItem.code.substring(6)+"-false")
-                            subNoBoxLabel.querySelector("input").setAttribute("name", "sub-"+chItem.code.substring(6))
-                            subNoBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-false")
-                            subNoBoxLabel.querySelector("input").id = "sub-"+chItem.code.substring(6)+"-false"
-                    var subbabBox = Elem("sup-subbab-box-example").cloneNode(true)
-                        subbabBox.id = "sup-subbab-box-" + chItem.code.substring(6)
-                    
-                    if(!(Elem("sup-bab-"+chItem.code.substring(4,5)))){
-                        var babHead = Elem("sup-bab-example").cloneNode(true)
-                            babHead.id = "sup-bab"+chItem.code.substring(4,5)
-                            babHead.querySelector(".sup-bab-title > div").innerHTML = "<span>"+chItem.code.substring(4,5)+". </span>" + bab
-                        babHead.setAttribute("box-for", "sup-bab-"+chItem.code.substring(4,5))
-                        if(nItemAssign === 1){babHead.classList.add('active')}
-                        var babYesBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
-                            babYesBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-true")
-                            babYesBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
-                            // babYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
-                            babYesBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-true"
-                            // babYesBoxLabel.querySelector("input").setAttribute("YNgroup-value", "true")
-                        var babNoBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
-                            babNoBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-false")
-                            babNoBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
-                            babNoBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-false" 
-                        var babBox = Elem("sup-bab-box-example").cloneNode(true)
-                            babBox.id = "sup-bab-"+chItem.code.substring(4,5)
+            var code = chItem.code
+            var babCode = code.substring(4,5)
+            var babText = chItem.bab
+            var subCode = code.substring(6)
+            if(!(Elem("spv-tab-" + babCode))){
+                QueFiltered[babCode] = {}
+                var inpBab = Elem("spv-tab-sample").cloneNode(true)
+                    inpBab.id = "spv-tab-" + babCode
+                    if(quesFiltered.length === 1){inpBab.checked = true} else {inpBab.checked = false}
+                var tabBabLabel =  Elem("spv-tab-label-sample").cloneNode(true)
+                    tabBabLabel.setAttribute("for", "spv-tab-" + babCode)
+                    tabBabLabel.id = "spv-tab-" + babCode + "-label"
+                    tabBabLabel.innerHTML = "<div>"+alphabet[nBabAssign]+". "+babText+"</div>"
+                babTabContainer.appendChild(inpBab)
+                babTabContainer.appendChild(tabBabLabel)
 
-                        cekListContainer.appendChild(babHead)
-                        cekListContainer.appendChild(babBox)        
-                    }
-                    Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(subbabHead)
-                    Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(subbabBox)
-                }
-                var subbabParent = Elem("sup-subbab-box-" + chItem.code.substring(6))
-                subbabParent.appendChild(qBox)
-            } 
-            else {
-                if(!(Elem("sup-bab-"+chItem.code.substring(4,5)))){
-                    var babHead = Elem("sup-bab-example").cloneNode(true)
-                        babHead.id = "sup-bab"+chItem.code.substring(4,5)
-                        babHead.querySelector(".sup-bab-title > div").innerHTML = "<span>"+chItem.code.substring(4,5)+". </span>" + bab
-                    babHead.setAttribute("box-for", "sup-bab-"+chItem.code.substring(4,5))
-                    if(nItemAssign === 1){babHead.classList.add('active')}
-                    var babYesBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
-                        babYesBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-true")
-                        babYesBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
-                        // babYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
-                        babYesBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-true"
-                        // babYesBoxLabel.querySelector("input").setAttribute("YNgroup-value", "true")
-                    var babNoBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
-                        babNoBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-false")
-                        babNoBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
-                        babNoBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-false" 
-                    var babBox = Elem("sup-bab-box-example").cloneNode(true)
-                        babBox.id = "sup-bab-"+chItem.code.substring(4,5)
-
-                    cekListContainer.appendChild(babHead)
-                    cekListContainer.appendChild(babBox) 
-                }
-                Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(qBox)
+                var babBox = Elem("spv-box-sample").cloneNode(true)
+                    babBox.id = "spv-box-" + babCode
+                    var yesLabel = babBox.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
+                        yesLabel.setAttribute("for", "bab-"+babCode+"-true")
+                        yesLabel.querySelector("input").id = "bab-"+babCode+"-true"
+                        yesLabel.querySelector("input").setAttribute("name", "bab-"+babCode )
+                    var noLabel = babBox.querySelector(".sup-que-item-yesno > div:nth-child(3) > label")
+                        noLabel.setAttribute("for", "bab-"+babCode+"-false")
+                        noLabel.querySelector("input").id = "bab-"+babCode+"-false"
+                        noLabel.querySelector("input").setAttribute("name", "bab-"+babCode )
+                    if(quesFiltered.length === 1){babBox.classList.remove("d-none")} else {babBox.classList.add("d-none")}
+                    babBox.querySelector(".bab-container-sample").id = "bab-container-" + babCode
+                babPageContainer.appendChild(babBox)
+                nBabAssign++
             }
-        nItemAssign++
+            if(!(Elem("spv-subbab-"+subCode))){
+                QueFiltered[babCode][subCode] = {}
+                var nSubNum = Object.keys(QueFiltered[babCode]).length
+                var subBabElem = Elem("spv-subbab-sample").cloneNode(true)
+                    subBabElem.querySelector(".spv-subbab-title").innerHTML = nSubNum + ". " +chItem.subbab
+                    subBabElem.id = "spv-subbab-"+ subCode
+                    var yesLabel = subBabElem.querySelector(".sup-que-item-yesno > div:nth-child(2) > div:nth-child(1) > label")
+                        yesLabel.setAttribute("for", "sub-"+subCode+"-true")
+                        yesLabel.querySelector("input").id = "sub-"+subCode+"-true"
+                        yesLabel.querySelector("input").setAttribute("name", "sub-"+subCode )
+                    var noLabel = subBabElem.querySelector(".sup-que-item-yesno > div:nth-child(2) > div:nth-child(2) > label")
+                        noLabel.setAttribute("for", "sub-"+subCode+"-false")
+                        noLabel.querySelector("input").id = "sub-"+subCode+"-false"
+                        noLabel.querySelector("input").setAttribute("name", "sub-"+subCode )
+                var babParent = Elem("bab-container-" + babCode)
+                babParent.appendChild(subBabElem)
+            }
+            var queItemElem = Elem("spv-que-box-sample").cloneNode(true)
+                queItemElem.querySelector(".spv-que-text").innerHTML = chItem.text
+                var yesInp = queItemElem.querySelector(".spv-que-yn > input:nth-child(1)")
+                    yesInp.setAttribute("bab-group", "bab-" + babCode)
+                    yesInp.setAttribute("sub-group", "bab-" + subCode)
+                    yesInp.id = "que-" + chItem.code+ "-true"
+                var yesLab = queItemElem.querySelector(".spv-que-yn label:nth-child(2)")
+                    yesLab.setAttribute("for", "que-" + chItem.code+ "-true")
+                var noInp = queItemElem.querySelector(".spv-que-yn > input:nth-child(3)")
+                    noInp.setAttribute("bab-group", "bab-" + babCode)
+                    noInp.setAttribute("sub-group", "bab-" + subCode)
+                    noInp.id = "que-" + chItem.code+ "-false"
+                var noLab = queItemElem.querySelector(".spv-que-yn label:nth-child(4)")
+                    noLab.setAttribute("for", "que-" + chItem.code+ "-false")    
+            if(chItem.subbab !== ""){
+                var parentSub = Elem("spv-subbab-" + subCode)
+                parentSub.appendChild(queItemElem)
+            } else {
+                var parentBab = Elem("bab-container-" + babCode)
+                parentBab.appendChild(queItemElem)
+            }
+
         }
     nCekList++
     } 
+    console.log(quesFiltered)
+    //     var chItem = cekList[nCekList]
+    //     var queText = chItem.text
+    //     var bab = chItem.bab
+    //     var sub = chItem.subbab
+    //     var units = chItem.unitAssign
+    //     console.log(units)
+    //     if(units.indexOf(val) > -1){
+    //         quesFiltered.push(chItem)
+    //         console.log(chItem)
+    //         var qBox = Elem("sup-que-item-box-example").cloneNode(true)
+    //             qBox.id = "qBox-" + chItem.code
+    //             qBox.querySelector(".sup-que-item-text").innerHTML = "<span>"+nItemAssign+". </span>"+queText
+    //             var yesBoxLabel = qBox.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
+    //                 yesBoxLabel.setAttribute("for", "que-"+chItem.code+"-true")
+    //                 yesBoxLabel.querySelector("input").setAttribute("name", "que-"+chItem.code)
+    //                 yesBoxLabel.querySelector("input").setAttribute("sub-group", "sub-"+chItem.code.substring(6)+"-true")
+    //                 yesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
+    //                 yesBoxLabel.querySelector("input").id = "que-"+chItem.code+"-true"
+    //             var noBoxLabel = qBox.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
+    //                 noBoxLabel.setAttribute("for", "que-"+chItem.code+"-false")
+    //                 noBoxLabel.querySelector("input").setAttribute("name", "que-"+chItem.code)
+    //                 noBoxLabel.querySelector("input").setAttribute("sub-group", "sub-"+chItem.code.substring(6)+"-false")
+    //                 noBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-false")
+    //                 noBoxLabel.querySelector("input").id = "que-"+chItem.code+"-false"
+    //         if(sub!==""){
+    //             if(!(Elem("sup-subbab-box-" + chItem.code.substring(6)))){
+    //                 var subbabHead = Elem("sup-subbab-example").cloneNode(true)
+    //                     subbabHead.querySelector(".sup-q-subbab-title > div").innerHTML = "<span>"+chItem.code.substring(6)+". </span>"+sub
+    //                     subbabHead.setAttribute("box-for", "sup-subbab-box-" + chItem.code.substring(6))
+    //                     if(nItemAssign === 1){subbabHead.classList.add('active')}
+    //                     var subYesBoxLabel = subbabHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
+    //                         subYesBoxLabel.setAttribute("for", "sub-"+chItem.code.substring(6)+"-true")
+    //                         subYesBoxLabel.querySelector("input").setAttribute("name", "sub-"+chItem.code.substring(6))
+    //                         subYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
+    //                         subYesBoxLabel.querySelector("input").id = "sub-"+chItem.code.substring(6)+"-true"
+    //                     var subNoBoxLabel = subbabHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
+    //                         subNoBoxLabel.setAttribute("for", "sub-"+chItem.code.substring(6)+"-false")
+    //                         subNoBoxLabel.querySelector("input").setAttribute("name", "sub-"+chItem.code.substring(6))
+    //                         subNoBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-false")
+    //                         subNoBoxLabel.querySelector("input").id = "sub-"+chItem.code.substring(6)+"-false"
+    //                 var subbabBox = Elem("sup-subbab-box-example").cloneNode(true)
+    //                     subbabBox.id = "sup-subbab-box-" + chItem.code.substring(6)
+                    
+    //                 if(!(Elem("sup-bab-"+chItem.code.substring(4,5)))){
+    //                     var babHead = Elem("sup-bab-example").cloneNode(true)
+    //                         babHead.id = "sup-bab"+chItem.code.substring(4,5)
+    //                         babHead.querySelector(".sup-bab-title > div").innerHTML = "<span>"+chItem.code.substring(4,5)+". </span>" + bab
+    //                     babHead.setAttribute("box-for", "sup-bab-"+chItem.code.substring(4,5))
+    //                     if(nItemAssign === 1){babHead.classList.add('active')}
+    //                     var babYesBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
+    //                         babYesBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-true")
+    //                         babYesBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
+    //                         // babYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
+    //                         babYesBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-true"
+    //                         // babYesBoxLabel.querySelector("input").setAttribute("YNgroup-value", "true")
+    //                     var babNoBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
+    //                         babNoBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-false")
+    //                         babNoBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
+    //                         babNoBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-false" 
+    //                     var babBox = Elem("sup-bab-box-example").cloneNode(true)
+    //                         babBox.id = "sup-bab-"+chItem.code.substring(4,5)
+
+    //                     cekListContainer.appendChild(babHead)
+    //                     cekListContainer.appendChild(babBox)        
+    //                 }
+    //                 Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(subbabHead)
+    //                 Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(subbabBox)
+    //             }
+    //             var subbabParent = Elem("sup-subbab-box-" + chItem.code.substring(6))
+    //             subbabParent.appendChild(qBox)
+    //         } 
+    //         else {
+    //             if(!(Elem("sup-bab-"+chItem.code.substring(4,5)))){
+    //                 var babHead = Elem("sup-bab-example").cloneNode(true)
+    //                     babHead.id = "sup-bab"+chItem.code.substring(4,5)
+    //                     babHead.querySelector(".sup-bab-title > div").innerHTML = "<span>"+chItem.code.substring(4,5)+". </span>" + bab
+    //                 babHead.setAttribute("box-for", "sup-bab-"+chItem.code.substring(4,5))
+    //                 if(nItemAssign === 1){babHead.classList.add('active')}
+    //                 var babYesBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(1) > label")
+    //                     babYesBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-true")
+    //                     babYesBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
+    //                     // babYesBoxLabel.querySelector("input").setAttribute("bab-group", "bab-"+chItem.code.substring(4,5)+"-true")
+    //                     babYesBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-true"
+    //                     // babYesBoxLabel.querySelector("input").setAttribute("YNgroup-value", "true")
+    //                 var babNoBoxLabel = babHead.querySelector(".sup-que-item-yesno > div:nth-child(2) > label")
+    //                     babNoBoxLabel.setAttribute("for", "bab-"+chItem.code.substring(4,5)+"-false")
+    //                     babNoBoxLabel.querySelector("input").setAttribute("name", "bab-"+chItem.code.substring(4,5))
+    //                     babNoBoxLabel.querySelector("input").id = "bab-"+chItem.code.substring(4,5)+"-false" 
+    //                 var babBox = Elem("sup-bab-box-example").cloneNode(true)
+    //                     babBox.id = "sup-bab-"+chItem.code.substring(4,5)
+
+    //                 cekListContainer.appendChild(babHead)
+    //                 cekListContainer.appendChild(babBox) 
+    //             }
+    //             Elem("sup-bab-"+chItem.code.substring(4,5)).appendChild(qBox)
+    //         }
+    //     nItemAssign++
+    //     }
+    // nCekList++
+    // } 
     // console.log(quesFiltered)
     progressBar(0,quesFiltered.length)
 }
@@ -166,6 +279,8 @@ function clickCeklist(elem){
         yesnoGroupElem[1].checked = false
     var level = yesnoGroup.substring(0,3)
     if(!(isChecked)){elem.checked = false} else {elem.checked = true}
+    
+    return
     if(level == "sub"){
         var quesSubGroupName = elem.id
         var quesSubGroupElem = document.querySelectorAll("[sub-group='"+quesSubGroupName+"']")
@@ -258,6 +373,7 @@ function progressBar(checked, total){
     progBar.querySelector(".progress-bar").innerHTML = score.toString()+"%" 
 }
 function UpdateSPVTable(){
+    return
     var container = Elem("spv-table-container")
     var shortMonthText = {
         1:"Jan", 2:"Feb", 3:"Mar", 4:"Apr", 5:"Mei", 6:"Jun", 
@@ -342,7 +458,7 @@ function spvDataEdit(itemID){
     Elem("sup-input-subunit").value = item.subunit
     Elem("sup-input-bulan").value = item.month
     Elem("sup-input-tahun").value = item.year
-    checklistFilter(item.unit)
+    unitFilter(item.unit)
     var nItemQues = item.ques
     var queListKey = Object.keys(database.ceklist)
     nLoop = 0;
