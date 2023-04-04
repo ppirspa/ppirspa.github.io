@@ -387,8 +387,8 @@ async function spvDataDel(itemID){
         spinner(true)
         console.log("API requesting.... ")
         var url = dbAPI + "?" + "req=spvdel&id="+itemID
-        console.log(url)
-        return
+        // console.log(url)
+        // return
         await fetch(dbAPI + "?" + "req=spvdel&id="+itemID)
                 .then(respon => respon.json())
                 .then(respon => {
