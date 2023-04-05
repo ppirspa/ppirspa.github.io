@@ -46,6 +46,7 @@ async function login(user, password){
             else {
                 document.querySelectorAll(".ppi-only").forEach((p)=>{p.classList.add("disabled")})
                 document.querySelectorAll(".ppi-only-div").forEach((p)=>{p.classList.add("disabled")})
+                NavbarTo("Resume")
             }
             
             var urlRS = rsAPI + "?req=allget"

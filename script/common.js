@@ -47,6 +47,7 @@ function Toast(text) {
 async function onload() {
   await includeHTML();
   // await login("arga", "ppirspa");
+  // await login("guest", "guest")
   // await NavbarTo("Hand Hygiene")
   // await NavbarTo("Kepatuhan APD")
   // await NavbarTo("Resume")
