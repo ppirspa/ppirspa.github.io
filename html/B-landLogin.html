@@ -17,8 +17,11 @@
                     placeholder="Username atau Email" id="login-nama" autocomplete="off" />
                 <input class="form-control mb-3 p-3 rounded border border-secondary" type="password"
                     placeholder="Password" id="login-password" />
-                <button class="btn btn-primary col p-3"
+                <button class="btn btn-primary col p-2 mb-5"
                     onclick="login(Elem('login-nama').value, Elem('login-password').value)">Masuk</button>
+                <button class="btn btn-outline-dark text-dark col p-2 fst-italic" onclick="login('guest', 'guest')"
+                    style="font-size: 0.8rem;">Masuk sebagai
+                    tamu</button>
             </form>
         </div>
     </div>

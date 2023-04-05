@@ -32,13 +32,73 @@
 #res-hh-canvas-3, #res-apd-canvas-3 {
     min-width: 900px
 }
+#res-spv-canvas-2{
+    height: 400px !important;
+}
+#tab-res-spv-1 >tbody >tr>td:nth-child(1){
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+
+#spv-detail-modal-body > div:nth-child(1){
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: blue;
+}
+#spv-detail-modal-body > .spv-det-row-head  {
+    border-bottom: 2px solid blue;
+    padding-bottom: 5px;
+    display: flex;
+}
+#spv-detail-modal-body > .spv-det-row-head > div:nth-child(1) {
+    flex-grow: 1; align-items: center; display: flex; justify-content: center;
+    font-weight: bold;
+}
+#spv-detail-modal-body > .spv-det-row-head > div:nth-child(2) {
+    flex-grow: 0; flex-shrink: 0; align-items: center; flex-direction: column; display: flex; justify-content: center; font-weight: bold; font-size: 0.8rem; width: 55px; 
+}
+#spv-detail-modal-body > .spv-det-row-head > div:nth-child(3) {
+    flex-grow: 0; flex-shrink: 0; align-items: center; flex-direction: column; display: flex; justify-content: center; font-weight: bold; font-size: 0.8rem; width: 85px; 
+}
+.spv-det-row-body {
+    overflow-y: auto;
+}
+.spv-det-row-sub > div:nth-child(1) {
+    width: 100%;
+    font-weight: bold;
+    padding: 10px 0;
+    color:darkgreen;
+}
+.spv-det-row-que {
+    display: flex;
+    padding: 10px 0;
+    align-items: center;
+    border-bottom: 1px solid grey;
+}
+.spv-det-row-que > div:nth-child(1){
+    flex-grow: 1;
+}
+.spv-det-row-que > div:nth-child(2){
+    flex-grow: 0; flex-shrink: 0; width: 60px; text-align: center; 
+}
+.spv-det-row-que > div:nth-child(3){
+    flex-grow: 0; flex-shrink: 0; width: 75px;
+    display: flex; align-items: center; 
+}
+.spv-det-row-que > div:nth-child(3) > div:nth-child(1){
+    color: transparent; overflow: hidden; height: 100%;
+}
+.spv-det-row-que > div:nth-child(3) > div:nth-child(2){
+    font-size: 0.7rem;
+}
 
 @media (max-width: 992px) {
     #res-hh-canvas-2, #res-apd-canvas-2 {
         width: 900px;
         color: #f49191;
     }
+    #res-spv-canvas-1{
+        height: 800px !important;
+    }
   }
-  /* div:has(#res-hh-canvas-3){ */
-    /* border: 5px solid */
-  /* } */

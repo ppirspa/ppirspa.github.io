@@ -14,7 +14,7 @@
                 onclick="resumeNav(3)">Supervisi</button>
         </li>
     </ul>
-    <div class="tab-content overflow-y-auto flex-grow-1" id="myTabContent">
+    <div class="tab-content overflow-y-auto flex-grow-1 overflow-hidden" id="myTabContent">
         <div class="tab-pane fade show active bg-secondary" style=" --bs-bg-opacity: 0.2" id="hh-tab-pane"
             role="tabpanel" aria-labelledby="hh-tab" tabindex="0">
             <div id="resume-hh-filter-container" class="py-3 px-3 container-fluid">
@@ -474,8 +474,138 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="supervisi-tab-pane" role="tabpanel" aria-labelledby="supervisi-tab" tabindex="0">
-            Supervisi
+        <div class="tab-pane fade show active bg-secondary" style=" --bs-bg-opacity: 0.2" role="tabpanel"
+            aria-labelledby="spv-tab" tabindex="0" id="supervisi-tab-pane">
+            <div id="resume-spv-filter-container" class="py-3 px-3 container-fluid">
+                <div class="row">
+                    <div class="col-lg mb-1">
+                        <select class="form-select" aria-label="Default select example" id="resume-filter-spv-bulan"
+                            resume-filter-type="spv-month" onchange="chResFilter(this)">
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="col-lg mb-1">
+                        <input type="number" class="form-control" min="2022" placeholder="Tahun"
+                            id="resume-filter-spv-tahun" resume-filter-type="spv-year" onchange="chResFilter(this)">
+                    </div>
+                    <div class="col-lg mb-1">
+                        <select class="form-select" aria-label="unit" id="resume-filter-spv-unit"
+                            resume-filter-type="spv-unit" onchange="chResFilter(this)">
+                        </select>
+                        <div class="d-none">
+                            <option value="All" selected id="resume-filter-spv-unit-first">Semua Unit</option>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="resume-spv-result-container" class="px-lg-2 overflow-x-hidden w-100 container-fluid p-0 m-0">
+                <div class="row d-block d-md-none">
+                    <div class="mb-2 p-3 border bg-light border-body-subtle">
+                        <div class="resume-title" id="res-spv-title-1">
+                            <p class="mt-2">Pelaksanaan Program PPI di RS</p>
+                            <p class="mb-2">Unit Dadap Serep | Bulan Februari 2023</p>
+                        </div>
+                        <div class="border position-relative w-100" id="res-spv-canvas-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-md-block d-none">
+                    <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow h-100">
+                        <div class="resume-title" id="res-spv-title-2">
+                            <p class="mt-2">Pelaksanaan Program PPI di RS</p>
+                            <p class="mb-2">Unit Dadap Serep | Bulan Februari 2023</p>
+                        </div>
+                        <div class="border position-relative w-100" id="res-spv-canvas-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mx-auto">
+                        <div class="mb-2 p-3 border bg-light border-body-subtle rounded shadow">
+                            <div class="resume-title" id="res-spv-title-3">
+                                <p class="mt-2">Pelaksanaan Program PPI di RS</p>
+                                <p class="mb-2">Unit Dadap Serep | Bulan Februari 2023</p>
+                            </div>
+                            <table class="table table-sm small table-light mt-3 table-resume-hh" id="tab-res-spv-1"
+                                style="font-size: 0.8rem">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th>BAB</th>
+                                        <th>Rerata</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align: start;">Kepaswlkj aslkja</td>
+                                        <td>12.3%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Button trigger modal -->
+<button id="spv-detail-btn" type="button" class="btn btn-primary d-none" data-bs-toggle="modal"
+    data-bs-target="#spv-detail-modal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="spv-detail-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Detail Resume Supervisi</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body h-100 overflow-hidden d-flex flex-column" id="spv-detail-modal-body">
+                <div>
+                    Bab: Kebersihan Tangan
+                </div>
+                <div class="spv-det-row-head">
+                    <div>Ceklist</div>
+                    <div>
+                        <div>n</div>
+                        <div>checked</div>
+                    </div>
+                    <div>Rerata</div>
+                </div>
+                <div class="d-none overflow-hidden p-0">
+                    <div class="spv-det-row-sub" id="spv-det-row-sub-ex">
+                        <div>
+                            1. dad ;l ;lk as;lk kjh kjhaw sdfsdf sffe sdfse sfef sdfefsf sdf
+                        </div>
+                    </div>
+                    <div class="spv-det-row-que" id="spv-det-row-que-ex">
+                        <div>kljlkj laksjaeldkjh askjdhasd</div>
+                        <div>12</div>
+                        <div>
+                            <div style="width: calc(60px * 0.6);">1</div>
+                            <div>98.9%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="spv-det-row-body flex-grow-1" id="spv-detail-modal-body-append">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

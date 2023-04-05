@@ -2,7 +2,7 @@ var momentAxes = ['M1', 'M2', 'M3', 'M4', 'M5', 'Total']
 var profesiAxes = ["Dokter", "Perawat Bidan", "Magang Siswa", "Lain-lain", "Total"]
 var color = {serial:["#a62b2b", "#0d7d4b", "#ae7828", "#6a1c96", "#6b7914", "#210cdd"], total:"#210cdd",increase:["#f49191","#d45858","#a62b2b"]}
 var resumeFilter = {
-    hh:{}, apd: {}
+    hh:{}, apd: {}, spv:{}
 }
 
 function ResetResume(){
@@ -65,6 +65,13 @@ function chResFilter(elem){
         }
         console.log(resumeFilter.apd)
         updateResume_APD_OnChange()
+    }
+    if(type == "spv"){
+        var y = t.substring(t.indexOf("-")+1)
+        resumeFilter.spv[y] = elem.value
+        if(y == "month" || y == "year"){resumeFilter.spv[y] = elem.value * 1}
+        updateResume_spv_byFilter()
+        console.log(resumeFilter.spv)
     }
     
     // console.log("end schResFilter:" + + Date.now())

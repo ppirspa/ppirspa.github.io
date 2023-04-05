@@ -50,6 +50,9 @@ async function onload() {
   // await NavbarTo("Hand Hygiene")
   // await NavbarTo("Kepatuhan APD")
   // await NavbarTo("Resume")
+  // Elem("supervisi-tab").click()
+  // spvBabDetail()
+  // Elem("spv-detail-btn").click()
   // Elem("apd-tab").click()
   // await NavbarTo("Supervisi");
   // console.log(database)
